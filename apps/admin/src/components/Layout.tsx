@@ -32,13 +32,22 @@ const Layout: React.FC<LayoutProps> = ({
 
   const handleLogout = () => {
     try {
-      // Simplemente eliminamos los datos de localStorage
+      // Limpiamos todos los datos de sesión del localStorage
       localStorage.removeItem('ewa_token');
       localStorage.removeItem('ewa_user');
-      // Redirigimos a la página de login
-      router.push('/login');
+      localStorage.removeItem('ewa_subscription_details');
+      
+      // Limpiamos cualquier otro dato relacionado con la sesión
+      sessionStorage.clear();
+      
+      // Mostramos un mensaje de confirmación antes de redirigir
+      alert('Sesión cerrada correctamente. Redirigiendo a la página de inicio de sesión.');
+      
+      // Redirigimos a la página principal para que el usuario pueda iniciar sesión nuevamente
+      window.location.href = 'http://localhost:3000/auth';
     } catch (error) {
-      console.error('Logout failed:', error);
+      console.error('Error al cerrar sesión:', error);
+      alert('Hubo un problema al cerrar la sesión. Por favor, inténtalo de nuevo.');
     }
   };
 
@@ -180,16 +189,33 @@ const Layout: React.FC<LayoutProps> = ({
 
         {/* Main content */}
         <div className="flex flex-col w-0 flex-1 overflow-hidden">
-          <div className="md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3">
-            <button
-              className="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-ewa-blue"
-              onClick={() => setIsSidebarOpen(true)}
-            >
-              <span className="sr-only">Open sidebar</span>
-              <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
+          <div className="flex items-center justify-between bg-white border-b border-gray-200 px-4 py-2">
+            <div className="md:hidden">
+              <button
+                className="h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-ewa-blue"
+                onClick={() => setIsSidebarOpen(true)}
+              >
+                <span className="sr-only">Open sidebar</span>
+                <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+            
+            {/* Logout button in header */}
+            {user && (
+              <div className="ml-auto">
+                <button
+                  onClick={handleLogout}
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                >
+                  <svg className="mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  Cerrar sesión
+                </button>
+              </div>
+            )}
           </div>
           <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
             <div className="py-6">

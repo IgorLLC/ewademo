@@ -2,7 +2,12 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+  "/internal-users": "pages/internal-users.js",
   "/": "pages/index.js",
+  "/metrics": "pages/metrics.js",
   "/admin": "pages/admin.js",
-  "/metrics": "pages/metrics.js"
+  "/pickup-points": "pages/pickup-points.js",
+  "/subscriptions": "pages/subscriptions.js",
+  "/clients": "pages/clients.js",
+  "/content": "pages/content.js"
 }
