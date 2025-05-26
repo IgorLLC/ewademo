@@ -8,6 +8,7 @@ export type Product = {
 
 export type Plan = {
   id: string;
+  name: string;
   productId: string;
   frequency: 'weekly' | 'biweekly' | 'monthly';
   minQty: number;
@@ -18,6 +19,12 @@ export type Subscription = {
   planId: string;
   userId: string;
   status: 'active' | 'paused';
+  productId?: string;
+  quantity: number;
+  address: string;
+  nextDeliveryDate: string;
+  frequency: 'weekly' | 'biweekly' | 'monthly';
+  createdAt: string;
 };
 
 export type OneOffOrder = {
