@@ -1,0 +1,263 @@
+{
+  "login": {
+    "email": "admin@ewabox.com",
+    "password": "wdfwefewffwefewf"
+  },
+  "logout": {
+    "success": true
+  },
+  "products": [
+    {
+      "id": "p1",
+      "name": "EWA Box Water - Small",
+      "sizeOz": 16,
+      "sku": "EWA-S-16",
+      "price": 1.99
+    },
+    {
+      "id": "p2",
+      "name": "EWA Box Water - Medium",
+      "sizeOz": 24,
+      "sku": "EWA-M-24",
+      "price": 2.49
+    },
+    {
+      "id": "p3",
+      "name": "EWA Box Water - Large",
+      "sizeOz": 32,
+      "sku": "EWA-L-32",
+      "price": 2.99
+    }
+  ],
+  "plans": [
+    {
+      "id": "plan1",
+      "productId": "p1",
+      "frequency": "weekly",
+      "minQty": 6
+    },
+    {
+      "id": "plan2",
+      "productId": "p2",
+      "frequency": "biweekly",
+      "minQty": 12
+    },
+    {
+      "id": "plan3",
+      "productId": "p3",
+      "frequency": "monthly",
+      "minQty": 24
+    }
+  ],
+  "users": [
+    {
+      "id": "u1",
+      "name": "John Doe",
+      "email": "john@example.com",
+      "role": "customer",
+      "address": "123 Main St, Boston, MA",
+      "phone": "555-123-4567",
+      "signupDate": "2025-01-15"
+    },
+    {
+      "id": "u2",
+      "name": "Jane Smith",
+      "email": "jane@example.com",
+      "role": "customer",
+      "address": "456 Elm St, Boston, MA",
+      "phone": "555-987-6543",
+      "signupDate": "2025-02-20"
+    },
+    {
+      "id": "u3",
+      "name": "Admin User",
+      "email": "admin@ewabox.com",
+      "role": "admin",
+      "address": "789 Oak St, Boston, MA",
+      "phone": "555-555-5555",
+      "signupDate": "2024-12-01"
+    },
+    {
+      "id": "u4",
+      "name": "Michael Johnson",
+      "email": "michael@example.com",
+      "role": "customer",
+      "address": "101 Pine St, Cambridge, MA",
+      "phone": "555-222-3333",
+      "signupDate": "2025-03-10"
+    },
+    {
+      "id": "u5",
+      "name": "Sarah Williams",
+      "email": "sarah@example.com",
+      "role": "customer",
+      "address": "202 Maple Ave, Somerville, MA",
+      "phone": "555-444-5555",
+      "signupDate": "2025-04-05"
+    }
+  ],
+  "subscriptions": [
+    {
+      "id": "sub1",
+      "planId": "plan1",
+      "userId": "u1",
+      "status": "active",
+      "startDate": "2025-01-20",
+      "nextDeliveryDate": "2025-05-28",
+      "frequency": "weekly",
+      "quantity": 6
+    },
+    {
+      "id": "sub2",
+      "planId": "plan2",
+      "userId": "u2",
+      "status": "paused",
+      "startDate": "2025-02-25",
+      "nextDeliveryDate": null,
+      "pauseDate": "2025-05-10",
+      "frequency": "biweekly",
+      "quantity": 12
+    },
+    {
+      "id": "sub3",
+      "planId": "plan3",
+      "userId": "u4",
+      "status": "active",
+      "startDate": "2025-03-15",
+      "nextDeliveryDate": "2025-06-15",
+      "frequency": "monthly",
+      "quantity": 24
+    },
+    {
+      "id": "sub4",
+      "planId": "plan1",
+      "userId": "u5",
+      "status": "active",
+      "startDate": "2025-04-10",
+      "nextDeliveryDate": "2025-05-29",
+      "frequency": "weekly",
+      "quantity": 8
+    }
+  ],
+  "oneoffs": [
+    {
+      "id": "o1",
+      "productId": "p3",
+      "userId": "u1",
+      "status": "delivered"
+    },
+    {
+      "id": "o2",
+      "productId": "p2",
+      "userId": "u2",
+      "status": "pending"
+    }
+  ],
+  "routes": [
+    {
+      "id": "r1",
+      "name": "Boston Downtown Route",
+      "area": "Downtown Boston",
+      "driverId": 101,
+      "status": "active",
+      "deliveryDate": "2025-05-27",
+      "stops": 5,
+      "details": {
+        "stops": [
+          {
+            "orderId": "o2",
+            "address": "123 Main St, Boston, MA",
+            "eta": "10:00 AM"
+          },
+          {
+            "orderId": "sub1",
+            "address": "456 Elm St, Boston, MA",
+            "eta": "11:30 AM"
+          }
+        ]
+      }
+    },
+    {
+      "id": "r2",
+      "name": "Cambridge Route",
+      "area": "Cambridge",
+      "driverId": 102,
+      "status": "pending",
+      "deliveryDate": "2025-05-28",
+      "stops": 3,
+      "details": {
+        "stops": [
+          {
+            "orderId": "sub3",
+            "address": "101 Pine St, Cambridge, MA",
+            "eta": "9:15 AM"
+          }
+        ]
+      }
+    },
+    {
+      "id": "r3",
+      "name": "Somerville Route",
+      "area": "Somerville",
+      "driverId": 103,
+      "status": "completed",
+      "deliveryDate": "2025-05-25",
+      "stops": 4,
+      "details": {
+        "stops": [
+          {
+            "orderId": "sub4",
+            "address": "202 Maple Ave, Somerville, MA",
+            "eta": "10:45 AM"
+          }
+        ]
+      }
+    }
+  ],
+  "metrics": {
+    "mrr": 25000,
+    "mrrGrowth": 0.12,
+    "churn": 0.05,
+    "churnChange": -0.02,
+    "fulfillmentRate": 0.98,
+    "fulfillmentChange": 0.03,
+    "totalCustomers": 580,
+    "customerGrowth": 0.15,
+    "arpu": 45,
+    "cac": 120,
+    "ltv": 850,
+    "avgSubscriptionMonths": 18
+  },
+  "blogPosts": [
+    {
+      "id": "1",
+      "slug": "benefits-of-boxed-water",
+      "title": "The Environmental Benefits of Boxed Water",
+      "excerpt": "Learn how switching to boxed water can reduce your carbon footprint and help protect our oceans from plastic pollution.",
+      "content": "Plastic pollution is one of the most pressing environmental issues of our time. Every year, millions of tons of plastic waste end up in our oceans, harming marine life and ecosystems. By switching to boxed water, you can significantly reduce your plastic consumption and help combat this growing problem.\n\nEWA Box Water containers are made from sustainable materials that are 100% recyclable. Unlike plastic bottles, which can take hundreds of years to decompose, our boxes break down naturally and can be easily recycled into new products.\n\nHere are some key environmental benefits of choosing boxed water:\n\n1. **Reduced Carbon Footprint**: Our boxes are made from renewable resources and have a lower carbon footprint than plastic bottles.\n\n2. **Less Plastic Waste**: By choosing boxed water, you're helping to reduce the amount of plastic that ends up in landfills and oceans.\n\n3. **Sustainable Sourcing**: Our packaging is made from responsibly sourced materials, supporting sustainable forestry practices.\n\n4. **Efficient Transportation**: Our boxes are shipped flat to our filling facilities, which means we can fit more boxes on a truck, reducing transportation emissions.\n\nMaking the switch to boxed water is a small change that can have a big impact on the environment. Join the movement towards a more sustainable future with EWA Box Water.",
+      "author": "Emma Rodriguez",
+      "date": "2025-05-15",
+      "imageUrl": "/images/blog-1.jpg"
+    },
+    {
+      "id": "2",
+      "slug": "hydration-tips-summer",
+      "title": "5 Essential Hydration Tips for Summer",
+      "excerpt": "Stay cool and hydrated during the hot summer months with these practical tips from our hydration experts.",
+      "content": "As temperatures rise during the summer months, staying properly hydrated becomes even more important. Dehydration can lead to fatigue, headaches, and in severe cases, heat stroke. Here are five essential tips to help you stay hydrated and healthy this summer:\n\n1. **Start Your Day with Water**: Begin each morning with a glass of water to replenish fluids lost during sleep. This helps kickstart your metabolism and sets a positive tone for hydration throughout the day.\n\n2. **Set Hydration Goals**: Aim to drink at least 8-10 glasses of water daily, more if you're active or spending time outdoors. Consider using a marked water bottle to track your intake.\n\n3. **Eat Water-Rich Foods**: Many fruits and vegetables have high water content. Watermelon, cucumber, strawberries, and lettuce are excellent choices that provide both hydration and essential nutrients.\n\n4. **Time Your Hydration**: Drink water before, during, and after physical activity. For longer outdoor sessions, consider a hydration schedule of 8 ounces every 20 minutes.\n\n5. **Create Hydration Reminders**: Set alarms on your phone, use hydration tracking apps, or place visual reminders around your home and workspace to prompt regular water consumption.\n\nRemember that by the time you feel thirsty, you're already slightly dehydrated. With EWA Box Water's convenient delivery service, you can ensure you always have fresh, clean water on hand to stay hydrated throughout the summer months.",
+      "author": "Dr. Michael Chen",
+      "date": "2025-05-10",
+      "imageUrl": "/images/blog-2.jpg"
+    },
+    {
+      "id": "3",
+      "slug": "water-delivery-convenience",
+      "title": "The Convenience of Water Delivery Services",
+      "excerpt": "Discover how water delivery services can save you time, money, and effort while ensuring you never run out of fresh water.",
+      "content": "In our busy modern lives, convenience is key. Water delivery services like EWA Box Water offer a simple solution to ensure you always have fresh, clean water without the hassle of shopping trips or heavy lifting.\n\nHere's how water delivery services can make your life easier:\n\n1. **Time Savings**: No more trips to the store just for water. With regular scheduled deliveries, you can cross one more item off your shopping list permanently.\n\n2. **Consistent Supply**: Never run out of water again. Our subscription plans ensure you always have exactly what you need, when you need it.\n\n3. **No Heavy Lifting**: Forget about lugging heavy water bottles from the store to your car and into your home. We deliver directly to your doorstep.\n\n4. **Customizable Plans**: Whether you need weekly deliveries for a large family or monthly deliveries for a small household, our flexible plans can be tailored to your specific needs.\n\n5. **Eco-Friendly Options**: Our boxed water is not only convenient but also better for the environment than plastic bottles.\n\n6. **Cost-Effective**: When you factor in the time, gas, and effort saved, subscription water delivery is often more economical than regular store purchases.\n\nEWA Box Water's delivery service is designed with your convenience in mind. Our reliable delivery schedule, easy-to-manage subscription options, and hassle-free service make staying hydrated simpler than ever before.",
+      "author": "Sarah Johnson",
+      "date": "2025-05-05",
+      "imageUrl": "/images/blog-3.jpg"
+    }
+  ]
+}

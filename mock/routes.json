@@ -1,0 +1,18 @@
+{
+  "/api/login": "/login",
+  "/api/logout": "/logout",
+  "/api/products": "/products",
+  "/api/plans": "/plans",
+  "/api/users": "/users",
+  "/api/users/:id": "/users/:id",
+  "/api/subscriptions": "/subscriptions",
+  "/api/subscriptions/:id": "/subscriptions/:id",
+  "/api/oneoffs": "/oneoffs",
+  "/api/oneoffs/:id": "/oneoffs/:id",
+  "/api/routes": "/routes",
+  "/api/routes/:id": "/routes/:id",
+  "/api/metrics": "/metrics",
+  "/api/metrics/mrr": "/metrics",
+  "/api/metrics/churn": "/metrics",
+  "/api/metrics/fulfillmentRate": "/metrics"
+}
