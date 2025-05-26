@@ -2,12 +2,9 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/internal-users": "pages/internal-users.js",
   "/": "pages/index.js",
-  "/metrics": "pages/metrics.js",
-  "/admin": "pages/admin.js",
-  "/pickup-points": "pages/pickup-points.js",
-  "/subscriptions": "pages/subscriptions.js",
+  "/internal-users": "pages/internal-users.js",
   "/clients": "pages/clients.js",
+  "/plans": "pages/plans.js",
   "/content": "pages/content.js"
 }

@@ -3,5 +3,9 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
-  "/auth": "pages/auth.js"
+  "/auth": "pages/auth.js",
+  "/admin": "pages/admin.js",
+  "/admin/dashboard": "pages/admin/dashboard.js",
+  "/customer": "pages/customer.js",
+  "/customer/subscriptions": "pages/customer/subscriptions.js"
 }

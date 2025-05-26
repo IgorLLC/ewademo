@@ -19,9 +19,9 @@ const Auth = () => {
       try {
         const user = JSON.parse(userJson);
         if (user.role === 'admin' || user.role === 'operator' || user.role === 'editor') {
-          window.location.href = 'http://localhost:3002/admin';
+          window.location.href = '/admin';
         } else if (user.role === 'customer') {
-          window.location.href = 'http://localhost:3001/subscriptions';
+          window.location.href = '/customer';
         }
       } catch (error) {
         console.error('Error parsing user data:', error);
@@ -88,12 +88,32 @@ const Auth = () => {
         localStorage.setItem('ewa_token', mockToken);
         localStorage.setItem('ewa_user', JSON.stringify(user));
         
-        // Redirigir según el rol del usuario
-        if (user.role === 'admin' || user.role === 'operator' || user.role === 'editor') {
-          window.location.href = 'http://localhost:3002/admin';
-        } else if (user.role === 'customer') {
-          window.location.href = 'http://localhost:3001/subscriptions';
-        }
+        // Mostrar mensaje de éxito
+        setError('');
+        setIsLoading(false);
+        
+        // Mostrar mensaje de éxito antes de redirigir
+        const successMessage = document.createElement('div');
+        successMessage.className = 'fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50';
+        successMessage.innerHTML = `
+          <div class="bg-white p-8 rounded-lg shadow-xl max-w-md w-full text-center">
+            <svg class="mx-auto h-12 w-12 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <h3 class="mt-4 text-lg font-medium text-gray-900">Inicio de sesión exitoso</h3>
+            <p class="mt-2 text-sm text-gray-500">Redirigiendo a tu área personal...</p>
+          </div>
+        `;
+        document.body.appendChild(successMessage);
+        
+        // Redirigir según el rol del usuario después de mostrar el mensaje
+        setTimeout(() => {
+          if (user.role === 'admin' || user.role === 'operator' || user.role === 'editor') {
+            window.location.href = '/admin';
+          } else if (user.role === 'customer') {
+            window.location.href = '/customer';
+          }
+        }, 1500);
       } else {
         setError('Credenciales inválidas. Por favor verifica tu email y contraseña.');
       }
