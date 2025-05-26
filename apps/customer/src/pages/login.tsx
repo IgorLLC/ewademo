@@ -17,16 +17,42 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      // For the prototype, we'll use mock credentials
-      // In a real app, this would validate against the backend
-      if (email === 'john@example.com' || email === 'jane@example.com') {
-        await login(email, password);
+      // Simulamos la autenticación con los usuarios mock
+      // Estos usuarios corresponden a los definidos en mock/db.json
+      const mockUsers = [
+        {
+          id: 'u1',
+          name: 'Juan Rivera',
+          email: 'juan@cliente.com',
+          password: 'test123',
+          role: 'customer'
+        },
+        {
+          id: 'u3',
+          name: 'Restaurante Sobao',
+          email: 'info@sobao.com',
+          password: 'sobao123',
+          role: 'customer'
+        }
+      ];
+      
+      // Buscar el usuario por email y contraseña
+      const user = mockUsers.find(u => u.email === email && u.password === password);
+      
+      if (user) {
+        // Generar un token mock
+        const mockToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6XCIke3VzZXIuaWR9XCIsInJvbGUiOlwiJHt1c2VyLnJvbGV9XCIsImlhdCI6MTYxNjE0ODM2NX0.hR6QxyZ8H6LI1KcPm7CxO8S-yGlE87gGaUlHCpEkYLo`;
+        
+        // Almacenar datos en localStorage
+        localStorage.setItem('ewa_token', mockToken);
+        localStorage.setItem('ewa_user', JSON.stringify(user));
+        
         router.push('/subscriptions');
       } else {
-        setError('Invalid credentials. Try john@example.com with any password.');
+        setError('Credenciales inválidas. Prueba con juan@cliente.com / test123 o info@sobao.com / sobao123');
       }
     } catch (err) {
-      setError('Login failed. Please try again.');
+      setError('Error de inicio de sesión. Por favor intenta nuevamente.');
       console.error('Login error:', err);
     } finally {
       setIsLoading(false);
@@ -42,9 +68,9 @@ const Login = () => {
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Or{' '}
-            <Link href="/" className="font-medium text-ewa-blue hover:text-ewa-dark-blue">
+            <a href="http://localhost:3000" className="font-medium text-ewa-blue hover:text-ewa-dark-blue">
               return to the main site
-            </Link>
+            </a>
           </p>
         </div>
 
@@ -151,8 +177,8 @@ const Login = () => {
               <div className="mt-6 grid grid-cols-1 gap-3">
                 <div>
                   <p className="text-sm text-gray-500 text-center">
-                    Email: john@example.com or jane@example.com<br />
-                    Password: any password will work
+                    Email: juan@cliente.com / Password: test123<br />
+                    Email: info@sobao.com / Password: sobao123
                   </p>
                 </div>
               </div>

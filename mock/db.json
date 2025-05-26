@@ -3,9 +3,7 @@
     "email": "admin@ewabox.com",
     "password": "wdfwefewffwefewf"
   },
-  "logout": {
-    "success": true
-  },
+  "logout": {},
   "products": [
     {
       "id": "p1",
@@ -52,48 +50,90 @@
   "users": [
     {
       "id": "u1",
-      "name": "John Doe",
-      "email": "john@example.com",
+      "name": "Juan Rivera",
+      "email": "juan@cliente.com",
+      "password": "test123",
       "role": "customer",
-      "address": "123 Main St, Boston, MA",
-      "phone": "555-123-4567",
-      "signupDate": "2025-01-15"
+      "address": "Calle Loíza 123, San Juan, PR 00911",
+      "phone": "787-123-4567",
+      "signupDate": "2025-01-15",
+      "type": "B2C"
     },
     {
       "id": "u2",
-      "name": "Jane Smith",
-      "email": "jane@example.com",
-      "role": "customer",
-      "address": "456 Elm St, Boston, MA",
-      "phone": "555-987-6543",
-      "signupDate": "2025-02-20"
+      "name": "María López",
+      "email": "admin@ewa.com",
+      "password": "admin123",
+      "role": "admin",
+      "address": "Ave. Universidad 45, Río Piedras, PR 00925",
+      "phone": "787-987-6543",
+      "signupDate": "2025-01-01",
+      "permissions": [
+        "all"
+      ]
     },
     {
       "id": "u3",
-      "name": "Admin User",
-      "email": "admin@ewabox.com",
-      "role": "admin",
-      "address": "789 Oak St, Boston, MA",
-      "phone": "555-555-5555",
-      "signupDate": "2024-12-01"
+      "name": "Restaurante Sobao",
+      "email": "info@sobao.com",
+      "password": "sobao123",
+      "role": "customer",
+      "address": "Calle Comercio 88, Caguas, PR 00725",
+      "phone": "787-456-7890",
+      "signupDate": "2025-02-01",
+      "type": "B2B",
+      "businessContact": "Carlos Rodríguez"
     },
     {
       "id": "u4",
-      "name": "Michael Johnson",
-      "email": "michael@example.com",
+      "name": "Ana Vázquez",
+      "email": "ana@ejemplo.com",
+      "password": "ana123",
       "role": "customer",
-      "address": "101 Pine St, Cambridge, MA",
-      "phone": "555-222-3333",
-      "signupDate": "2025-03-10"
+      "address": "PR-2 Km 149.5, Mayagüez Mall, Mayagüez, PR 00680",
+      "phone": "787-222-3333",
+      "signupDate": "2025-03-10",
+      "type": "B2C"
     },
     {
       "id": "u5",
-      "name": "Sarah Williams",
-      "email": "sarah@example.com",
+      "name": "Roberto Sánchez",
+      "email": "roberto@ejemplo.com",
+      "password": "roberto123",
       "role": "customer",
-      "address": "202 Maple Ave, Somerville, MA",
-      "phone": "555-444-5555",
-      "signupDate": "2025-04-05"
+      "address": "Plaza del Caribe, Ave. Rafael Cordero, Ponce, PR 00731",
+      "phone": "787-444-5555",
+      "signupDate": "2025-04-05",
+      "type": "B2C"
+    },
+    {
+      "id": "u6",
+      "name": "Carmen Ortiz",
+      "email": "carmen@ewa.com",
+      "password": "carmen123",
+      "role": "operator",
+      "address": "Calle Loíza 456, San Juan, PR 00911",
+      "phone": "787-555-6666",
+      "signupDate": "2025-01-10",
+      "permissions": [
+        "inventory",
+        "routes",
+        "support"
+      ]
+    },
+    {
+      "id": "u7",
+      "name": "Pedro Díaz",
+      "email": "pedro@ewa.com",
+      "password": "pedro123",
+      "role": "editor",
+      "address": "Ave. De Diego 67, San Juan, PR 00927",
+      "phone": "787-666-7777",
+      "signupDate": "2025-02-15",
+      "permissions": [
+        "content",
+        "notifications"
+      ]
     }
   ],
   "subscriptions": [

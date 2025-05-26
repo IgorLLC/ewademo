@@ -1,6 +1,5 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import Layout from '../components/Layout';
 import { Button, Card, LoadingSpinner } from '@ewa/ui';
 import { getProducts } from '@ewa/api-client';
@@ -33,29 +32,30 @@ const Home = () => {
           <div className="flex flex-col md:flex-row items-center">
             <div className="md:w-1/2 mb-10 md:mb-0">
               <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-                Sustainable Water Delivery, Right to Your Door
+                Agua en caja sustentable, directo a tu puerta
               </h1>
               <p className="text-xl text-gray-700 mb-8">
-                Premium boxed water with subscription plans that help reduce plastic waste and keep you hydrated.
+                Agua premium en caja con planes de suscripción que ayudan a reducir los residuos plásticos y te mantienen hidratado.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/plans">
-                  <Button size="lg">View Plans</Button>
-                </Link>
-                <Link href="#products">
-                  <Button variant="outline" size="lg">Shop Products</Button>
-                </Link>
+                <a href="/auth">
+                  <Button size="lg">Comenzar ahora</Button>
+                </a>
+                <a href="#products">
+                  <Button variant="outline" size="lg">Ver Productos</Button>
+                </a>
               </div>
             </div>
             <div className="md:w-1/2">
-              <div className="relative">
-                <img
-                  src="/images/hero-water-box.jpg"
-                  alt="EWA Box Water"
-                  className="rounded-lg shadow-xl"
-                  width={600}
-                  height={400}
-                />
+              <div className="relative bg-white p-4 rounded-lg shadow-xl">
+                <div className="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg flex items-center justify-center">
+                  <div className="text-center p-8">
+                    <div className="bg-ewa-blue text-white font-bold text-4xl py-4 px-6 rounded-lg inline-block mb-4">
+                      EWA BOX WATER
+                    </div>
+                    <p className="text-gray-700 text-xl">Agua en caja, mejor para ti y para el planeta</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -130,9 +130,9 @@ const Home = () => {
                   <p className="text-gray-600 mb-2">{product.sizeOz} oz</p>
                   <p className="text-gray-800 font-bold mb-4">${product.price.toFixed(2)}</p>
                   <div className="mt-auto">
-                    <Link href="/plans">
-                      <Button fullWidth>Subscribe</Button>
-                    </Link>
+                    <a href="/auth">
+                      <Button fullWidth>Suscribirse</Button>
+                    </a>
                   </div>
                 </Card>
               ))}
@@ -140,9 +140,9 @@ const Home = () => {
           )}
           
           <div className="text-center mt-12">
-            <Link href="/plans">
-              <Button size="lg">View All Plans</Button>
-            </Link>
+            <a href="/auth">
+              <Button size="lg">Crear cuenta</Button>
+            </a>
           </div>
         </div>
       </section>
@@ -154,9 +154,9 @@ const Home = () => {
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Join thousands of customers who have switched to EWA Box Water for a more sustainable and convenient water delivery service.
           </p>
-          <Link href="/plans">
-            <Button variant="secondary" size="lg">Get Started Today</Button>
-          </Link>
+          <a href="/auth">
+            <Button variant="secondary" size="lg">Comienza hoy</Button>
+          </a>
         </div>
       </section>
     </Layout>

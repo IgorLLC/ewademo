@@ -24,27 +24,65 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      // Simplificamos la lógica para el prototipo
-      // En un entorno de producción, validaríamos contra un backend real
-      if (email === 'admin@ewabox.com') {
-        // Simulamos un login exitoso usando los datos del mock server
-        const mockUser = {
-          id: 'u3',
-          name: 'Admin User',
-          email: 'admin@ewabox.com',
+      // Simulamos la autenticación con los usuarios mock
+      // Estos usuarios corresponden a los definidos en mock/db.json
+      const mockUsers = [
+        {
+          id: 'u1',
+          name: 'Juan Rivera',
+          email: 'juan@cliente.com',
+          password: 'test123',
+          role: 'customer'
+        },
+        {
+          id: 'u2',
+          name: 'María López',
+          email: 'admin@ewa.com',
+          password: 'admin123',
           role: 'admin'
-        };
-        
-        const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InUzIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjE2MTQ4MzY1fQ.hR6QxyZ8H6LI1KcPm7CxO8S-yGlE87gGaUlHCpEkYLo';
+        },
+        {
+          id: 'u3',
+          name: 'Restaurante Sobao',
+          email: 'info@sobao.com',
+          password: 'sobao123',
+          role: 'customer'
+        },
+        {
+          id: 'u6',
+          name: 'Carmen Ortiz',
+          email: 'carmen@ewa.com',
+          password: 'carmen123',
+          role: 'operator'
+        },
+        {
+          id: 'u7',
+          name: 'Pedro Díaz',
+          email: 'pedro@ewa.com',
+          password: 'pedro123',
+          role: 'editor'
+        }
+      ];
+      
+      // Buscar el usuario por email y contraseña
+      const user = mockUsers.find(u => u.email === email && u.password === password);
+      
+      if (user) {
+        // Generar un token mock
+        const mockToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6XCIke3VzZXIuaWR9XCIsInJvbGUiOlwiJHt1c2VyLnJvbGV9XCIsImlhdCI6MTYxNjE0ODM2NX0.hR6QxyZ8H6LI1KcPm7CxO8S-yGlE87gGaUlHCpEkYLo`;
         
         // Almacenar datos en localStorage
         localStorage.setItem('ewa_token', mockToken);
-        localStorage.setItem('ewa_user', JSON.stringify(mockUser));
+        localStorage.setItem('ewa_user', JSON.stringify(user));
         
-        // Redirigir al dashboard
-        router.push('/');
+        // Redirigir según el rol del usuario
+        if (user.role === 'admin' || user.role === 'operator' || user.role === 'editor') {
+          router.push('/admin');
+        } else if (user.role === 'customer') {
+          router.push('/customer/subscriptions');
+        }
       } else {
-        setError('Credenciales inválidas. Intenta con admin@ewabox.com y cualquier contraseña.');
+        setError('Credenciales inválidas. Por favor verifica tu email y contraseña.');
       }
     } catch (err) {
       setError('Error de inicio de sesión. Por favor intenta nuevamente.');
