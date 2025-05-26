@@ -43,30 +43,54 @@ const SubscriptionsPage = () => {
     const fetchData = async () => {
       try {
         const userData = JSON.parse(localStorage.getItem('ewa_user') || '{}');
+        console.log('Fetching data for user:', userData.id);
         
-        const [subscriptionsData, plansData, productsData] = await Promise.all([
-          getSubscriptions(userData.id),
-          getPlans(),
-          getProducts()
-        ]);
+        // Primero intentamos obtener los planes y productos, que son menos propensos a fallar
+        try {
+          const plansData = await getPlans();
+          setPlans(plansData);
+          console.log('Plans loaded successfully:', plansData.length);
+        } catch (planErr) {
+          console.error('Error fetching plans:', planErr);
+        }
+        
+        try {
+          const productsData = await getProducts();
+          setProducts(productsData);
+          console.log('Products loaded successfully:', productsData.length);
+        } catch (productErr) {
+          console.error('Error fetching products:', productErr);
+        }
+        
+        // Ahora intentamos obtener las suscripciones
+        let subscriptionsData: Subscription[] = [];
+        try {
+          subscriptionsData = await getSubscriptions(userData.id);
+          console.log('Subscriptions loaded successfully:', subscriptionsData.length);
+        } catch (subErr) {
+          console.error('Error fetching subscriptions:', subErr);
+          setError('No se pudieron cargar las suscripciones. Por favor, inténtalo de nuevo más tarde.');
+        }
         
         // Asegurarse de que hay al menos una suscripción para mostrar
         if (subscriptionsData.length === 0) {
+          console.log('No subscriptions found, creating mock subscription');
           // Crear una suscripción mock si no hay ninguna
           const mockSubscription: Subscription = {
             id: 'sub_mock1',
             userId: userData.id,
             planId: 'plan_1',
-            status: 'active'
-          };
-          
-          // Guardar datos adicionales en un objeto aparte para usar en la UI
-          // ya que no forman parte del tipo Subscription
-          localStorage.setItem('ewa_subscription_details', JSON.stringify({
+            productId: 'p1',
+            status: 'active',
+            quantity: 1,
             nextDeliveryDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
             address: '123 Calle Principal, San Juan, PR 00901',
             frequency: 'weekly',
-            createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
+            createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
+          };
+          
+          // Guardar datos adicionales en un objeto aparte para usar en la UI
+          localStorage.setItem('ewa_subscription_details', JSON.stringify({
             deliveryHistory: [
               {
                 id: 'del_1',
@@ -89,11 +113,10 @@ const SubscriptionsPage = () => {
         }
         
         setSubscriptions(subscriptionsData);
-        setPlans(plansData);
-        setProducts(productsData);
+        setError(null); // Limpiar cualquier error previo si la carga fue exitosa
       } catch (err) {
-        setError('Failed to load subscriptions. Please try again later.');
-        console.error('Error fetching data:', err);
+        console.error('Error in fetchData:', err);
+        setError('No se pudieron cargar los datos. Por favor, inténtalo de nuevo más tarde.');
       } finally {
         setLoading(false);
       }
@@ -199,112 +222,16 @@ const SubscriptionsPage = () => {
     localStorage.removeItem('ewa_user');
     sessionStorage.clear();
     router.push('/auth');
-  };
 
-  return (
-    <>
-      <Head>
-        <title>Mis Suscripciones - EWA Box Water</title>
-        <meta name="description" content="Gestiona tus suscripciones de agua en caja" />
-      </Head>
-
-      <div className="min-h-screen bg-gray-100">
-        {/* Header */}
-        <header className="bg-white shadow">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between h-16">
-              <div className="flex">
-                <div className="flex-shrink-0 flex items-center">
-                  <a href="/" className="text-xl font-bold text-ewa-blue">
-                    EWA Box Water
-                  </a>
-                </div>
-                {user && (
-                  <nav className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                    <a href="/customer/subscriptions" 
-                      className="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium border-ewa-blue text-gray-900">
-                      Suscripciones
-                    </a>
-                    <a href="/customer/oneoffs" 
-                      className="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                      Pedidos Únicos
-                    </a>
-                    <a href="/customer/profile" 
-                      className="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                      Perfil
-                    </a>
-                  </nav>
-                )}
-              </div>
-              <div className="flex items-center">
-                {user ? (
-                  <div className="ml-3 relative">
-                    <div className="flex items-center">
-                      <span className="text-sm text-gray-700 mr-2">Hola, {user.name}</span>
-                      <button
-                        onClick={handleLogout}
-                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                      >
-                        <svg className="mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                        </svg>
-                        Cerrar sesión
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <a
-                    href="/auth"
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-ewa-blue hover:bg-ewa-dark-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ewa-blue"
-                  >
-                    Iniciar sesión
-                  </a>
-                )}
-              </div>
-            </div>
-          </div>
-        </header>
-
-        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-          {/* Notification */}
-          {error && (
-            <div className="mb-4 bg-red-50 border-l-4 border-red-400 p-4">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm text-red-700">{error}</p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {successMessage && (
-            <div className="mb-4 bg-green-50 border-l-4 border-green-400 p-4">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <svg className="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm text-green-700">{successMessage}</p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {loading ? (
-            <div className="flex justify-center items-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-ewa-blue"></div>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* 1. Información personal */}
-              <div className="md:col-span-3">
+    setSubscriptions(subscriptionsData);
+    setError(null); // Limpiar cualquier error previo si la carga fue exitosa
+  } catch (err) {
+    console.error('Error in fetchData:', err);
+    setError('Error in fetchData: ' + err.message);
+  } finally {
+    setLoading(false);
+  }
+};
                 <Card>
                   <div className="p-4">
                     <h1 className="text-2xl font-bold text-gray-900 mb-2">¡Bienvenido, {user?.name}!</h1>
