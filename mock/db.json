@@ -1,303 +1,379 @@
 {
-  "login": {
-    "email": "admin@ewabox.com",
-    "password": "wdfwefewffwefewf"
-  },
-  "logout": {},
   "products": [
     {
       "id": "p1",
-      "name": "EWA Box Water - Small",
-      "sizeOz": 16,
-      "sku": "EWA-S-16",
-      "price": 1.99
+      "name": "Small Box Water",
+      "description": "12 bottles of 500ml pure water",
+      "price": 15.99,
+      "imageUrl": "/images/small-box.jpg"
     },
     {
       "id": "p2",
-      "name": "EWA Box Water - Medium",
-      "sizeOz": 24,
-      "sku": "EWA-M-24",
-      "price": 2.49
+      "name": "Medium Box Water",
+      "description": "24 bottles of 500ml pure water",
+      "price": 28.99,
+      "imageUrl": "/images/medium-box.jpg"
     },
     {
       "id": "p3",
-      "name": "EWA Box Water - Large",
-      "sizeOz": 32,
-      "sku": "EWA-L-32",
-      "price": 2.99
+      "name": "Large Box Water",
+      "description": "36 bottles of 500ml pure water",
+      "price": 39.99,
+      "imageUrl": "/images/large-box.jpg"
     }
   ],
   "plans": [
     {
       "id": "plan1",
-      "productId": "p1",
-      "frequency": "weekly",
-      "minQty": 6
+      "name": "Weekly",
+      "description": "Delivery every week",
+      "interval": "weekly",
+      "discount": 0.1
     },
     {
       "id": "plan2",
-      "productId": "p2",
-      "frequency": "biweekly",
-      "minQty": 12
+      "name": "Biweekly",
+      "description": "Delivery every two weeks",
+      "interval": "biweekly",
+      "discount": 0.05
     },
     {
       "id": "plan3",
-      "productId": "p3",
-      "frequency": "monthly",
-      "minQty": 24
+      "name": "Monthly",
+      "description": "Delivery once a month",
+      "interval": "monthly",
+      "discount": 0
     }
   ],
   "users": [
     {
       "id": "u1",
-      "name": "Juan Rivera",
-      "email": "juan@cliente.com",
-      "password": "test123",
+      "email": "customer@example.com",
+      "name": "John Doe",
       "role": "customer",
-      "address": "Calle Loíza 123, San Juan, PR 00911",
-      "phone": "787-123-4567",
-      "signupDate": "2025-01-15",
-      "type": "B2C"
+      "phone": "555-123-4567",
+      "address": "123 Main St, Anytown, USA"
     },
     {
       "id": "u2",
-      "name": "María López",
       "email": "admin@ewa.com",
-      "password": "admin123",
+      "name": "Admin User",
       "role": "admin",
-      "address": "Ave. Universidad 45, Río Piedras, PR 00925",
-      "phone": "787-987-6543",
-      "signupDate": "2025-01-01",
-      "permissions": [
-        "all"
-      ]
+      "phone": "555-987-6543",
+      "address": "456 Admin Ave, Adminville, USA"
     },
     {
       "id": "u3",
-      "name": "Restaurante Sobao",
-      "email": "info@sobao.com",
-      "password": "sobao123",
+      "email": "jane@example.com",
+      "name": "Jane Smith",
       "role": "customer",
-      "address": "Calle Comercio 88, Caguas, PR 00725",
-      "phone": "787-456-7890",
-      "signupDate": "2025-02-01",
-      "type": "B2B",
-      "businessContact": "Carlos Rodríguez"
-    },
-    {
-      "id": "u4",
-      "name": "Ana Vázquez",
-      "email": "ana@ejemplo.com",
-      "password": "ana123",
-      "role": "customer",
-      "address": "PR-2 Km 149.5, Mayagüez Mall, Mayagüez, PR 00680",
-      "phone": "787-222-3333",
-      "signupDate": "2025-03-10",
-      "type": "B2C"
-    },
-    {
-      "id": "u5",
-      "name": "Roberto Sánchez",
-      "email": "roberto@ejemplo.com",
-      "password": "roberto123",
-      "role": "customer",
-      "address": "Plaza del Caribe, Ave. Rafael Cordero, Ponce, PR 00731",
-      "phone": "787-444-5555",
-      "signupDate": "2025-04-05",
-      "type": "B2C"
-    },
-    {
-      "id": "u6",
-      "name": "Carmen Ortiz",
-      "email": "carmen@ewa.com",
-      "password": "carmen123",
-      "role": "operator",
-      "address": "Calle Loíza 456, San Juan, PR 00911",
-      "phone": "787-555-6666",
-      "signupDate": "2025-01-10",
-      "permissions": [
-        "inventory",
-        "routes",
-        "support"
-      ]
-    },
-    {
-      "id": "u7",
-      "name": "Pedro Díaz",
-      "email": "pedro@ewa.com",
-      "password": "pedro123",
-      "role": "editor",
-      "address": "Ave. De Diego 67, San Juan, PR 00927",
-      "phone": "787-666-7777",
-      "signupDate": "2025-02-15",
-      "permissions": [
-        "content",
-        "notifications"
-      ]
+      "phone": "555-555-5555",
+      "address": "789 Oak St, Sometown, USA"
     }
   ],
   "subscriptions": [
     {
       "id": "sub1",
-      "planId": "plan1",
       "userId": "u1",
+      "productId": "p2",
+      "planId": "plan1",
       "status": "active",
-      "startDate": "2025-01-20",
-      "nextDeliveryDate": "2025-05-28",
-      "frequency": "weekly",
-      "quantity": 6
+      "startDate": "2025-01-15",
+      "nextDeliveryDate": "2025-05-29",
+      "address": "123 Main St, Anytown, USA",
+      "quantity": 1,
+      "price": 26.09
     },
     {
       "id": "sub2",
+      "userId": "u3",
+      "productId": "p1",
       "planId": "plan2",
-      "userId": "u2",
-      "status": "paused",
-      "startDate": "2025-02-25",
-      "nextDeliveryDate": null,
-      "pauseDate": "2025-05-10",
-      "frequency": "biweekly",
-      "quantity": 12
+      "status": "active",
+      "startDate": "2025-02-01",
+      "nextDeliveryDate": "2025-06-01",
+      "address": "789 Oak St, Sometown, USA",
+      "quantity": 2,
+      "price": 30.38
     },
     {
       "id": "sub3",
+      "userId": "u1",
+      "productId": "p3",
       "planId": "plan3",
-      "userId": "u4",
-      "status": "active",
-      "startDate": "2025-03-15",
-      "nextDeliveryDate": "2025-06-15",
-      "frequency": "monthly",
-      "quantity": 24
-    },
-    {
-      "id": "sub4",
-      "planId": "plan1",
-      "userId": "u5",
-      "status": "active",
-      "startDate": "2025-04-10",
-      "nextDeliveryDate": "2025-05-29",
-      "frequency": "weekly",
-      "quantity": 8
+      "status": "paused",
+      "startDate": "2025-01-10",
+      "nextDeliveryDate": null,
+      "address": "123 Main St, Anytown, USA",
+      "quantity": 1,
+      "price": 39.99
     }
   ],
   "oneoffs": [
     {
       "id": "o1",
-      "productId": "p3",
       "userId": "u1",
-      "status": "delivered"
+      "productId": "p1",
+      "status": "delivered",
+      "orderDate": "2025-05-01",
+      "deliveryDate": "2025-05-05",
+      "address": "123 Main St, Anytown, USA",
+      "quantity": 1,
+      "price": 15.99
     },
     {
       "id": "o2",
+      "userId": "u3",
       "productId": "p2",
-      "userId": "u2",
-      "status": "pending"
+      "status": "processing",
+      "orderDate": "2025-05-20",
+      "deliveryDate": "2025-05-27",
+      "address": "789 Oak St, Sometown, USA",
+      "quantity": 1,
+      "price": 28.99
     }
   ],
   "routes": [
     {
       "id": "r1",
-      "name": "Boston Downtown Route",
-      "area": "Downtown Boston",
-      "driverId": 101,
-      "status": "active",
-      "deliveryDate": "2025-05-27",
-      "stops": 5,
-      "details": {
-        "stops": [
-          {
-            "orderId": "o2",
-            "address": "123 Main St, Boston, MA",
-            "eta": "10:00 AM"
-          },
-          {
-            "orderId": "sub1",
-            "address": "456 Elm St, Boston, MA",
-            "eta": "11:30 AM"
-          }
-        ]
-      }
-    },
-    {
-      "id": "r2",
-      "name": "Cambridge Route",
-      "area": "Cambridge",
-      "driverId": 102,
-      "status": "pending",
-      "deliveryDate": "2025-05-28",
+      "name": "Ruta San Juan - Condado",
+      "area": "San Juan",
+      "driverId": "d1",
+      "driverName": "Carlos Rodríguez",
+      "status": "in-progress",
+      "deliveryDate": "2025-05-26",
       "stops": 3,
       "details": {
         "stops": [
           {
-            "orderId": "sub3",
-            "address": "101 Pine St, Cambridge, MA",
-            "eta": "9:15 AM"
+            "id": "stop1",
+            "address": "Calle Loíza 123, San Juan, PR 00911",
+            "lat": 18.4655,
+            "lng": -66.0572,
+            "status": "pending",
+            "eta": "10:00 AM"
+          },
+          {
+            "id": "stop2",
+            "address": "Calle Taft 45, Condado, San Juan, PR 00911",
+            "lat": 18.4612,
+            "lng": -66.0650,
+            "status": "completed",
+            "eta": "11:30 AM"
+          },
+          {
+            "id": "stop3",
+            "address": "Ashford Avenue 1058, Condado, San Juan, PR 00907",
+            "lat": 18.4571,
+            "lng": -66.0788,
+            "status": "pending",
+            "eta": "12:15 PM"
           }
         ]
-      }
+      },
+      "startTime": "2025-05-26T08:00:00",
+      "estimatedEndTime": "2025-05-26T12:00:00"
     },
     {
-      "id": "r3",
-      "name": "Somerville Route",
-      "area": "Somerville",
-      "driverId": 103,
+      "id": "r2",
+      "name": "Ruta Río Piedras - Universidad",
+      "area": "Río Piedras",
+      "driverId": "d2",
+      "driverName": "Ana Martínez",
       "status": "completed",
-      "deliveryDate": "2025-05-25",
-      "stops": 4,
+      "deliveryDate": "2025-05-26",
+      "stops": 2,
       "details": {
         "stops": [
           {
-            "orderId": "sub4",
-            "address": "202 Maple Ave, Somerville, MA",
+            "id": "stop4",
+            "address": "Ave. Universidad 45, Río Piedras, PR 00925",
+            "lat": 18.4037,
+            "lng": -66.0501,
+            "status": "completed",
+            "eta": "9:15 AM"
+          },
+          {
+            "id": "stop5",
+            "address": "Calle Gandhi, Río Piedras, PR 00927",
+            "lat": 18.4008,
+            "lng": -66.0499,
+            "status": "completed",
+            "eta": "10:30 AM"
+          }
+        ]
+      },
+      "startTime": "2025-05-26T09:00:00",
+      "estimatedEndTime": "2025-05-26T11:00:00",
+      "actualEndTime": "2025-05-26T10:45:00"
+    },
+    {
+      "id": "r3",
+      "name": "Ruta Ponce - Centro",
+      "area": "Ponce",
+      "driverId": "d3",
+      "driverName": "Luis Vega",
+      "status": "active",
+      "deliveryDate": "2025-05-26",
+      "stops": 3,
+      "details": {
+        "stops": [
+          {
+            "id": "stop6",
+            "address": "Calle Marina 78, Ponce, PR 00716",
+            "lat": 18.0108,
+            "lng": -66.6140,
+            "status": "pending",
+            "eta": "10:30 AM"
+          },
+          {
+            "id": "stop7",
+            "address": "Plaza Las Delicias, Ponce, PR 00730",
+            "lat": 18.0115,
+            "lng": -66.6141,
+            "status": "pending",
+            "eta": "11:45 AM"
+          },
+          {
+            "id": "stop8",
+            "address": "Calle Cristina 52, Ponce, PR 00731",
+            "lat": 18.0125,
+            "lng": -66.6133,
+            "status": "pending",
+            "eta": "1:15 PM"
+          }
+        ]
+      },
+      "startTime": "2025-05-26T10:00:00",
+      "estimatedEndTime": "2025-05-26T14:00:00"
+    },
+    {
+      "id": "r4",
+      "name": "Ruta Mayagüez",
+      "area": "Mayagüez",
+      "driverId": "d4",
+      "driverName": "Roberto Sánchez",
+      "status": "scheduled",
+      "deliveryDate": "2025-05-27",
+      "stops": 2,
+      "details": {
+        "stops": [
+          {
+            "id": "stop9",
+            "address": "Calle Méndez Vigo 55, Mayagüez, PR 00680",
+            "lat": 18.2010,
+            "lng": -67.1391,
+            "status": "pending",
+            "eta": "9:30 AM"
+          },
+          {
+            "id": "stop10",
+            "address": "Plaza Colón, Mayagüez, PR 00680",
+            "lat": 18.2019,
+            "lng": -67.1397,
+            "status": "pending",
             "eta": "10:45 AM"
           }
         ]
-      }
+      },
+      "startTime": "2025-05-27T09:00:00",
+      "estimatedEndTime": "2025-05-27T12:00:00"
+    },
+    {
+      "id": "r5",
+      "name": "Ruta Caguas",
+      "area": "Caguas",
+      "driverId": "d5",
+      "driverName": "María Torres",
+      "status": "scheduled",
+      "deliveryDate": "2025-05-27",
+      "stops": 3,
+      "details": {
+        "stops": [
+          {
+            "id": "stop11",
+            "address": "Calle Gautier Benítez 42, Caguas, PR 00725",
+            "lat": 18.2341,
+            "lng": -66.0361,
+            "status": "pending",
+            "eta": "10:15 AM"
+          },
+          {
+            "id": "stop12",
+            "address": "Plaza Palmer, Caguas, PR 00725",
+            "lat": 18.2349,
+            "lng": -66.0356,
+            "status": "pending",
+            "eta": "11:30 AM"
+          },
+          {
+            "id": "stop13",
+            "address": "Calle Padial 15, Caguas, PR 00725",
+            "lat": 18.2353,
+            "lng": -66.0372,
+            "status": "pending",
+            "eta": "1:00 PM"
+          }
+        ]
+      },
+      "startTime": "2025-05-27T10:00:00",
+      "estimatedEndTime": "2025-05-27T14:00:00"
     }
   ],
   "metrics": {
-    "mrr": 25000,
-    "mrrGrowth": 0.12,
+    "mrr": 96.46,
     "churn": 0.05,
-    "churnChange": -0.02,
     "fulfillmentRate": 0.98,
-    "fulfillmentChange": 0.03,
-    "totalCustomers": 580,
-    "customerGrowth": 0.15,
-    "arpu": 45,
-    "cac": 120,
-    "ltv": 850,
-    "avgSubscriptionMonths": 18
+    "customerGrowth": [
+      { "month": "Jan", "value": 120 },
+      { "month": "Feb", "value": 145 },
+      { "month": "Mar", "value": 162 },
+      { "month": "Apr", "value": 190 },
+      { "month": "May", "value": 210 }
+    ],
+    "revenue": [
+      { "month": "Jan", "value": 4500 },
+      { "month": "Feb", "value": 5200 },
+      { "month": "Mar", "value": 6100 },
+      { "month": "Apr", "value": 7300 },
+      { "month": "May", "value": 8200 }
+    ],
+    "productDistribution": [
+      { "name": "Small Box", "value": 35 },
+      { "name": "Medium Box", "value": 45 },
+      { "name": "Large Box", "value": 20 }
+    ]
   },
-  "blogPosts": [
+  "blog": [
     {
-      "id": "1",
-      "slug": "benefits-of-boxed-water",
-      "title": "The Environmental Benefits of Boxed Water",
-      "excerpt": "Learn how switching to boxed water can reduce your carbon footprint and help protect our oceans from plastic pollution.",
-      "content": "Plastic pollution is one of the most pressing environmental issues of our time. Every year, millions of tons of plastic waste end up in our oceans, harming marine life and ecosystems. By switching to boxed water, you can significantly reduce your plastic consumption and help combat this growing problem.\n\nEWA Box Water containers are made from sustainable materials that are 100% recyclable. Unlike plastic bottles, which can take hundreds of years to decompose, our boxes break down naturally and can be easily recycled into new products.\n\nHere are some key environmental benefits of choosing boxed water:\n\n1. **Reduced Carbon Footprint**: Our boxes are made from renewable resources and have a lower carbon footprint than plastic bottles.\n\n2. **Less Plastic Waste**: By choosing boxed water, you're helping to reduce the amount of plastic that ends up in landfills and oceans.\n\n3. **Sustainable Sourcing**: Our packaging is made from responsibly sourced materials, supporting sustainable forestry practices.\n\n4. **Efficient Transportation**: Our boxes are shipped flat to our filling facilities, which means we can fit more boxes on a truck, reducing transportation emissions.\n\nMaking the switch to boxed water is a small change that can have a big impact on the environment. Join the movement towards a more sustainable future with EWA Box Water.",
-      "author": "Emma Rodriguez",
-      "date": "2025-05-15",
-      "imageUrl": "/images/blog-1.jpg"
+      "id": "blog1",
+      "title": "The Environmental Impact of Plastic Water Bottles",
+      "slug": "environmental-impact-plastic-water-bottles",
+      "excerpt": "Learn about how plastic water bottles are affecting our environment and what alternatives exist.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+      "author": "EWA Team",
+      "date": "2025-04-15",
+      "imageUrl": "/images/blog/plastic-impact.jpg"
     },
     {
-      "id": "2",
-      "slug": "hydration-tips-summer",
-      "title": "5 Essential Hydration Tips for Summer",
-      "excerpt": "Stay cool and hydrated during the hot summer months with these practical tips from our hydration experts.",
-      "content": "As temperatures rise during the summer months, staying properly hydrated becomes even more important. Dehydration can lead to fatigue, headaches, and in severe cases, heat stroke. Here are five essential tips to help you stay hydrated and healthy this summer:\n\n1. **Start Your Day with Water**: Begin each morning with a glass of water to replenish fluids lost during sleep. This helps kickstart your metabolism and sets a positive tone for hydration throughout the day.\n\n2. **Set Hydration Goals**: Aim to drink at least 8-10 glasses of water daily, more if you're active or spending time outdoors. Consider using a marked water bottle to track your intake.\n\n3. **Eat Water-Rich Foods**: Many fruits and vegetables have high water content. Watermelon, cucumber, strawberries, and lettuce are excellent choices that provide both hydration and essential nutrients.\n\n4. **Time Your Hydration**: Drink water before, during, and after physical activity. For longer outdoor sessions, consider a hydration schedule of 8 ounces every 20 minutes.\n\n5. **Create Hydration Reminders**: Set alarms on your phone, use hydration tracking apps, or place visual reminders around your home and workspace to prompt regular water consumption.\n\nRemember that by the time you feel thirsty, you're already slightly dehydrated. With EWA Box Water's convenient delivery service, you can ensure you always have fresh, clean water on hand to stay hydrated throughout the summer months.",
-      "author": "Dr. Michael Chen",
-      "date": "2025-05-10",
-      "imageUrl": "/images/blog-2.jpg"
+      "id": "blog2",
+      "title": "Benefits of Staying Hydrated",
+      "slug": "benefits-staying-hydrated",
+      "excerpt": "Discover the many health benefits of proper hydration and how much water you should drink daily.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+      "author": "Dr. Hydration",
+      "date": "2025-04-01",
+      "imageUrl": "/images/blog/hydration.jpg"
     },
     {
-      "id": "3",
-      "slug": "water-delivery-convenience",
-      "title": "The Convenience of Water Delivery Services",
-      "excerpt": "Discover how water delivery services can save you time, money, and effort while ensuring you never run out of fresh water.",
-      "content": "In our busy modern lives, convenience is key. Water delivery services like EWA Box Water offer a simple solution to ensure you always have fresh, clean water without the hassle of shopping trips or heavy lifting.\n\nHere's how water delivery services can make your life easier:\n\n1. **Time Savings**: No more trips to the store just for water. With regular scheduled deliveries, you can cross one more item off your shopping list permanently.\n\n2. **Consistent Supply**: Never run out of water again. Our subscription plans ensure you always have exactly what you need, when you need it.\n\n3. **No Heavy Lifting**: Forget about lugging heavy water bottles from the store to your car and into your home. We deliver directly to your doorstep.\n\n4. **Customizable Plans**: Whether you need weekly deliveries for a large family or monthly deliveries for a small household, our flexible plans can be tailored to your specific needs.\n\n5. **Eco-Friendly Options**: Our boxed water is not only convenient but also better for the environment than plastic bottles.\n\n6. **Cost-Effective**: When you factor in the time, gas, and effort saved, subscription water delivery is often more economical than regular store purchases.\n\nEWA Box Water's delivery service is designed with your convenience in mind. Our reliable delivery schedule, easy-to-manage subscription options, and hassle-free service make staying hydrated simpler than ever before.",
-      "author": "Sarah Johnson",
-      "date": "2025-05-05",
-      "imageUrl": "/images/blog-3.jpg"
+      "id": "blog3",
+      "title": "How EWA Box Water is Changing the Game",
+      "slug": "ewa-box-water-changing-game",
+      "excerpt": "Our innovative approach to water delivery is disrupting the industry. Here's how.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+      "author": "EWA Founder",
+      "date": "2025-03-20",
+      "imageUrl": "/images/blog/ewa-innovation.jpg"
     }
   ]
 }

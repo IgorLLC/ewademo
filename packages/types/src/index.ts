@@ -43,12 +43,33 @@ export type User = {
 
 export type Route = {
   id: string;
-  date: string;
+  name: string;
+  area: string;
+  driverId: string;
+  driverName: string;
+  status: 'active' | 'in-progress' | 'completed' | 'scheduled' | 'pending';
+  deliveryDate: string;
+  startTime: string;
+  estimatedEndTime: string;
+  actualEndTime?: string;
   stops: Array<{
-    orderId: string;
+    id: string;
     address: string;
+    lat: number;
+    lng: number;
+    status: 'pending' | 'completed';
     eta: string;
   }>;
+  details?: {
+    stops: Array<{
+      id: string;
+      address: string;
+      lat: number;
+      lng: number;
+      status: 'pending' | 'completed';
+      eta: string;
+    }>;
+  };
 };
 
 export type Metrics = {

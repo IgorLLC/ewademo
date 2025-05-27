@@ -132,7 +132,7 @@ const AdminDashboard = () => {
                       className="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium border-ewa-blue text-gray-900">
                       Dashboard
                     </a>
-                    <a href="/admin/clients" 
+                    <a href="/admin/users" 
                       className="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700">
                       Clientes
                     </a>
@@ -143,10 +143,6 @@ const AdminDashboard = () => {
                     <a href="/admin/routes" 
                       className="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700">
                       Rutas
-                    </a>
-                    <a href="/admin/metrics" 
-                      className="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                      Métricas
                     </a>
                   </nav>
                 )}
