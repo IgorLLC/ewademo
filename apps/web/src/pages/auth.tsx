@@ -91,8 +91,7 @@ const Auth = () => {
               onClick={() => router.push('/')}
               className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors duration-200"
             >
-              <ArrowLeft className="size-4" />
-              <span className="text-sm font-medium">Volver</span>
+              ← Volver
             </button>
           </div>
 
@@ -176,7 +175,7 @@ const Auth = () => {
 
                 <div className="mt-6 text-center text-sm">
                   <span className="text-gray-600">¿No tienes una cuenta? </span>
-                  <a href="#" className="text-blue-600 hover:text-blue-500 underline">
+                  <a href="/register" className="text-blue-600 hover:text-blue-500 underline">
                     Regístrate
                   </a>
                 </div>
