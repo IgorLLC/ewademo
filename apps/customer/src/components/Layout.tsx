@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { User } from '@ewa/types';
-import { getCurrentUser, logout } from '@ewa/api-client';
+import { Menu, X, LogOut } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -17,15 +16,27 @@ const Layout: React.FC<LayoutProps> = ({
   requireAuth = true
 }) => {
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<{ id: string; name: string; email: string } | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    const currentUser = getCurrentUser();
-    setUser(currentUser);
+    // Obtener usuario del localStorage
+    const userJson = localStorage.getItem('ewa_user');
+    let currentUser = null;
+    
+    if (userJson) {
+      try {
+        currentUser = JSON.parse(userJson);
+        setUser(currentUser);
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+        localStorage.removeItem('ewa_user');
+        localStorage.removeItem('ewa_token');
+      }
+    }
 
     if (requireAuth && !currentUser) {
-      router.push('/login');
+      router.push('/auth');
     }
   }, [requireAuth, router]);
 
@@ -39,16 +50,39 @@ const Layout: React.FC<LayoutProps> = ({
       // Limpiamos cualquier otro dato relacionado con la sesión
       sessionStorage.clear();
       
-      // Mostramos un mensaje de confirmación antes de redirigir
-      alert('Sesión cerrada correctamente. Redirigiendo a la página de inicio de sesión.');
+      // Mostrar mensaje de éxito con modal
+      const logoutMessage = document.createElement('div');
+      logoutMessage.className = 'fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50';
+      logoutMessage.innerHTML = `
+        <div class="bg-white p-8 rounded-lg shadow-xl max-w-md w-full text-center">
+          <svg class="mx-auto h-12 w-12 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          <h3 class="mt-4 text-lg font-medium text-gray-900">Sesión cerrada correctamente</h3>
+          <p class="mt-2 text-sm text-gray-500">Redirigiendo a la página de inicio de sesión...</p>
+        </div>
+      `;
+      document.body.appendChild(logoutMessage);
       
-      // Redirigimos a la página principal para que el usuario pueda iniciar sesión nuevamente
-      window.location.href = 'http://localhost:3000/auth';
+      // Redirigir después de mostrar el mensaje
+      setTimeout(() => {
+        document.body.removeChild(logoutMessage);
+        router.push('/auth');
+      }, 1500);
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
       alert('Hubo un problema al cerrar la sesión. Por favor, inténtalo de nuevo.');
     }
   };
+
+  const navigationItems = [
+    { href: '/subscriptions', label: 'Suscripciones' },
+    { href: '/plans', label: 'Planes' },
+    { href: '/oneoffs', label: 'Pedidos Únicos' },
+    { href: '/pickup-points', label: 'Puntos Pickup' },
+    { href: '/deliveries', label: 'Entregas' },
+    { href: '/profile', label: 'Perfil' }
+  ];
 
   return (
     <>
@@ -60,144 +94,121 @@ const Layout: React.FC<LayoutProps> = ({
 
       <div className="min-h-screen flex flex-col">
         {/* Header */}
-        <header className="bg-white shadow-sm">
+        <header className="bg-white shadow-sm border-b">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between h-16">
-              <div className="flex">
-                <div className="flex-shrink-0 flex items-center">
-                  <a href={user ? '/subscriptions' : 'http://localhost:3000'} className="text-xl font-bold text-ewa-blue">
-                    EWA Box Water
-                  </a>
-                </div>
+            <div className="flex justify-between items-center h-16">
+              <div className="flex items-center">
+                <Link href={user ? '/subscriptions' : '/'} className="text-2xl font-bold text-blue-600 hover:text-blue-700">
+                  EWA Box Water
+                </Link>
+                
                 {user && (
-                  <nav className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                    <a href="/subscriptions" 
-                      className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                        router.pathname === '/subscriptions' 
-                          ? 'border-ewa-blue text-gray-900' 
-                          : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                      }`}>
-                      Suscripciones
-                    </a>
-                    <a href="/oneoffs" 
-                      className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                        router.pathname === '/oneoffs' 
-                          ? 'border-ewa-blue text-gray-900' 
-                          : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                      }`}>
-                      Pedidos Únicos
-                    </a>
-                    <a href="/profile" 
-                      className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                        router.pathname === '/profile' 
-                          ? 'border-ewa-blue text-gray-900' 
-                          : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                      }`}>
-                      Perfil
-                    </a>
+                  <nav className="hidden md:flex ml-8 space-x-6">
+                    {navigationItems.map((item) => (
+                      <Link 
+                        key={item.href} 
+                        href={item.href}
+                        className={`text-sm font-medium transition-colors hover:text-blue-600 ${
+                          router.pathname === item.href 
+                            ? 'text-blue-600 font-semibold' 
+                            : 'text-gray-600'
+                        }`}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
                   </nav>
                 )}
               </div>
-              <div className="hidden sm:ml-6 sm:flex sm:items-center">
+
+              <div className="hidden md:flex items-center space-x-4">
                 {user ? (
-                  <div className="ml-3 relative">
-                    <div className="flex items-center">
-                      <span className="text-sm text-gray-700 mr-2">Hola, {user.name}</span>
+                  <div className="flex items-center space-x-3">
+                    <span className="text-sm text-gray-600">
+                      Hola, {user.name}
+                    </span>
+                    <button
+                      onClick={handleLogout}
+                      className="inline-flex items-center px-3 py-2 border border-red-200 text-sm font-medium rounded-md text-red-600 bg-white hover:bg-red-50 hover:border-red-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    >
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Cerrar sesión
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex space-x-2">
+                    <Link href="/auth" className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md">
+                      Iniciar Sesión
+                    </Link>
+                    <Link href="/auth" className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                      Registrarse
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* Mobile menu button */}
+              <div className="md:hidden">
+                <button
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+                >
+                  {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                </button>
+              </div>
+            </div>
+
+            {/* Mobile menu */}
+            {isMenuOpen && (
+              <div className="md:hidden border-t border-gray-200 py-4">
+                {user ? (
+                  <div className="space-y-2">
+                    {navigationItems.map((item) => (
+                      <Link 
+                        key={item.href} 
+                        href={item.href}
+                        className={`block px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                          router.pathname === item.href
+                            ? 'bg-blue-50 text-blue-600 font-semibold'
+                            : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50'
+                        }`}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                    <div className="pt-2">
                       <button
                         onClick={handleLogout}
-                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                        className="w-full inline-flex items-center justify-center px-3 py-2 border border-red-200 text-sm font-medium rounded-md text-red-600 bg-white hover:bg-red-50 hover:border-red-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                       >
-                        <svg className="mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                        </svg>
+                        <LogOut className="w-4 h-4 mr-2" />
                         Cerrar sesión
                       </button>
                     </div>
                   </div>
                 ) : (
-                  <div>
-                    <Link href="/login" className="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">
-                      Login
+                  <div className="space-y-2">
+                    <Link href="/auth" className="w-full inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md">
+                      Iniciar Sesión
+                    </Link>
+                    <Link href="/auth" className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                      Registrarse
                     </Link>
                   </div>
                 )}
               </div>
-              <div className="-mr-2 flex items-center sm:hidden">
-                <button
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-ewa-blue"
-                >
-                  <span className="sr-only">Open main menu</span>
-                  {isMenuOpen ? (
-                    <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  ) : (
-                    <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                  )}
-                </button>
-              </div>
-            </div>
+            )}
           </div>
-
-          {/* Mobile menu */}
-          {isMenuOpen && (
-            <div className="sm:hidden">
-              {user ? (
-                <div className="pt-2 pb-3 space-y-1">
-                  <a href="/subscriptions" 
-                    className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
-                      router.pathname === '/subscriptions' 
-                        ? 'bg-ewa-light-blue border-ewa-blue text-ewa-blue' 
-                        : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'
-                    }`}>
-                    Suscripciones
-                  </a>
-                  <a href="/oneoffs" 
-                    className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
-                      router.pathname === '/oneoffs' 
-                        ? 'bg-ewa-light-blue border-ewa-blue text-ewa-blue' 
-                        : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'
-                    }`}>
-                    Pedidos Únicos
-                  </a>
-                  <a href="/profile" 
-                    className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
-                      router.pathname === '/profile' 
-                        ? 'bg-ewa-light-blue border-ewa-blue text-ewa-blue' 
-                        : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'
-                    }`}>
-                    Perfil
-                  </a>
-                  <button
-                    onClick={handleLogout}
-                    className="block w-full text-left pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
-                  >
-                    Logout
-                  </button>
-                </div>
-              ) : (
-                <div className="pt-2 pb-3 space-y-1">
-                  <a href="http://localhost:3000/auth" 
-                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700">
-                    Iniciar sesión
-                  </a>
-                </div>
-              )}
-            </div>
-          )}
         </header>
 
         {/* Main content */}
-        <main className="flex-grow">
+        <main className="flex-1">
           {children}
         </main>
 
         {/* Footer */}
-        <footer className="bg-white border-t border-gray-200">
-          <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <footer className="bg-white border-t">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <p className="text-center text-sm text-gray-500">
               &copy; {new Date().getFullYear()} EWA Box Water. All rights reserved.
             </p>

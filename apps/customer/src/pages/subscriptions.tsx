@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
-import { getSubscriptions, getPlans, getProducts, updateSubscription } from '@ewa/api-client';
-import { Subscription, Plan, Product } from '@ewa/types';
-import { Button, Card } from '@ewa/ui';
+import { Subscription, Plan, Product, User } from '@ewa/types';
+import { Plus, CheckCircle, AlertCircle } from 'lucide-react';
 
 const SubscriptionsPage = () => {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
@@ -11,11 +10,14 @@ const SubscriptionsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [user, setUser] = useState<any>(null);
-  const [showSupportForm, setShowSupportForm] = useState(false);
-  const [supportMessage, setSupportMessage] = useState('');
-  const [supportCategory, setSupportCategory] = useState('delivery');
-  const [supportSubmitted, setSupportSubmitted] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [subscriptionDetails, setSubscriptionDetails] = useState<{
+    nextDeliveryDate?: string;
+    address?: string;
+    frequency?: string;
+    createdAt?: string;
+    deliveryHistory?: Array<{ id: string; date: string; status: string }>;
+  }>({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,24 +25,46 @@ const SubscriptionsPage = () => {
         const userData = JSON.parse(localStorage.getItem('ewa_user') || '{}');
         setUser(userData);
         
-        const [subscriptionsData, plansData, productsData] = await Promise.all([
-          getSubscriptions(userData.id),
-          getPlans(),
-          getProducts()
-        ]);
+        const storedSubscriptionDetails = JSON.parse(localStorage.getItem('ewa_subscription_details') || '{}');
+        setSubscriptionDetails(storedSubscriptionDetails);
         
-        // Asegurarse de que hay al menos una suscripción para mostrar
+        const mockPlans: Plan[] = [
+          {
+            id: 'plan_1',
+            name: 'Plan Semanal',
+            productId: 'prod_1',
+            frequency: 'weekly',
+            minQty: 1
+          }
+        ];
+
+        const mockProducts: Product[] = [
+          {
+            id: 'prod_1',
+            name: 'Agua Purificada EWA',
+            sizeOz: 5,
+            sku: 'EWA-5GAL',
+            price: 12.99
+          }
+        ];
+
+        const subscriptionsData: Subscription[] = [];
+        const plansData = mockPlans;
+        const productsData = mockProducts;
+        
         if (subscriptionsData.length === 0) {
-          // Crear una suscripción mock si no hay ninguna
           const mockSubscription: Subscription = {
             id: 'sub_mock1',
             userId: userData.id,
             planId: 'plan_1',
-            status: 'active'
+            status: 'active',
+            quantity: 1,
+            address: '123 Calle Principal, San Juan, PR 00901',
+            nextDeliveryDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+            frequency: 'weekly',
+            createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
           };
           
-          // Guardar datos adicionales en un objeto aparte para usar en la UI
-          // ya que no forman parte del tipo Subscription
           localStorage.setItem('ewa_subscription_details', JSON.stringify({
             nextDeliveryDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
             address: '123 Calle Principal, San Juan, PR 00901',
@@ -104,34 +128,27 @@ const SubscriptionsPage = () => {
 
   const handleStatusChange = async (subscriptionId: string, newStatus: 'active' | 'paused') => {
     try {
-      setLoading(true);
-      await updateSubscription(subscriptionId, { status: newStatus });
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Update local state
       setSubscriptions(prevSubscriptions => 
         prevSubscriptions.map(sub => 
           sub.id === subscriptionId ? { ...sub, status: newStatus } : sub
         )
       );
       
-      setSuccessMessage(`Subscription successfully ${newStatus === 'active' ? 'activated' : 'paused'}.`);
+      setSuccessMessage(`Suscripción ${newStatus === 'active' ? 'activada' : 'pausada'} exitosamente.`);
       
-      // Clear success message after 3 seconds
       setTimeout(() => {
         setSuccessMessage(null);
       }, 3000);
     } catch (err) {
-      setError(`Failed to update subscription. Please try again.`);
+      setError(`Error al actualizar la suscripción. Inténtalo de nuevo.`);
       console.error('Error updating subscription:', err);
-    } finally {
-      setLoading(false);
     }
   };
 
   const handleSkipDelivery = () => {
     setSuccessMessage('Tu próxima entrega ha sido omitida.');
-    
-    // Clear success message after 3 seconds
     setTimeout(() => {
       setSuccessMessage(null);
     }, 3000);
@@ -139,34 +156,12 @@ const SubscriptionsPage = () => {
 
   const handleChangeAddress = () => {
     setSuccessMessage('Tu dirección de entrega ha sido actualizada.');
-    
-    // Clear success message after 3 seconds
     setTimeout(() => {
       setSuccessMessage(null);
     }, 3000);
   };
 
-  const handleSupportSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSupportSubmitted(true);
-    setSuccessMessage('Tu mensaje ha sido enviado. Te contactaremos pronto.');
-    
-    // Reset form
-    setSupportMessage('');
-    setSupportCategory('delivery');
-    setShowSupportForm(false);
-    
-    // Clear success message after 3 seconds
-    setTimeout(() => {
-      setSuccessMessage(null);
-      setSupportSubmitted(false);
-    }, 3000);
-  };
 
-  // Obtener los detalles adicionales de la suscripción del localStorage
-  const subscriptionDetails = JSON.parse(localStorage.getItem('ewa_subscription_details') || '{}');
-  
-  // Calcular la fecha de próxima entrega en formato legible
   const nextDeliveryDate = subscriptionDetails.nextDeliveryDate ? 
     new Date(subscriptionDetails.nextDeliveryDate).toLocaleDateString('es-PR', {
       weekday: 'long',
@@ -179,26 +174,34 @@ const SubscriptionsPage = () => {
       month: 'long'
     });
 
-  // Obtener el historial de entregas
-  const deliveryHistory = subscriptionDetails.deliveryHistory || [];
 
   return (
     <Layout title="Mis Suscripciones - EWA Box Water">
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
-          {/* 1. Encabezado o bienvenida */}
-          <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Hola, {user?.name || 'Cliente'} 👋</h1>
-            <p className="mt-2 text-gray-600">Tu próxima entrega está programada para el {nextDeliveryDate}</p>
+          <div className="flex justify-between items-start mb-8">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Hola, {user?.name || 'Cliente'} 👋</h1>
+              <p className="mt-2 text-lg text-gray-600">
+                {subscriptions.length > 0 
+                  ? `Tu próxima entrega está programada para el ${nextDeliveryDate}`
+                  : 'Bienvenido a tu portal de suscripciones'
+                }
+              </p>
+            </div>
+            {subscriptions.length > 0 && (
+              <a href="/plans" className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <Plus className="w-4 h-4 mr-2" />
+                Nueva Suscripción
+              </a>
+            )}
           </div>
-          
+
           {successMessage && (
             <div className="mb-6 bg-green-50 border-l-4 border-green-400 p-4">
               <div className="flex">
                 <div className="flex-shrink-0">
-                  <svg className="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
+                  <CheckCircle className="h-5 w-5 text-green-400" />
                 </div>
                 <div className="ml-3">
                   <p className="text-sm text-green-700">{successMessage}</p>
@@ -211,9 +214,7 @@ const SubscriptionsPage = () => {
             <div className="mb-6 bg-red-50 border-l-4 border-red-400 p-4">
               <div className="flex">
                 <div className="flex-shrink-0">
-                  <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                  </svg>
+                  <AlertCircle className="h-5 w-5 text-red-400" />
                 </div>
                 <div className="ml-3">
                   <p className="text-sm text-red-700">{error}</p>
@@ -223,41 +224,28 @@ const SubscriptionsPage = () => {
           )}
 
           {loading ? (
-            <div className="text-center py-12">
-              <svg className="mx-auto h-12 w-12 text-gray-400 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              <p className="mt-2 text-sm text-gray-500">Cargando tus suscripciones...</p>
+            <div className="flex justify-center items-center py-12">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                <p className="text-gray-500">Cargando tus suscripciones...</p>
+              </div>
             </div>
           ) : subscriptions.length === 0 ? (
             <div className="text-center py-12">
-              <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-              </svg>
-              <h3 className="mt-2 text-sm font-medium text-gray-900">No tienes suscripciones activas</h3>
-              <p className="mt-1 text-sm text-gray-500">Comienza creando una nueva suscripción.</p>
-              <div className="mt-6">
-                <button
-                  type="button"
-                  className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-ewa-blue hover:bg-ewa-dark-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ewa-blue"
-                >
-                  <svg className="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
-                  </svg>
-                  Nueva Suscripción
-                </button>
-              </div>
+              <h3 className="text-xl font-medium text-gray-900 mb-2">No tienes suscripciones activas</h3>
+              <p className="text-gray-500 mb-6">Comienza creando una nueva suscripción.</p>
+              <a href="/plans" className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <Plus className="w-4 h-4 mr-2" />
+                Nueva Suscripción
+              </a>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* 2. Información visual principal - Mapa */}
               <div className="md:col-span-2">
-                <Card className="h-full">
+                <div className="bg-white shadow rounded-lg h-full">
                   <div className="p-4">
                     <h2 className="text-lg font-semibold mb-2">Ubicación de entrega</h2>
                     <div className="relative h-64 bg-gray-200 rounded-lg overflow-hidden">
-                      {/* Imagen estática de mapa (mock) */}
                       <img 
                         src="https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s+1A73E8(-66.1057,18.4655)/-66.1057,18.4655,13,0/600x400?access_token=pk.mock" 
                         alt="Mapa de ubicación"
@@ -274,10 +262,9 @@ const SubscriptionsPage = () => {
                       </div>
                     </div>
                   </div>
-                </Card>
+                </div>
               </div>
 
-              {/* 3. Panel de suscripción activa */}
               <div className="md:col-span-1">
                 {subscriptions.map(subscription => {
                   const plan = getPlanById(subscription.planId);
@@ -287,11 +274,11 @@ const SubscriptionsPage = () => {
                   if (!product) return null;
 
                   return (
-                    <Card key={subscription.id} className="h-full">
+                    <div key={subscription.id} className="bg-white shadow rounded-lg h-full">
                       <div className="p-4">
                         <h2 className="text-lg font-semibold mb-2">Tu suscripción</h2>
                         <div className="mb-4">
-                          <h3 className="text-xl font-bold text-ewa-blue">
+                          <h3 className="text-xl font-bold text-blue-600">
                             {product.sizeOz} oz × {plan.minQty} unidades
                           </h3>
                           <p className="text-gray-600">
@@ -307,164 +294,38 @@ const SubscriptionsPage = () => {
                         <div className="space-y-2">
                           {subscription.status === 'active' ? (
                             <>
-                              <Button 
+                              <button
                                 onClick={() => handleStatusChange(subscription.id, 'paused')}
-                                variant="secondary"
-                                fullWidth
+                                className="w-full inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                               >
                                 Pausar suscripción
-                              </Button>
-                              <Button 
+                              </button>
+                              <button
                                 onClick={handleSkipDelivery}
-                                variant="secondary"
-                                fullWidth
+                                className="w-full inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                               >
                                 Saltar próxima entrega
-                              </Button>
+                              </button>
                             </>
                           ) : (
-                            <Button 
+                            <button
                               onClick={() => handleStatusChange(subscription.id, 'active')}
-                              variant="primary"
-                              fullWidth
+                              className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                             >
                               Reactivar suscripción
-                            </Button>
+                            </button>
                           )}
-                          <Button 
+                          <button 
                             onClick={handleChangeAddress}
-                            variant="secondary"
-                            fullWidth
+                            className="w-full inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                           >
                             Cambiar dirección
-                          </Button>
+                          </button>
                         </div>
                       </div>
-                    </Card>
+                    </div>
                   );
                 })}
-              </div>
-
-              {/* 4. Historial básico */}
-              <div className="md:col-span-2">
-                <Card>
-                  <div className="p-4">
-                    <h2 className="text-lg font-semibold mb-4">Historial de entregas</h2>
-                    <div className="overflow-x-auto">
-                      <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
-                          <tr>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Fecha
-                            </th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Estado
-                            </th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Detalles
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                          {deliveryHistory.map((delivery: any) => (
-                            <tr key={delivery.id}>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                {new Date(delivery.date).toLocaleDateString('es-PR')}
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                  delivery.status === 'entregado' ? 'bg-green-100 text-green-800' : 
-                                  delivery.status === 'en camino' ? 'bg-blue-100 text-blue-800' : 
-                                  'bg-red-100 text-red-800'
-                                }`}>
-                                  {delivery.status.charAt(0).toUpperCase() + delivery.status.slice(1)}
-                                </span>
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <button className="text-ewa-blue hover:text-ewa-dark-blue">
-                                  Ver detalles
-                                </button>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </Card>
-              </div>
-
-              {/* 5. Sección de soporte */}
-              <div className="md:col-span-1">
-                <Card>
-                  <div className="p-4">
-                    <h2 className="text-lg font-semibold mb-4">¿Necesitas ayuda?</h2>
-                    
-                    {!showSupportForm ? (
-                      <div className="text-center">
-                        <p className="text-gray-600 mb-4">¿Tienes alguna pregunta o problema con tu entrega?</p>
-                        <Button 
-                          onClick={() => setShowSupportForm(true)}
-                          variant="primary"
-                          fullWidth
-                        >
-                          Contactar soporte
-                        </Button>
-                      </div>
-                    ) : (
-                      <form onSubmit={handleSupportSubmit}>
-                        <div className="mb-4">
-                          <label htmlFor="supportCategory" className="block text-sm font-medium text-gray-700 mb-1">
-                            Categoría
-                          </label>
-                          <select
-                            id="supportCategory"
-                            name="supportCategory"
-                            value={supportCategory}
-                            onChange={(e) => setSupportCategory(e.target.value)}
-                            className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-ewa-blue focus:border-ewa-blue sm:text-sm"
-                          >
-                            <option value="delivery">Problema con entrega</option>
-                            <option value="product">Problema con producto</option>
-                            <option value="billing">Problema con facturación</option>
-                            <option value="other">Otro</option>
-                          </select>
-                        </div>
-                        <div className="mb-4">
-                          <label htmlFor="supportMessage" className="block text-sm font-medium text-gray-700 mb-1">
-                            Mensaje
-                          </label>
-                          <textarea
-                            id="supportMessage"
-                            name="supportMessage"
-                            rows={4}
-                            value={supportMessage}
-                            onChange={(e) => setSupportMessage(e.target.value)}
-                            className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-ewa-blue focus:border-ewa-blue sm:text-sm"
-                            placeholder="Describe tu problema o pregunta"
-                            required
-                          />
-                        </div>
-                        <div className="flex justify-end space-x-2">
-                          <Button 
-                            onClick={() => setShowSupportForm(false)}
-                            variant="secondary"
-                            type="button"
-                          >
-                            Cancelar
-                          </Button>
-                          <Button 
-                            type="submit"
-                            variant="primary"
-                            disabled={!supportMessage.trim()}
-                          >
-                            Enviar
-                          </Button>
-                        </div>
-                      </form>
-                    )}
-                  </div>
-                </Card>
               </div>
             </div>
           )}

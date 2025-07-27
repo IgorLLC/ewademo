@@ -56,13 +56,13 @@ const OneOffOrdersPage = () => {
               id: 'o1',
               productId: 'p3',
               userId: user.id,
-              status: 'delivered' as 'delivered'
+              status: 'delivered' as const
             },
             {
               id: 'o2',
               productId: 'p2',
               userId: user.id,
-              status: 'pending' as 'pending'
+              status: 'pending' as const
             }
           ];
           
@@ -157,7 +157,7 @@ const OneOffOrdersPage = () => {
               <div className="px-4 py-5 sm:p-6 text-center">
                 <h3 className="text-lg leading-6 font-medium text-gray-900">No one-off orders</h3>
                 <div className="mt-2 max-w-xl text-sm text-gray-500 mx-auto">
-                  <p>You haven't placed any one-off orders yet. Visit our products page to place an order.</p>
+                  <p>You haven&apos;t placed any one-off orders yet. Visit our products page to place an order.</p>
                 </div>
                 <div className="mt-5">
                   <a

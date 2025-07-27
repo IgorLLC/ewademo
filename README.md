@@ -1,70 +1,165 @@
-# Getting Started with Create React App
+# EWA Box Water Delivery - Ecosystem Digital
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Visión General
+Ecosystem digital completo para EWA Box Water Delivery, transformando operaciones B2B a un modelo híbrido B2C/B2B con plataforma de suscripción de agua omnicanal.
 
-## Available Scripts
+## Estructura del Proyecto
 
-In the project directory, you can run:
+### 🏗️ Arquitectura Monorepo (Turbo)
 
-### `npm start`
+```
+ewa-box-water/
+├── apps/                          # Aplicaciones principales
+│   ├── customer/                  # Portal de clientes (B2C/B2B)
+│   ├── marketing/                 # Sitio de marketing público
+│   └── admin/                     # Dashboard de operaciones internas
+├── packages/                      # Librerías compartidas
+│   ├── ui/                        # Componentes UI reutilizables
+│   ├── api-client/                # Cliente API para Back4App
+│   ├── types/                     # Tipos TypeScript compartidos
+│   └── utils/                     # Utilidades comunes
+├── backend/                       # Configuración Back4App
+│   ├── cloud-functions/           # Cloud Functions
+│   ├── schemas/                   # Esquemas de base de datos
+│   └── webhooks/                  # Webhooks de integración
+└── docs/                          # Documentación del proyecto
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Componentes del Sistema
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 1. 🛒 Portal de Clientes (`apps/customer`)
+- **Funcionalidad:** Suscripciones y compras únicas
+- **Planes:** Semanal, quincenal, mensual
+- **Tecnologías:** Next.js, React 18, Tailwind CSS
+- **Integraciones:** Stripe, MapBox, SendGrid
 
-### `npm test`
+### 2. 🌐 Sitio de Marketing (`apps/marketing`)
+- **Funcionalidad:** Landing page bilingüe y blog
+- **Contenido:** Misión, productos, FAQs
+- **SEO:** Optimizado para búsquedas
+- **Captura:** Formularios para etiqueta privada
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 3. ⚙️ Dashboard de Operaciones (`apps/admin`)
+- **Funcionalidad:** Gestión interna completa
+- **Módulos:** MRR, retención, inventario, rutas
+- **Usuarios:** Staff interno de EWA
+- **Optimización:** Rutas con MapBox (hasta 20 paradas)
 
-### `npm run build`
+## Stack Tecnológico
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Frontend
+- **Framework:** Next.js 14 con App Router
+- **UI:** React 18 + shadcn/ui + Tailwind CSS
+- **Estado:** Zustand / React Query
+- **Formularios:** React Hook Form + Zod
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Backend
+- **Plataforma:** Back4App (Parse Server)
+- **Base de Datos:** MongoDB Atlas
+- **Lenguaje:** TypeScript
+- **API:** REST + GraphQL
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Integraciones
+- **Pagos:** Stripe Billing (PCI-DSS)
+- **Email:** SendGrid
+- **Mapas:** MapBox API
+- **Notificaciones:** Expo Push
 
-### `npm run eject`
+### DevOps
+- **Monorepo:** Turbo
+- **CI/CD:** GitHub Actions
+- **Deployment:** Vercel
+- **Monitoreo:** Sentry
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Plan de Desarrollo
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Fase 1: Getting Started (Semana 1)
+- [x] Setup de infraestructura técnica
+- [ ] Definición de UI/UX alineada con marca
+- [ ] Acceso seguro de usuarios
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Fase 2: Customer Experience (Semana 2-3)
+- [ ] Implementación de flujos de suscripción
+- [ ] Opciones de compra única
+- [ ] Checkout con Stripe
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Fase 3: Team Tools (Semana 4)
+- [ ] Dashboard interno para gestión de clientes
+- [ ] Seguimiento de suscripciones
+- [ ] Setup de rutas de entrega
 
-## Learn More
+### Fase 4: Fine-Tuning (Semana 5-6)
+- [ ] Mensajes push
+- [ ] Lógica de pickup
+- [ ] Métricas y analytics
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Fase 5: Launch & Support (Semana 7)
+- [ ] QA final
+- [ ] Soporte de go-live
+- [ ] Deployment de producción
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Comandos Principales
 
-### Code Splitting
+```bash
+# Desarrollo
+npm run dev                    # Inicia todas las apps en modo desarrollo
+npm run dev:customer           # Solo portal de clientes
+npm run dev:marketing          # Solo sitio de marketing
+npm run dev:admin              # Solo dashboard admin
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+# Build y Deploy
+npm run build                  # Build de todas las apps
+npm run start                  # Inicia apps en producción
 
-### Analyzing the Bundle Size
+# Utilidades
+npm run lint                   # Linting de todo el código
+npm run format                 # Formateo con Prettier
+npm run mock-api               # API mock para desarrollo
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Estructura de Base de Datos
 
-### Making a Progressive Web App
+### Colecciones Principales
+- **Users:** Clientes y usuarios internos
+- **Subscriptions:** Suscripciones activas
+- **Orders:** Órdenes únicas y recurrentes
+- **Products:** Catálogo de productos
+- **Inventory:** Gestión de inventario
+- **Routes:** Optimización de rutas de entrega
+- **Payments:** Transacciones de Stripe
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Características Clave
 
-### Advanced Configuration
+### Para Clientes (B2C/B2B)
+- ✅ Suscripciones flexibles
+- ✅ Compras únicas
+- ✅ Interface responsive
+- ✅ Checkout seguro
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Para EWA (Operaciones)
+- ✅ Gestión centralizada
+- ✅ Tracking de MRR y retención
+- ✅ Optimización de rutas
+- ✅ Gestión de inventario
+- ✅ CRM integrado
 
-### Deployment
+### Técnicas
+- ✅ Escalabilidad cloud-native
+- ✅ Seguridad PCI-DSS
+- ✅ Auto-deployment
+- ✅ Arquitectura modular
+- ✅ Performance optimizada
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Próximos Pasos
 
-### `npm run build` fails to minify
+1. **Setup inicial:** Configurar Back4App y credenciales
+2. **UI/UX:** Definir sistema de diseño y componentes
+3. **Desarrollo:** Implementar flujos de suscripción
+4. **Testing:** QA y optimización
+5. **Launch:** Deployment y soporte
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+**Inversión Total:** USD $16,500  
+**Timeline:** 7 semanas  
+**Estado:** En desarrollo

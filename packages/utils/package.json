@@ -1,0 +1,23 @@
+{
+  "name": "@ewa/utils",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src --ext .ts,.tsx"
+  },
+  "dependencies": {
+    "date-fns": "^2.30.0",
+    "lodash": "^4.17.21",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.202",
+    "@types/node": "^20",
+    "eslint": "^8",
+    "typescript": "^5"
+  }
+} 
