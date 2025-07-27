@@ -17,7 +17,7 @@ const Auth = () => {
       try {
         const user = JSON.parse(userJson);
         if (user.role === 'customer') {
-          router.replace('/subscriptions');
+          router.replace('/customer/subscriptions');
         }
       } catch (error) {
         console.error('Error parsing user data:', error);
@@ -63,7 +63,7 @@ const Auth = () => {
         localStorage.setItem('ewa_user', JSON.stringify(user));
         
         // Redirigir según el rol del usuario
-        router.replace('/subscriptions');
+        router.replace('/customer/subscriptions');
       } else {
         setError('Credenciales inválidas. Por favor verifica tu email y contraseña.');
       }

@@ -266,7 +266,7 @@ const PlansPage = () => {
       
       // Redirect to subscriptions page after successful creation
       setTimeout(() => {
-        router.push('/subscriptions');
+        router.push('/customer/subscriptions');
       }, 2000);
 
     } catch (error) {
