@@ -16,7 +16,9 @@ const Auth = () => {
     if (userJson) {
       try {
         const user = JSON.parse(userJson);
-        if (user.role === 'customer') {
+        if (user.role === 'admin') {
+          router.replace('/admin/dashboard');
+        } else if (user.role === 'customer') {
           router.replace('/customer/subscriptions');
         }
       } catch (error) {
@@ -48,6 +50,13 @@ const Auth = () => {
           email: 'info@sobao.com',
           password: 'sobao123',
           role: 'customer'
+        },
+        {
+          id: 'admin1',
+          name: 'Administrador EWA',
+          email: 'admin@ewa.com',
+          password: 'admin123',
+          role: 'admin'
         }
       ];
       
@@ -63,7 +72,11 @@ const Auth = () => {
         localStorage.setItem('ewa_user', JSON.stringify(user));
         
         // Redirigir según el rol del usuario
-        router.replace('/customer/subscriptions');
+        if (user.role === 'admin') {
+          router.replace('/admin/dashboard');
+        } else {
+          router.replace('/customer/subscriptions');
+        }
       } else {
         setError('Credenciales inválidas. Por favor verifica tu email y contraseña.');
       }
@@ -186,7 +199,8 @@ const Auth = () => {
                   </p>
                   <p className="text-xs text-gray-500 mt-1">
                     juan@cliente.com / test123<br />
-                    info@sobao.com / sobao123
+                    info@sobao.com / sobao123<br />
+                    admin@ewa.com / admin123
                   </p>
                 </div>
               </div>
