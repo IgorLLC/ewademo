@@ -157,7 +157,7 @@
             "id": "stop2",
             "address": "Calle Taft 45, Condado, San Juan, PR 00911",
             "lat": 18.4612,
-            "lng": -66.0650,
+            "lng": -66.065,
             "status": "completed",
             "eta": "11:30 AM"
           },
@@ -222,7 +222,7 @@
             "id": "stop6",
             "address": "Calle Marina 78, Ponce, PR 00716",
             "lat": 18.0108,
-            "lng": -66.6140,
+            "lng": -66.614,
             "status": "pending",
             "eta": "10:30 AM"
           },
@@ -261,7 +261,7 @@
           {
             "id": "stop9",
             "address": "Calle Méndez Vigo 55, Mayagüez, PR 00680",
-            "lat": 18.2010,
+            "lat": 18.201,
             "lng": -67.1391,
             "status": "pending",
             "eta": "9:30 AM"
@@ -325,23 +325,62 @@
     "churn": 0.05,
     "fulfillmentRate": 0.98,
     "customerGrowth": [
-      { "month": "Jan", "value": 120 },
-      { "month": "Feb", "value": 145 },
-      { "month": "Mar", "value": 162 },
-      { "month": "Apr", "value": 190 },
-      { "month": "May", "value": 210 }
+      {
+        "month": "Jan",
+        "value": 120
+      },
+      {
+        "month": "Feb",
+        "value": 145
+      },
+      {
+        "month": "Mar",
+        "value": 162
+      },
+      {
+        "month": "Apr",
+        "value": 190
+      },
+      {
+        "month": "May",
+        "value": 210
+      }
     ],
     "revenue": [
-      { "month": "Jan", "value": 4500 },
-      { "month": "Feb", "value": 5200 },
-      { "month": "Mar", "value": 6100 },
-      { "month": "Apr", "value": 7300 },
-      { "month": "May", "value": 8200 }
+      {
+        "month": "Jan",
+        "value": 4500
+      },
+      {
+        "month": "Feb",
+        "value": 5200
+      },
+      {
+        "month": "Mar",
+        "value": 6100
+      },
+      {
+        "month": "Apr",
+        "value": 7300
+      },
+      {
+        "month": "May",
+        "value": 8200
+      }
     ],
     "productDistribution": [
-      { "name": "Small Box", "value": 35 },
-      { "name": "Medium Box", "value": 45 },
-      { "name": "Large Box", "value": 20 }
+      {
+        "name": "Small Box",
+        "value": 35
+      },
+      {
+        "name": "Medium Box",
+        "value": 45
+      },
+      {
+        "name": "Large Box",
+        "value": 20
+      }
     ]
   },
   "blog": [
