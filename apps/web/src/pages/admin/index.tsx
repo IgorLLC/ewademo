@@ -10,25 +10,25 @@ const AdminRedirect = () => {
     const userJson = localStorage.getItem('ewa_user');
     if (!userJson) {
       // Si no hay usuario, redirigir a la página de autenticación
-      window.location.href = 'http://localhost:3000/auth';
+      router.push('/auth');
       return;
     }
 
     try {
       const user = JSON.parse(userJson);
       if (user.role === 'admin' || user.role === 'operator' || user.role === 'editor') {
-        // Si es admin, redirigir a la página principal del panel
-        router.replace('/');
+        // Si es admin, redirigir al dashboard del panel
+        router.replace('/admin/dashboard');
       } else {
         // Si no es admin, mostrar error y redirigir a la página de autenticación
         setError('No tienes permisos para acceder al panel de administración');
         setTimeout(() => {
-          window.location.href = 'http://localhost:3000/auth';
+          router.push('/auth');
         }, 2000);
       }
     } catch (error) {
       console.error('Error al verificar usuario:', error);
-      window.location.href = 'http://localhost:3000/auth';
+      router.push('/auth');
     }
   }, [router]);
 
@@ -44,7 +44,7 @@ const AdminRedirect = () => {
           </>
         ) : (
           <>
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-ewa-blue mx-auto"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600 mx-auto"></div>
             <p className="mt-4 text-gray-600">Redirigiendo al panel de administración...</p>
           </>
         )}
