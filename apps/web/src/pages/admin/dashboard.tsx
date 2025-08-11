@@ -210,36 +210,7 @@ const AdminDashboard = () => {
               </div>
             </div>
 
-            {/* Quick Actions */}
-            <div className="mt-8">
-              <h2 className="text-lg font-medium text-gray-900 mb-4">Acciones Rápidas</h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <a
-                  href="/admin/clients/new"
-                  className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-ewa-blue hover:bg-ewa-dark-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ewa-blue"
-                >
-                  Añadir Cliente
-                </a>
-                <a
-                  href="/admin/subscriptions/new"
-                  className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-ewa-blue hover:bg-ewa-dark-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ewa-blue"
-                >
-                  Crear Suscripción
-                </a>
-                <a
-                  href="/admin/routes/new"
-                  className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-ewa-blue hover:bg-ewa-dark-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ewa-blue"
-                >
-                  Planificar Ruta
-                </a>
-                <a
-                  href="/admin/metrics/export"
-                  className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-ewa-blue hover:bg-ewa-dark-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ewa-blue"
-                >
-                  Exportar Informes
-                </a>
-              </div>
-            </div>
+            
 
             {/* Recent Activity */}
             <div className="mt-8">
