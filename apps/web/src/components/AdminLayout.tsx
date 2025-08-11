@@ -69,6 +69,14 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
       <div className="min-h-screen bg-gray-100 flex">
         {/* Sidebar (left) */}
         <aside className="w-64 bg-white border-r border-gray-200 hidden md:flex md:flex-col md:sticky md:top-0 md:h-screen">
+          {/* Logo superior */}
+          <div className="p-4 flex items-center justify-center border-b border-gray-200">
+            <a href="/" aria-label="Inicio">
+              <div className="w-16 h-16 rounded-full bg-ewa-light-blue flex items-center justify-center overflow-hidden border border-gray-200 shadow-sm">
+                <img src="/logo.png" alt="EWA" className="w-12 h-12 object-contain" />
+              </div>
+            </a>
+          </div>
           <div className="h-16 flex items-center px-4 border-b border-gray-200">
             <a href="/" className="text-ewa-blue font-semibold text-lg hover:text-ewa-dark-blue transition-colors">
               Panel Administrativo
@@ -119,12 +127,6 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
         <main className="flex-1 w-0 md:ml-64">
           <div className="py-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              {/* Logo circular arriba del encabezado */}
-              <div className="mb-4">
-                <div className="w-14 h-14 rounded-full bg-white border border-gray-200 shadow-sm overflow-hidden flex items-center justify-center">
-                  <img src="/logo.png" alt="Logo EWA" className="w-12 h-12 object-cover" />
-                </div>
-              </div>
               <h1 className="text-2xl font-semibold text-gray-900 mb-4">{title}</h1>
               <div className="mt-2">
                 {children}
