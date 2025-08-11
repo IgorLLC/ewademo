@@ -299,11 +299,7 @@ const AdminRoutes = () => {
       description="Administración de rutas de entrega" 
       currentPage="routes"
     >
-      <div className="py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-          <h1 className="text-2xl font-semibold text-gray-900">Gestión de Rutas</h1>
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+      <div className="py-2">
           {/* Search and filter */}
           <div className="bg-white shadow rounded-lg p-4 my-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between">
@@ -588,8 +584,7 @@ const AdminRoutes = () => {
               </div>
             </div>
           </div>
-
-          {/* Pagination */}
+        {/* Pagination */}
           <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 mt-4 rounded-lg shadow">
             <div className="flex-1 flex justify-between sm:hidden">
               <button
@@ -639,7 +634,6 @@ const AdminRoutes = () => {
             </div>
           </div>
         </div>
-      </div>
     </AdminLayout>
   );
 };

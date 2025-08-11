@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Head from 'next/head';
+import AdminLayout from '../../components/AdminLayout';
 import { getSubscriptions, getPlans, getProducts } from '@ewa/api-client';
 import { Subscription, Plan, Product, User } from '@ewa/types';
 
@@ -14,31 +14,27 @@ const AdminSubscriptions = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [user, setUser] = useState<any>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    // Verificar si el usuario está autenticado
-    const userJson = localStorage.getItem('ewa_user');
-    if (!userJson) {
-      router.push('/auth');
-      return;
-    }
+    // Cargar datos
+    fetchData();
 
-    try {
-      const userData = JSON.parse(userJson);
-      if (userData.role !== 'admin' && userData.role !== 'operator' && userData.role !== 'editor') {
-        router.push('/auth');
-        return;
-      }
-      setUser(userData);
-      
-      // Cargar datos
-      fetchData();
-    } catch (error) {
-      console.error('Error parsing user data:', error);
-      router.push('/auth');
+    // Mensajes de éxito por query param
+    if (router.query.success === 'created') {
+      setSuccessMessage('Suscripción creada exitosamente');
+      router.replace('/admin/subscriptions', undefined, { shallow: true });
+      setTimeout(() => setSuccessMessage(null), 5000);
+    } else if (router.query.success === 'plan_created') {
+      setSuccessMessage('Plan creado exitosamente');
+      router.replace('/admin/subscriptions', undefined, { shallow: true });
+      setTimeout(() => setSuccessMessage(null), 5000);
+    } else if (router.query.success === 'product_created') {
+      setSuccessMessage('Producto creado exitosamente');
+      router.replace('/admin/subscriptions', undefined, { shallow: true });
+      setTimeout(() => setSuccessMessage(null), 5000);
     }
-  }, [router]);
+  }, [router.query.success]);
 
   const fetchData = async () => {
     try {
@@ -85,24 +81,21 @@ const AdminSubscriptions = () => {
           name: "EWA Box Water - Small (Weekly)",
           productId: "p1",
           frequency: "weekly",
-          minQty: 6,
-          price: 11.94
+          minQty: 6
         },
         {
           id: "plan2",
           name: "EWA Box Water - Medium (Biweekly)",
           productId: "p2",
           frequency: "biweekly",
-          minQty: 12,
-          price: 29.88
+          minQty: 12
         },
         {
           id: "plan3",
           name: "EWA Box Water - Large (Monthly)",
           productId: "p3",
           frequency: "monthly",
-          minQty: 24,
-          price: 71.76
+          minQty: 24
         }
       ]);
       
@@ -110,19 +103,22 @@ const AdminSubscriptions = () => {
         {
           id: "p1",
           name: "Small Box Water",
-          description: "330ml box water",
+          sizeOz: 11,
+          sku: "SM-BOX-330",
           price: 1.99
         },
         {
           id: "p2",
           name: "Medium Box Water",
-          description: "500ml box water",
+          sizeOz: 17,
+          sku: "MD-BOX-500",
           price: 2.49
         },
         {
           id: "p3",
           name: "Large Box Water",
-          description: "1L box water",
+          sizeOz: 33,
+          sku: "LG-BOX-1000",
           price: 2.99
         }
       ]);
@@ -133,34 +129,33 @@ const AdminSubscriptions = () => {
           planId: "plan1",
           userId: "u1",
           status: "active",
-          startDate: "2025-01-20",
           nextDeliveryDate: "2025-05-28",
           frequency: "weekly",
           quantity: 6,
-          address: "Calle Loíza 123, San Juan, PR 00911"
+          address: "Calle Loíza 123, San Juan, PR 00911",
+          createdAt: "2025-01-20"
         },
         {
           id: "sub2",
           planId: "plan2",
           userId: "u3",
           status: "paused",
-          startDate: "2025-02-25",
-          nextDeliveryDate: null,
-          pauseDate: "2025-05-10",
+          nextDeliveryDate: "2025-06-01",
           frequency: "biweekly",
           quantity: 12,
-          address: "Ave. Universidad 45, Río Piedras, PR 00925"
+          address: "Ave. Universidad 45, Río Piedras, PR 00925",
+          createdAt: "2025-02-25"
         },
         {
           id: "sub3",
           planId: "plan3",
           userId: "u1",
           status: "active",
-          startDate: "2025-03-15",
           nextDeliveryDate: "2025-06-15",
           frequency: "monthly",
           quantity: 24,
-          address: "Calle Loíza 123, San Juan, PR 00911"
+          address: "Calle Loíza 123, San Juan, PR 00911",
+          createdAt: "2025-03-15"
         }
       ]);
     } finally {
@@ -226,12 +221,7 @@ const AdminSubscriptions = () => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('ewa_token');
-    localStorage.removeItem('ewa_user');
-    sessionStorage.clear();
-    router.push('/auth');
-  };
+  // Sin acciones de sesión en esta página; el layout maneja autenticación
 
   if (loading) {
     return (
@@ -242,70 +232,35 @@ const AdminSubscriptions = () => {
   }
 
   return (
-    <>
-      <Head>
-        <title>Gestión de Suscripciones - Panel Administrativo</title>
-        <meta name="description" content="Gestión de suscripciones para el servicio de agua sustentable - Demo" />
-      </Head>
-
-      <div className="min-h-screen bg-gray-100">
-        {/* Header */}
-        <header className="bg-white shadow">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between h-16">
-              <div className="flex">
-                <div className="flex-shrink-0 flex items-center">
-                  <a href="/" className="flex items-center">
-                    <span className="text-ewa-blue font-medium text-xl hover:text-ewa-dark-blue transition-all duration-300">Panel Administrativo <span className="text-gray-500 text-sm">Demo</span></span>
-                  </a>
-                </div>
-                {user && (
-                  <nav className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                    <a href="/admin/dashboard" 
-                      className="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium text-gray-500 border-transparent hover:border-gray-300 hover:text-gray-700">
-                      Dashboard
-                    </a>
-                    <a href="/admin/users" 
-                      className="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium text-gray-500 border-transparent hover:border-gray-300 hover:text-gray-700">
-                      Clientes
-                    </a>
-                    <a href="/admin/subscriptions" 
-                      className="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium border-ewa-blue text-gray-900">
-                      Suscripciones
-                    </a>
-                    <a href="/admin/routes" 
-                      className="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium text-gray-500 border-transparent hover:border-gray-300 hover:text-gray-700">
-                      Rutas
-                    </a>
-                  </nav>
-                )}
-              </div>
-              <div className="flex items-center">
-                <div className="hidden md:ml-4 md:flex-shrink-0 md:flex md:items-center">
-                  <div className="ml-3 relative">
-                    <div className="flex items-center space-x-3">
-                      <span className="text-sm font-medium text-gray-700">{user?.name}</span>
+    <AdminLayout title="Gestión de Suscripciones" description="Gestión de suscripciones para el servicio de agua sustentable - Demo" currentPage="subscriptions">
+      <div className="py-2">
+              {/* Success Message */}
+              {successMessage && (
+                <div className="mb-4 bg-green-50 border-l-4 border-green-400 p-4">
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <svg className="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div className="ml-3 flex-1">
+                      <p className="text-sm text-green-700">{successMessage}</p>
+                    </div>
+                    <div className="ml-auto pl-3">
                       <button
-                        onClick={handleLogout}
-                        className="text-sm font-medium text-ewa-blue hover:text-ewa-dark-blue"
+                        onClick={() => setSuccessMessage(null)}
+                        className="inline-flex text-green-400 hover:text-green-600"
                       >
-                        Cerrar sesión
+                        <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
                       </button>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </header>
+              )}
 
-        <div className="py-10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-2xl font-semibold text-gray-900">Gestión de Suscripciones</h1>
-          </div>
-          
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-            <div className="py-4">
+              {/* Error Message */}
               {error && (
                 <div className="mb-4 bg-red-50 border-l-4 border-red-400 p-4">
                   <div className="flex">
@@ -340,7 +295,7 @@ const AdminSubscriptions = () => {
                       />
                     </div>
                   </div>
-                  <div className="mt-4 md:mt-0 md:ml-4">
+                  <div className="mt-4 md:mt-0 md:ml-4 flex items-center space-x-4">
                     <select
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value)}
@@ -351,6 +306,15 @@ const AdminSubscriptions = () => {
                       <option value="paused">Pausadas</option>
                       <option value="cancelled">Canceladas</option>
                     </select>
+                    <button
+                      onClick={() => router.push('/admin/subscriptions/new')}
+                      className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-ewa-blue hover:bg-ewa-dark-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ewa-blue"
+                    >
+                      <svg className="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      Crear Suscripción
+                    </button>
                   </div>
                 </div>
               </div>
@@ -486,11 +450,8 @@ const AdminSubscriptions = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
       </div>
-    </>
+    </AdminLayout>
   );
 };
 

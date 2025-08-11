@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import Head from 'next/head';
+import AdminLayout from '../../components/AdminLayout';
 import { getMRR, getChurn, getFulfillmentRate, getMetrics } from '@ewa/api-client';
 import { Metrics } from '@ewa/types';
 
 const AdminDashboard = () => {
-  const router = useRouter();
-  const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   // Extender el tipo Metrics para incluir las propiedades adicionales
   type ExtendedMetrics = {
@@ -28,28 +25,9 @@ const AdminDashboard = () => {
   });
 
   useEffect(() => {
-    // Verificar si el usuario está autenticado
-    const userJson = localStorage.getItem('ewa_user');
-    if (!userJson) {
-      router.push('/auth');
-      return;
-    }
-
-    try {
-      const userData = JSON.parse(userJson);
-      if (userData.role !== 'admin' && userData.role !== 'operator' && userData.role !== 'editor') {
-        router.push('/auth');
-        return;
-      }
-      setUser(userData);
-      
-      // Cargar métricas
-      fetchMetrics();
-    } catch (error) {
-      console.error('Error parsing user data:', error);
-      router.push('/auth');
-    }
-  }, [router]);
+    // Cargar métricas (auth y layout gestionados por AdminLayout)
+    fetchMetrics();
+  }, []);
 
   const fetchMetrics = async () => {
     try {
@@ -93,92 +71,15 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('ewa_token');
-    localStorage.removeItem('ewa_user');
-    sessionStorage.clear();
-    router.push('/auth');
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-ewa-blue"></div>
-      </div>
-    );
-  }
-
   return (
-    <>
-      <Head>
-        <title>Panel de Administración</title>
-        <meta name="description" content="Panel de administración para el servicio de agua sustentable - Demo" />
-      </Head>
-
-      <div className="min-h-screen bg-gray-100">
-        {/* Header */}
-        <header className="bg-white shadow">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between h-16">
-              <div className="flex">
-                <div className="flex-shrink-0 flex items-center">
-                  <a href="/" className="flex items-center">
-                    <span className="text-ewa-blue font-medium text-xl hover:text-ewa-dark-blue transition-all duration-300">Panel Administrativo <span className="text-gray-500 text-sm">Demo</span></span>
-                  </a>
-                </div>
-                {user && (
-                  <nav className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                    <a href="/admin/dashboard" 
-                      className="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium border-ewa-blue text-gray-900">
-                      Dashboard
-                    </a>
-                    <a href="/admin/users" 
-                      className="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                      Clientes
-                    </a>
-                    <a href="/admin/subscriptions" 
-                      className="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                      Suscripciones
-                    </a>
-                    <a href="/admin/routes" 
-                      className="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                      Rutas
-                    </a>
-                  </nav>
-                )}
-              </div>
-              <div className="flex items-center">
-                {user ? (
-                  <div className="ml-3 relative">
-                    <div className="flex items-center">
-                      <span className="text-sm text-gray-700 mr-2">Hola, {user.name}</span>
-                      <button
-                        onClick={handleLogout}
-                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                      >
-                        <svg className="mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                        </svg>
-                        Cerrar sesión
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <a
-                    href="/auth"
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-ewa-blue hover:bg-ewa-dark-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ewa-blue"
-                  >
-                    Iniciar sesión
-                  </a>
-                )}
-              </div>
-            </div>
-          </div>
-        </header>
-
-        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-          <div className="px-4 py-6 sm:px-0">
-            <h1 className="text-2xl font-bold text-gray-900 mb-6">Panel de Administración</h1>
+    <AdminLayout title="Panel de Administración" description="Panel de administración para el servicio de agua sustentable - Demo" currentPage="dashboard">
+      {loading ? (
+        <div className="p-6 flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-ewa-blue"></div>
+        </div>
+      ) : (
+        <div>
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">Resumen</h2>
             
             {/* KPI Cards */}
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -430,9 +331,8 @@ const AdminDashboard = () => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </>
+      )}
+    </AdminLayout>
   );
 };
 
