@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
-import { getRoutes } from '@ewa/api-client';
+// import { getRoutes } from '@ewa/api-client';
 import SimpleMapBox from '../../components/SimpleMapBox';
 import AdminLayout from '../../components/AdminLayout';
 
@@ -50,35 +50,45 @@ const AdminRoutes = () => {
   const [selectedRoute, setSelectedRoute] = useState<ExtendedRoute | null>(null);
   const [activatedFromCalendar, setActivatedFromCalendar] = useState<boolean>(false);
 
+  // Cargar datos mock al montar si viene de Calendario; si no, mantener vacío
   useEffect(() => {
-    // Cargar rutas cuando el componente se monta
     fetchRoutes();
   }, []);
 
   useEffect(() => {
-    // Si viene de calendario: activar detalles y seleccionar routeId si está en query
+    if (!router.isReady) return;
+    setLoading(true);
+    setError(null);
     const activatedParam = router.query.activated === '1';
-    const enabledLS = (typeof window !== 'undefined') && localStorage.getItem('ewa_routes_enabled') === '1';
-    if (activatedParam || enabledLS) {
-      setActivatedFromCalendar(true);
-    }
-    // Si hay snapshot de demo (12 records), usarlo prioritariamente
-    try {
-      const snap = (typeof window !== 'undefined') ? localStorage.getItem('ewa_routes_snapshot') : null;
-      if (snap) {
-        const parsed = JSON.parse(snap);
-        if (parsed && parsed.fromDeliveries) {
-          setRoutes([parsed]);
+    setActivatedFromCalendar(!!activatedParam);
+    if (activatedParam) {
+      try {
+        const snap = (typeof window !== 'undefined') ? localStorage.getItem('ewa_routes_snapshot') : null;
+        if (snap) {
+          const parsed = JSON.parse(snap);
+          if (parsed && parsed.fromDeliveries) {
+            setRoutes([parsed]);
+          } else {
+            setRoutes([]);
+          }
+        } else {
+          setRoutes([]);
         }
+      } catch {
+        setRoutes([]);
       }
-    } catch {}
+    } else {
+      setRoutes([]);
+      setSelectedRoute(null);
+    }
     // Auto seleccionar ruta si viene en la URL
     const qid = router.query.routeId as string | undefined;
     if (qid && routes.length > 0) {
       const found = routes.find(r => r.id === qid);
       if (found) setSelectedRoute(found as any);
     }
-  }, [router.query]);
+    setLoading(false);
+  }, [router.isReady, router.query]);
 
   useEffect(() => {
     // Reintentar selección cuando las rutas carguen
@@ -95,23 +105,7 @@ const AdminRoutes = () => {
 
   const fetchRoutes = async () => {
     try {
-      // Intentar obtener datos de la API
-      const routesData = await getRoutes();
-      
-      // Verificar si los datos tienen la estructura esperada
-      if (Array.isArray(routesData) && routesData.length > 0) {
-        // Verificar si los datos tienen la estructura que esperamos
-        const hasExpectedStructure = routesData.some(route => 
-          typeof route.name === 'string' && typeof route.area === 'string');
-        
-        if (hasExpectedStructure) {
-          setRoutes(routesData as unknown as ExtendedRoute[]);
-          return;
-        }
-      }
-      
-      // Si llegamos aquí, los datos no tienen la estructura esperada
-      // Usar datos mock de Puerto Rico
+      // Datos mock de PR para evitar dependencia de API
       const puertoRicoRoutes: ExtendedRoute[] = [
         {
           id: "route1",
@@ -277,8 +271,10 @@ const AdminRoutes = () => {
     }
   };
 
+  // Si no está activado, no mostramos rutas
+  const baseRoutes = activatedFromCalendar ? routes : [];
   // Filtrar rutas según el término de búsqueda y el filtro de estado
-  const filteredRoutes = routes.filter(route => {
+  const filteredRoutes = baseRoutes.filter(route => {
     const matchesSearch = 
       route.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       route.area.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -337,20 +333,29 @@ const AdminRoutes = () => {
 
   return (
     <AdminLayout 
-      title="Gestión de Rutas" 
-      description="Administración de rutas de entrega" 
+      title="Cola de Entregas" 
+      description="Gestión de entregas pendientes y en progreso" 
       currentPage="routes"
     >
       <div className="py-2">
-          {/* Banner de activación */}
+          {/* Banner de estado de la cola */}
           {!activatedFromCalendar ? (
-            <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded mb-4">
-              Ninguna entrega ha sido enviada. Para gestionar rutas, primero envíe una desde Calendario (Entregas → "Enviar a ruta").
+            <div className="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded mb-4 flex items-center gap-3">
+              <svg className="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <p className="font-medium">Cola de entregas vacía</p>
+                <p className="text-sm text-blue-700">Las entregas programadas desde el calendario aparecerán aquí para ser asignadas a conductores</p>
+              </div>
             </div>
           ) : (
-            <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded mb-4 flex items-center gap-2">
-              <svg className="h-4 w-4 text-green-600" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-7.25 7.25a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414l2.293 2.293 6.543-6.543a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
-              Rutas activadas desde Calendario
+            <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded mb-4 flex items-center gap-3">
+              <svg className="h-5 w-5 text-green-600" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-7.25 7.25a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414l2.293 2.293 6.543-6.543a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
+              <div>
+                <p className="font-medium">Cola de entregas activa</p>
+                <p className="text-sm text-green-700">Entregas enviadas desde el calendario están listas para gestión</p>
+              </div>
             </div>
           )}
 
@@ -369,7 +374,7 @@ const AdminRoutes = () => {
                     name="search"
                     id="search"
                     className="focus:ring-ewa-blue focus:border-ewa-blue block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
-                    placeholder="Buscar rutas..."
+                    placeholder="Buscar entregas por cliente, área o conductor..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
@@ -395,23 +400,36 @@ const AdminRoutes = () => {
           </div>
 
           {/* Main content */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Routes list */}
-            <div className="md:col-span-1">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Delivery Queue */}
+            <div className="lg:col-span-4">
               <div className="bg-white shadow rounded-lg">
-                 <div className="px-4 py-5 sm:px-6">
-                  <h2 className="text-lg font-medium text-gray-900 flex items-center gap-2">
-                    Cola de entregas (1 conductor)
-                    {activatedFromCalendar && (
-                      <span className="inline-flex items-center gap-1 text-xs text-green-700 bg-green-50 border border-green-200 rounded px-2 py-0.5">
-                        <svg className="h-3 w-3 text-green-600" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-7.25 7.25a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414l2.293 2.293 6.543-6.543a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
-                        Activado
-                      </span>
-                    )}
-                  </h2>
-                   <p className="mt-1 text-sm text-gray-500">Un solo conductor procesa la cola. Cada entrada es un cliente distinto.</p>
+                 <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                        <svg className="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                        </svg>
+                        Cola de Entregas
+                        {activatedFromCalendar && (
+                          <span className="inline-flex items-center gap-1 text-xs text-green-700 bg-green-50 border border-green-200 rounded px-2 py-0.5">
+                            <svg className="h-3 w-3 text-green-600" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-7.25 7.25a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414l2.293 2.293 6.543-6.543a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
+                            Activa
+                          </span>
+                        )}
+                      </h2>
+                      <p className="mt-1 text-sm text-gray-600">Entregas pendientes por procesar</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-2xl font-bold text-blue-600">{filteredRoutes.length}</div>
+                      <div className="text-xs text-gray-500">en cola</div>
+                    </div>
+                  </div>
                    {!activatedFromCalendar && (
-                     <div className="mt-3 text-xs text-gray-500">Ninguna entrega ha sido enviada. Envía desde Calendario para habilitar detalles.</div>
+                     <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                       <p className="text-sm text-gray-600">💡 <strong>Tip:</strong> Las entregas programadas desde el calendario aparecerán aquí</p>
+                     </div>
                    )}
                 </div>
                  <div className="border-t border-gray-200">
@@ -426,18 +444,28 @@ const AdminRoutes = () => {
                     ) : error ? (
                       <li className="px-4 py-4 text-center text-red-500">{error}</li>
                     ) : filteredRoutes.length === 0 ? (
-                      <li className="px-4 py-4 text-center text-gray-500">No se encontraron rutas</li>
+                      <li className="px-4 py-8 text-center">
+                        <svg className="mx-auto h-8 w-8 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                        <p className="text-sm text-gray-500">No hay entregas en la cola</p>
+                        <p className="text-xs text-gray-400 mt-1">Las entregas programadas aparecerán aquí</p>
+                      </li>
                     ) : (
-                       filteredRoutes.map(route => (
+                       filteredRoutes.map((route, index) => (
                         <li 
                           key={route.id} 
-                           className={`px-4 py-4 ${activatedFromCalendar ? 'cursor-pointer hover:bg-gray-50' : 'opacity-50 cursor-not-allowed'} ${selectedRoute?.id === route.id ? 'bg-gray-50' : ''}`}
+                           className={`px-4 py-4 border-l-4 ${activatedFromCalendar ? 'cursor-pointer hover:bg-gray-50 border-l-blue-400' : 'opacity-50 cursor-not-allowed border-l-gray-300'} ${selectedRoute?.id === route.id ? 'bg-blue-50 border-l-blue-600' : ''}`}
                            onClick={() => activatedFromCalendar && handleViewRoute(route)}
                         >
-                          <div className="flex items-center justify-between">
+                          <div className="flex items-start justify-between">
                             <div className="min-w-0 flex-1">
-                              <p className="text-sm font-medium text-gray-900 truncate">{route.name}</p>
-                              <p className="text-sm text-gray-500 truncate">{route.area}</p>
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 text-blue-800 text-xs font-semibold">{index + 1}</span>
+                                <p className="text-sm font-semibold text-gray-900 truncate">{route.name}</p>
+                              </div>
+                              <p className="text-sm text-gray-600 truncate ml-8">📍 {route.area}</p>
+                              <p className="text-xs text-gray-500 ml-8 mt-1">📦 Entrega independiente con {(Array.isArray(route.stops) ? route.stops.length : (route.details?.stops?.length || 0))} paradas</p>
                               <div className="mt-1 flex items-center">
                                 <div className="flex-shrink-0 h-5 w-5 mr-1">
                                   <img 
@@ -465,10 +493,16 @@ const AdminRoutes = () => {
                                 </div>
                               </div>
                             </div>
-                            <div>
-                              <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusBadgeClass(route.status)}`}>
+                            <div className="flex flex-col items-end gap-2">
+                              <span className={`px-2 py-1 inline-flex text-xs leading-4 font-semibold rounded-full ${getStatusBadgeClass(route.status)}`}>
                                 {getStatusLabel(route.status)}
                               </span>
+                              {selectedRoute?.id === route.id && (
+                                <span className="inline-flex items-center gap-1 text-xs text-blue-700 bg-blue-100 border border-blue-300 rounded px-2 py-1">
+                                  <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20"><path d="M10 12l-6.5-6.5 1.5-1.5L10 9l5-5 1.5 1.5L10 12z"/></svg>
+                                  Seleccionada
+                                </span>
+                              )}
                             </div>
                           </div>
                         </li>
@@ -479,10 +513,24 @@ const AdminRoutes = () => {
               </div>
             </div>
 
-            {/* Map and details */}
-            <div className="md:col-span-2">
-              <div className="bg-white shadow rounded-lg p-6">
-                <h2 className="text-lg font-medium text-gray-900 mb-4">Mapa de ruta</h2>
+            {/* Delivery Details & Map */}
+            <div className="lg:col-span-8">
+              <div className="bg-white shadow rounded-lg">
+                <div className="px-6 py-4 border-b border-gray-200">
+                  <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                    <svg className="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    {selectedRoute ? `Detalles de Entrega - ${selectedRoute.name}` : 'Detalles de Entrega'}
+                  </h2>
+                  <p className="mt-1 text-sm text-gray-600">
+                    {selectedRoute 
+                      ? 'Información específica de la entrega seleccionada' 
+                      : 'Selecciona una entrega de la cola para ver sus detalles y ubicación'}
+                  </p>
+                </div>
+                <div className="p-6">
                 {activatedFromCalendar && selectedRoute ? (
                   <div>
                     <div className="mb-4">
@@ -496,6 +544,19 @@ const AdminRoutes = () => {
                         height="400px"
                         className="w-full border border-gray-300 rounded-md"
                         interactive={false}
+                        routePath={(Array.isArray(selectedRoute.stops) ? selectedRoute.stops : (selectedRoute.details?.stops || []))
+                          .map((s:any)=>({lng:Number(s.lng), lat:Number(s.lat)}))
+                          .filter(p=>Number.isFinite(p.lng) && Number.isFinite(p.lat))}
+                        pickupPoint={(() => {
+                          const stops = Array.isArray(selectedRoute.stops) ? selectedRoute.stops : (selectedRoute.details?.stops || []);
+                          if (stops && stops.length > 0 && Number.isFinite(stops[0]?.lat) && Number.isFinite(stops[0]?.lng)) {
+                            return { lat: Number(stops[0].lat), lng: Number(stops[0].lng) };
+                          }
+                          // fallback a San Juan
+                          return { lat: 18.4655, lng: -66.1057 };
+                        })()}
+                        pickupLabel="Punto de recogido"
+                        fitToPath={true}
                       />
                     </div>
                     
@@ -512,10 +573,25 @@ const AdminRoutes = () => {
                         </div>
                       </div>
                       
-                      <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <svg className="h-4 w-4 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.998-.833-2.768 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                          </svg>
+                          <p className="text-sm font-medium text-yellow-800">Entrega Específica</p>
+                        </div>
+                        <p className="text-sm text-yellow-700">Esta información corresponde únicamente a la entrega <strong>"{selectedRoute.name}"</strong>. Otras entregas en la cola tienen conductores, horarios y paradas diferentes.</p>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
-                            <h4 className="text-sm font-medium text-gray-500">Conductor</h4>
+                            <h4 className="text-sm font-medium text-gray-500 flex items-center gap-1">
+                              <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                              </svg>
+                              Conductor Asignado
+                            </h4>
                             <div className="flex items-center mt-1">
                               <div className="flex-shrink-0 h-10 w-10 mr-3">
                                 <img 
@@ -583,16 +659,28 @@ const AdminRoutes = () => {
                     </div>
                     
                     <div className="mt-6">
-                      <h4 className="text-md font-medium text-gray-900 mt-4 mb-2">Paradas ({Array.isArray(selectedRoute.stops) ? selectedRoute.stops.length : 
-                        (selectedRoute.details && Array.isArray(selectedRoute.details.stops) ? selectedRoute.details.stops.length : 0)})</h4>
+                      <h4 className="text-md font-medium text-gray-900 mt-4 flex items-center gap-2">
+                        <svg className="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                        </svg>
+                        Paradas de esta Entrega ({Array.isArray(selectedRoute.stops) ? selectedRoute.stops.length : 
+                        (selectedRoute.details && Array.isArray(selectedRoute.details.stops) ? selectedRoute.details.stops.length : 0)})
+                      </h4>
+                      <p className="text-sm text-gray-600 mb-4 bg-blue-50 p-3 rounded-lg border border-blue-200">
+                        📍 <strong>Información específica:</strong> Estas son únicamente las paradas para la entrega seleccionada <strong>"{selectedRoute.name}"</strong>. Cada entrega en la cola tiene sus propias paradas independientes.
+                      </p>
                       <ul className="divide-y divide-gray-200 border border-gray-200 rounded-md">
-                        {Array.isArray(selectedRoute.stops) ? selectedRoute.stops.map((stop) => (
+                        {Array.isArray(selectedRoute.stops) ? selectedRoute.stops.map((stop, idx) => (
                           <li key={stop.id} className="px-4 py-3">
                             <div className="flex items-center justify-between">
-                              <div>
-                                <p className="text-sm font-medium text-gray-900">{stop.customer ? `${stop.customer} — ` : ''}{stop.orderId ? `Orden ${stop.orderId}` : stop.address}</p>
-                                <p className="text-xs text-gray-500">{stop.address}</p>
-                                <p className="text-xs text-gray-500">ID: {stop.id}{stop.eta ? ` · ETA: ${stop.eta}` : ''}</p>
+                              <div className="flex items-start gap-3">
+                                <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gray-200 text-[11px] font-semibold text-gray-700">{idx + 1}</span>
+                                <div>
+                                  <div className="text-[11px] text-gray-500 -mt-0.5 mb-0.5">Parada {idx + 1}</div>
+                                  <p className="text-sm font-medium text-gray-900">{stop.customer ? `${stop.customer} — ` : ''}{stop.orderId ? `Orden ${stop.orderId}` : stop.address}</p>
+                                  <p className="text-xs text-gray-500">{stop.address}</p>
+                                  <p className="text-xs text-gray-500">ID: {stop.id}{stop.eta ? ` · ETA: ${stop.eta}` : ''}</p>
+                                </div>
                               </div>
                               <div>
                                 <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
@@ -610,12 +698,16 @@ const AdminRoutes = () => {
                           lng: number;
                           status: 'pending' | 'completed';
                           eta: string;
-                        }) => (
+                        }, idx: number) => (
                           <li key={stop.id} className="px-4 py-3">
                             <div className="flex items-center justify-between">
-                              <div>
-                                <p className="text-sm font-medium text-gray-900">{stop.address}</p>
-                                <p className="text-xs text-gray-500">ID: {stop.id}{stop.eta ? ` · ETA: ${stop.eta}` : ''}</p>
+                              <div className="flex items-start gap-3">
+                                <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gray-200 text-[11px] font-semibold text-gray-700">{idx + 1}</span>
+                                <div>
+                                  <div className="text-[11px] text-gray-500 -mt-0.5 mb-0.5">Parada {idx + 1}</div>
+                                  <p className="text-sm font-medium text-gray-900">{stop.address}</p>
+                                  <p className="text-xs text-gray-500">ID: {stop.id}{stop.eta ? ` · ETA: ${stop.eta}` : ''}</p>
+                                </div>
                               </div>
                               <div>
                                 <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
@@ -635,15 +727,42 @@ const AdminRoutes = () => {
                     </div>
                   </div>
                 ) : (
-                  <div className="bg-gray-100 h-96 rounded-lg flex items-center justify-center">
+                  <div className="bg-gray-50 h-96 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center">
                     <div className="text-center">
-                      <svg className="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                      <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
-                      <p className="mt-2 text-sm text-gray-500">{activatedFromCalendar ? 'Selecciona una ruta para ver su visualización en el mapa' : 'Activa desde Calendario (Enviar a ruta) para ver detalles'}</p>
+                      <div className="mt-4">
+                        <h3 className="text-lg font-medium text-gray-900">Información de Entrega</h3>
+                        <p className="mt-2 text-sm text-gray-500">
+                          {activatedFromCalendar 
+                            ? 'Haz clic en una entrega de la cola para ver su ubicación, detalles del cliente y información de entrega' 
+                            : 'Programa entregas desde el calendario para comenzar a gestionar la cola'}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 )}
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Help section */}
+          <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="flex items-start gap-3">
+              <svg className="h-5 w-5 text-blue-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <h3 className="font-medium text-blue-900 mb-2">💡 Cómo funciona la Cola de Entregas</h3>
+                <ul className="text-sm text-blue-800 space-y-1">
+                  <li>• <strong>Cada elemento</strong> en la cola representa una entrega independiente para un cliente específico</li>
+                  <li>• <strong>Un conductor</strong> procesa las entregas en orden de prioridad</li>
+                  <li>• <strong>Al seleccionar</strong> una entrega, el mapa muestra únicamente las paradas de ese cliente</li>
+                  <li>• <strong>Las entregas</strong> se programan desde el calendario y aparecen automáticamente en esta cola</li>
+                </ul>
               </div>
             </div>
           </div>

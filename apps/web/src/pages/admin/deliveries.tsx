@@ -86,49 +86,73 @@ const AdminDeliveries: React.FC = () => {
   }, [currentWeekStart]);
 
   useEffect(() => {
-    const fetch = async () => {
-      try {
-        setLoading(true);
-        const data = await getRoutes();
-        // Filtrar por la semana visible
-        const startKey = formatISODate(week.start);
-        const endKey = formatISODate(week.end);
-        const filtered = data.filter(r => {
-          const dateKey = r.deliveryDate.slice(0, 10);
-          return dateKey >= startKey && dateKey <= endKey;
-        });
-        // Limitar a un máximo de 12 entregas (stops) totales para el demo
-        let totalStops = 0;
-        const limited: Route[] = [];
-        for (const r of filtered) {
-          if (totalStops >= 12) break;
-          const stops = (r as any).stops?.length ? (r as any).stops : r.details?.stops || [];
-          const remaining = 12 - totalStops;
-          if (stops.length <= remaining) {
-            limited.push(r);
-            totalStops += stops.length;
-          } else {
-            const clone: any = { ...r };
-            if ((r as any).stops?.length) {
-              clone.stops = stops.slice(0, remaining);
-            } else if (r.details?.stops) {
-              clone.details = { ...(r.details as any), stops: stops.slice(0, remaining) };
-            }
-            limited.push(clone);
-            totalStops = 12;
-            break;
-          }
-        }
-        setRoutes(limited);
-        setError(null);
-      } catch (e) {
-        console.error(e);
-        setError('No se pudieron cargar las rutas');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetch();
+    // Generar datos demo en PR (Mié-Vie) para evitar dependencia de API
+    setLoading(true);
+    try {
+      const wed = addDays(week.start, 2);
+      const thu = addDays(week.start, 3);
+      const fri = addDays(week.start, 4);
+      const routesDemo: Route[] = [
+        {
+          id: 'demo-wed',
+          name: 'Ruta Miércoles — San Juan',
+          area: 'San Juan',
+          driverId: 'auto',
+          driverName: 'Asignar',
+          status: 'scheduled' as any,
+          deliveryDate: formatISODate(wed),
+          startTime: `${formatISODate(wed)}T09:00:00`,
+          estimatedEndTime: `${formatISODate(wed)}T14:00:00`,
+          stops: [
+            { id: 'w1', address: 'Calle Loíza 123, San Juan', lat: 18.451, lng: -66.059, status: 'pending' as any, orderId: 'O-101', customer: 'Cliente 1' },
+            { id: 'w2', address: 'Ashford Ave 1058, Condado', lat: 18.457, lng: -66.079, status: 'pending' as any, orderId: 'O-102', customer: 'Cliente 2' },
+            { id: 'w3', address: 'Viejo San Juan, PR', lat: 18.466, lng: -66.118, status: 'pending' as any, orderId: 'O-103', customer: 'Cliente 3' },
+            { id: 'w4', address: 'Hato Rey, PR', lat: 18.427, lng: -66.064, status: 'pending' as any, orderId: 'O-104', customer: 'Cliente 4' }
+          ] as any
+        } as any,
+        {
+          id: 'demo-thu',
+          name: 'Ruta Jueves — Ponce',
+          area: 'Ponce',
+          driverId: 'auto',
+          driverName: 'Asignar',
+          status: 'scheduled' as any,
+          deliveryDate: formatISODate(thu),
+          startTime: `${formatISODate(thu)}T09:00:00`,
+          estimatedEndTime: `${formatISODate(thu)}T14:00:00`,
+          stops: [
+            { id: 't1', address: 'Plaza Las Delicias, Ponce', lat: 18.0115, lng: -66.6141, status: 'pending' as any, orderId: 'O-105', customer: 'Cliente 5' },
+            { id: 't2', address: 'Centro de Ponce', lat: 18.0125, lng: -66.6133, status: 'pending' as any, orderId: 'O-106', customer: 'Cliente 6' },
+            { id: 't3', address: 'La Guancha, Ponce', lat: 17.975, lng: -66.613, status: 'pending' as any, orderId: 'O-107', customer: 'Cliente 7' },
+            { id: 't4', address: 'Bda. Ferrán, Ponce', lat: 18.018, lng: -66.606, status: 'pending' as any, orderId: 'O-108', customer: 'Cliente 8' }
+          ] as any
+        } as any,
+        {
+          id: 'demo-fri',
+          name: 'Ruta Viernes — Caguas',
+          area: 'Caguas',
+          driverId: 'auto',
+          driverName: 'Asignar',
+          status: 'scheduled' as any,
+          deliveryDate: formatISODate(fri),
+          startTime: `${formatISODate(fri)}T09:00:00`,
+          estimatedEndTime: `${formatISODate(fri)}T14:00:00`,
+          stops: [
+            { id: 'f1', address: 'Plaza Palmer, Caguas', lat: 18.2349, lng: -66.0356, status: 'pending' as any, orderId: 'O-109', customer: 'Cliente 9' },
+            { id: 'f2', address: 'Calle Gautier Benítez 42, Caguas', lat: 18.2341, lng: -66.0361, status: 'pending' as any, orderId: 'O-110', customer: 'Cliente 10' },
+            { id: 'f3', address: 'Calle Padial 15, Caguas', lat: 18.2353, lng: -66.0372, status: 'pending' as any, orderId: 'O-111', customer: 'Cliente 11' },
+            { id: 'f4', address: 'Bda. Turabo, Caguas', lat: 18.246, lng: -66.045, status: 'pending' as any, orderId: 'O-112', customer: 'Cliente 12' }
+          ] as any
+        } as any
+      ];
+      setRoutes(routesDemo);
+      setError(null);
+    } catch (e) {
+      console.error(e);
+      setError('No se pudieron cargar las rutas');
+    } finally {
+      setLoading(false);
+    }
   }, [week.start, week.end]);
 
   const groupedByDay = useMemo(() => {
@@ -162,6 +186,8 @@ const AdminDeliveries: React.FC = () => {
       eta?: string;
       orderId?: string;
       customer?: string;
+      lat?: number;
+      lng?: number;
     }> = [];
     for (const r of selectedDayRoutes) {
       const stops = getStops(r);
@@ -176,6 +202,8 @@ const AdminDeliveries: React.FC = () => {
           eta: (s as any).eta,
           orderId: (s as any).orderId,
           customer: (s as any).customer,
+          lat: (s as any).lat,
+          lng: (s as any).lng,
         });
       }
     }
@@ -246,37 +274,36 @@ const AdminDeliveries: React.FC = () => {
         stops: selectedDayStops.map((s) => ({
           id: s.stopId,
           address: s.address,
-          lat: 0,
-          lng: 0,
+          lat: Number.isFinite(s.lat as any) ? Number(s.lat) : 18.4655,
+          lng: Number.isFinite(s.lng as any) ? Number(s.lng) : -66.1057,
           status: 'pending',
           eta: s.eta || undefined,
           orderId: s.orderId || undefined,
           customer: s.customer || undefined,
         })),
       };
-      // Lazy import para evitar tree-shake del bundle
-      const { createRoute } = await import('@ewa/api-client');
-      const created = await createRoute(newRoute);
-      setCreatedRouteId(created.id);
+      // Modo demo sin API: generar id y snapshot local
+      const createdId = `demo-${selectedDayKey}-${Date.now()}`;
+      setCreatedRouteId(createdId);
       try { localStorage.setItem('ewa_routes_enabled', '1'); } catch {}
-      // Guardar snapshot demo (máx. 12) para Rutas y evitar acumulación
       try {
         const snapshot = {
-          id: created.id,
-          name: created.name,
-          area: created.area,
-          driverId: created.driverId,
-          driverName: created.driverName,
-          status: created.status,
-          startTime: created.startTime,
-          estimatedEndTime: created.estimatedEndTime,
+          id: createdId,
+          name: newRoute.name,
+          area: newRoute.area,
+          driverId: newRoute.driverId,
+          driverName: newRoute.driverName,
+          status: newRoute.status,
+          startTime: newRoute.startTime,
+          estimatedEndTime: newRoute.estimatedEndTime,
           stops: (newRoute.stops || []).slice(0, 12),
           demo: true,
           fromDeliveries: true,
         };
         localStorage.setItem('ewa_routes_snapshot', JSON.stringify(snapshot));
       } catch {}
-      // No acumular en Calendario: no agregamos más rutas al listado del demo
+      // Redirigir inmediatamente a Rutas con activación y selección
+      router.push(`/admin/routes?activated=1&routeId=${createdId}`);
     } catch (e) {
       console.error(e);
       setError('No se pudo enviar a ruta');
@@ -361,9 +388,10 @@ const AdminDeliveries: React.FC = () => {
                   ) : (
                     <>
                       <ul className="space-y-1">
-                        {dayStops.slice(0, 5).map((s: any) => (
-                          <li key={s.id} className="text-xs text-gray-700 truncate">
-                            • {s.customer || 'Cliente'} — {(s.orderId ? `Orden ${s.orderId}` : 'Entrega')} 
+                        {dayStops.slice(0, 5).map((s: any, i: number) => (
+                          <li key={s.id} className="text-xs text-gray-700 truncate flex items-center gap-2">
+                            <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-gray-200 text-[10px] font-semibold text-gray-700">{i + 1}</span>
+                            <span>{s.customer || 'Cliente'} — {(s.orderId ? `Orden ${s.orderId}` : 'Entrega')}</span>
                           </li>
                         ))}
                         {dayStops.length > 5 && (
@@ -444,13 +472,16 @@ const AdminDeliveries: React.FC = () => {
                       <div className="text-sm text-gray-500">No hay entregas para mostrar.</div>
                     ) : (
                       <ul className="divide-y border rounded">
-                        {paginatedStops.map((s) => (
+                        {paginatedStops.map((s, idx) => (
                           <li
                             key={`${s.routeId}-${s.stopId}`}
                             className={`p-3 hover:bg-gray-50 cursor-pointer ${selectedDelivery && selectedDelivery.routeId === s.routeId && selectedDelivery.stopId === s.stopId ? 'bg-ewa-light-blue/30' : ''}`}
                             onClick={() => setSelectedDelivery({ routeId: s.routeId, stopId: s.stopId })}
                           >
-                            <div className="text-sm font-medium truncate">{s.customer || 'Cliente'} — {(s.orderId ? `Orden ${s.orderId}` : 'Entrega')}</div>
+                            <div className="flex items-start gap-2">
+                              <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gray-200 text-[11px] font-semibold text-gray-700">{(page - 1) * pageSize + idx + 1}</span>
+                              <div className="text-sm font-medium truncate">{s.customer || 'Cliente'} — {(s.orderId ? `Orden ${s.orderId}` : 'Entrega')}</div>
+                            </div>
                             <div className="text-xs text-gray-500">Ruta: {s.routeName} · Conductor: {s.driverName}</div>
                             <div className="text-xs mt-1 inline-flex items-center gap-2">
                               <span>Estado:</span>
@@ -509,8 +540,13 @@ const AdminDeliveries: React.FC = () => {
                         const route = selectedDayRoutes.find(r => r.id === selectedDelivery.routeId);
                         const stop = route ? getStops(route).find((st: any) => st.id === selectedDelivery.stopId) : null;
                         if (!route || !stop) return <div className="text-sm text-gray-500">No se encontró la entrega.</div>;
+                        const indexInDay = selectedDayStops.findIndex(it => it.routeId === (route as any).id && it.stopId === (stop as any).id);
                         return (
                           <div className="border rounded p-3 text-sm space-y-2">
+                            <div className="flex items-center gap-2 text-xs text-gray-600">
+                              <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gray-200 text-[11px] font-semibold text-gray-700">{indexInDay >= 0 ? indexInDay + 1 : '-'}</span>
+                              <span>Parada</span>
+                            </div>
                             <div className="font-medium">{stop.address}</div>
                             <div className="text-gray-600">Estado: {stop.status}{stop.eta ? ` · ETA: ${stop.eta}` : ''}</div>
                             <div className="text-gray-600">Ruta: {route.name} — {route.area}</div>
