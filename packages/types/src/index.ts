@@ -38,7 +38,39 @@ export type User = {
   id: string;
   name: string;
   email: string;
-  role: 'customer' | 'admin';
+  phone?: string;
+  role: 'customer' | 'admin' | 'operator' | 'editor';
+  
+  // Address Information
+  address?: {
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+    country: string;
+    instructions?: string;
+  };
+  
+  // Business Information (optional for commercial customers)
+  businessInfo?: {
+    businessName?: string;
+    businessType?: 'restaurant' | 'hotel' | 'office' | 'retail' | 'services' | 'other';
+    taxId?: string;
+    contactPerson?: string;
+  };
+  
+  // Service Preferences
+  preferences?: {
+    deliveryPreference: 'home_delivery' | 'pickup_point';
+    communicationPreference: 'email' | 'sms' | 'both';
+    timeSlotPreference: 'morning' | 'afternoon' | 'evening' | 'flexible';
+  };
+  
+  // Additional Information
+  notes?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  isActive?: boolean;
 };
 
 export type Route = {

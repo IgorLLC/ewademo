@@ -9,6 +9,8 @@
   "/api/subscriptions/:id": "/subscriptions/:id",
   "/api/oneoffs": "/oneoffs",
   "/api/oneoffs/:id": "/oneoffs/:id",
+  "/api/deliveries": "/deliveries",
+  "/api/deliveries/:id": "/deliveries/:id",
   "/api/routes": "/routes",
   "/api/routes/:id": "/routes/:id",
   "/api/metrics": "/metrics",

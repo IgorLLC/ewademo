@@ -4,6 +4,7 @@ import {
   Plan,
   Subscription,
   OneOffOrder,
+  Delivery,
   User,
   Route,
   Metrics,
@@ -46,8 +47,18 @@ export const getProducts = async (): Promise<Product[]> => {
   return response.data;
 };
 
+export const createProduct = async (product: Omit<Product, 'id'>): Promise<Product> => {
+  const response = await api.post<Product>('/products', product);
+  return response.data;
+};
+
 export const getPlans = async (): Promise<Plan[]> => {
   const response = await api.get<Plan[]>('/plans');
+  return response.data;
+};
+
+export const createPlan = async (plan: Omit<Plan, 'id'>): Promise<Plan> => {
+  const response = await api.post<Plan>('/plans', plan);
   return response.data;
 };
 
@@ -77,6 +88,17 @@ export const getOneOffOrders = async (userId?: string): Promise<OneOffOrder[]> =
 
 export const createOneOffOrder = async (order: Omit<OneOffOrder, 'id'>): Promise<OneOffOrder> => {
   const response = await api.post<OneOffOrder>('/oneoffs', order);
+  return response.data;
+};
+
+// Deliveries API
+export const getDeliveries = async (params?: { startDate?: string; endDate?: string; status?: string }): Promise<Delivery[]> => {
+  const response = await api.get<Delivery[]>('/deliveries', { params });
+  return response.data;
+};
+
+export const updateDeliveryStatus = async (id: string, status: string): Promise<Delivery> => {
+  const response = await api.patch<Delivery>(`/deliveries/${id}`, { status });
   return response.data;
 };
 
@@ -153,12 +175,16 @@ export default {
   login,
   logout,
   getProducts,
+  createProduct,
   getPlans,
+  createPlan,
   getSubscriptions,
   createSubscription,
   updateSubscription,
   getOneOffOrders,
   createOneOffOrder,
+  getDeliveries,
+  updateDeliveryStatus,
   getRoutes,
   createRoute,
   getMRR,

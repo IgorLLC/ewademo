@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { getRoutes } from '@ewa/api-client';
 import SimpleMapBox from '../../components/SimpleMapBox';
@@ -11,6 +11,9 @@ interface RouteStop {
   lat: number;
   lng: number;
   status: 'pending' | 'completed';
+  eta?: string;
+  orderId?: string;
+  customer?: string;
 }
 
 // Definir una interfaz para nuestras rutas
@@ -45,11 +48,50 @@ const AdminRoutes = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [selectedRoute, setSelectedRoute] = useState<ExtendedRoute | null>(null);
+  const [activatedFromCalendar, setActivatedFromCalendar] = useState<boolean>(false);
 
   useEffect(() => {
     // Cargar rutas cuando el componente se monta
     fetchRoutes();
   }, []);
+
+  useEffect(() => {
+    // Si viene de calendario: activar detalles y seleccionar routeId si está en query
+    const activatedParam = router.query.activated === '1';
+    const enabledLS = (typeof window !== 'undefined') && localStorage.getItem('ewa_routes_enabled') === '1';
+    if (activatedParam || enabledLS) {
+      setActivatedFromCalendar(true);
+    }
+    // Si hay snapshot de demo (12 records), usarlo prioritariamente
+    try {
+      const snap = (typeof window !== 'undefined') ? localStorage.getItem('ewa_routes_snapshot') : null;
+      if (snap) {
+        const parsed = JSON.parse(snap);
+        if (parsed && parsed.fromDeliveries) {
+          setRoutes([parsed]);
+        }
+      }
+    } catch {}
+    // Auto seleccionar ruta si viene en la URL
+    const qid = router.query.routeId as string | undefined;
+    if (qid && routes.length > 0) {
+      const found = routes.find(r => r.id === qid);
+      if (found) setSelectedRoute(found as any);
+    }
+  }, [router.query]);
+
+  useEffect(() => {
+    // Reintentar selección cuando las rutas carguen
+    const qid = router.query.routeId as string | undefined;
+    if (qid && routes.length > 0 && !selectedRoute) {
+      const found = routes.find(r => r.id === qid);
+      if (found) setSelectedRoute(found as any);
+    }
+  }, [routes]);
+
+  const activeDriverName = useMemo(() => {
+    return selectedRoute?.driverName || (routes.length > 0 ? routes[0].driverName : null);
+  }, [selectedRoute, routes]);
 
   const fetchRoutes = async () => {
     try {
@@ -300,6 +342,18 @@ const AdminRoutes = () => {
       currentPage="routes"
     >
       <div className="py-2">
+          {/* Banner de activación */}
+          {!activatedFromCalendar ? (
+            <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded mb-4">
+              Ninguna entrega ha sido enviada. Para gestionar rutas, primero envíe una desde Calendario (Entregas → "Enviar a ruta").
+            </div>
+          ) : (
+            <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded mb-4 flex items-center gap-2">
+              <svg className="h-4 w-4 text-green-600" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-7.25 7.25a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414l2.293 2.293 6.543-6.543a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
+              Rutas activadas desde Calendario
+            </div>
+          )}
+
           {/* Search and filter */}
           <div className="bg-white shadow rounded-lg p-4 my-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between">
@@ -345,11 +399,22 @@ const AdminRoutes = () => {
             {/* Routes list */}
             <div className="md:col-span-1">
               <div className="bg-white shadow rounded-lg">
-                <div className="px-4 py-5 sm:px-6">
-                  <h2 className="text-lg font-medium text-gray-900">Rutas de entrega</h2>
-                  <p className="mt-1 text-sm text-gray-500">Listado de rutas de entrega programadas y completadas</p>
+                 <div className="px-4 py-5 sm:px-6">
+                  <h2 className="text-lg font-medium text-gray-900 flex items-center gap-2">
+                    Cola de entregas (1 conductor)
+                    {activatedFromCalendar && (
+                      <span className="inline-flex items-center gap-1 text-xs text-green-700 bg-green-50 border border-green-200 rounded px-2 py-0.5">
+                        <svg className="h-3 w-3 text-green-600" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-7.25 7.25a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414l2.293 2.293 6.543-6.543a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
+                        Activado
+                      </span>
+                    )}
+                  </h2>
+                   <p className="mt-1 text-sm text-gray-500">Un solo conductor procesa la cola. Cada entrada es un cliente distinto.</p>
+                   {!activatedFromCalendar && (
+                     <div className="mt-3 text-xs text-gray-500">Ninguna entrega ha sido enviada. Envía desde Calendario para habilitar detalles.</div>
+                   )}
                 </div>
-                <div className="border-t border-gray-200">
+                 <div className="border-t border-gray-200">
                   <ul className="divide-y divide-gray-200">
                     {loading ? (
                       <li className="px-4 py-4 flex items-center justify-center">
@@ -363,11 +428,11 @@ const AdminRoutes = () => {
                     ) : filteredRoutes.length === 0 ? (
                       <li className="px-4 py-4 text-center text-gray-500">No se encontraron rutas</li>
                     ) : (
-                      filteredRoutes.map(route => (
+                       filteredRoutes.map(route => (
                         <li 
                           key={route.id} 
-                          className={`px-4 py-4 cursor-pointer hover:bg-gray-50 ${selectedRoute?.id === route.id ? 'bg-gray-50' : ''}`}
-                          onClick={() => handleViewRoute(route)}
+                           className={`px-4 py-4 ${activatedFromCalendar ? 'cursor-pointer hover:bg-gray-50' : 'opacity-50 cursor-not-allowed'} ${selectedRoute?.id === route.id ? 'bg-gray-50' : ''}`}
+                           onClick={() => activatedFromCalendar && handleViewRoute(route)}
                         >
                           <div className="flex items-center justify-between">
                             <div className="min-w-0 flex-1">
@@ -377,7 +442,7 @@ const AdminRoutes = () => {
                                 <div className="flex-shrink-0 h-5 w-5 mr-1">
                                   <img 
                                     className="h-5 w-5 rounded-full object-cover border border-gray-200" 
-                                    src={`https://randomuser.me/api/portraits/${route.driverName?.includes('María') || route.driverName?.includes('Ana') ? 'women' : 'men'}/${route.id.charCodeAt(0) % 10 + 1}.jpg`}
+                                    src={`https://randomuser.me/api/portraits/${route.driverName?.includes('María') || route.driverName?.includes('Ana') ? 'women' : 'men'}/${(String(route.id).length % 10) + 1}.jpg`}
                                     alt={route.driverName || 'Conductor'}
                                   />
                                 </div>
@@ -388,7 +453,13 @@ const AdminRoutes = () => {
                                       <svg className="h-3 w-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                       </svg>
-                                      <span className="ml-1 text-xs text-gray-500">{`(787) ${route.id.charCodeAt(0) % 9 + 1}${route.id.charCodeAt(1) % 9 + 1}${route.id.charCodeAt(0) % 9 + 1}-${route.id.charCodeAt(0) % 9 + 1}${route.id.charCodeAt(1) % 9 + 1}${route.id.charCodeAt(0) % 9 + 1}${route.id.charCodeAt(1) % 9 + 1}`}</span>
+                                      <span className="ml-1 text-xs text-gray-500">{(() => {
+                                        const sid = String(route.id || '0');
+                                        const a = (sid.length % 9) + 1;
+                                        const b = ((sid.charCodeAt(0) || 0) % 9) + 1;
+                                        const c = ((sid.charCodeAt(1) || 0) % 9) + 1;
+                                        return `(787) ${a}${b}${c}-${a}${b}${a}${c}`;
+                                      })()}</span>
                                     </div>
                                   )}
                                 </div>
@@ -412,7 +483,7 @@ const AdminRoutes = () => {
             <div className="md:col-span-2">
               <div className="bg-white shadow rounded-lg p-6">
                 <h2 className="text-lg font-medium text-gray-900 mb-4">Mapa de ruta</h2>
-                {selectedRoute ? (
+                {activatedFromCalendar && selectedRoute ? (
                   <div>
                     <div className="mb-4">
                       <SimpleMapBox 
@@ -424,7 +495,7 @@ const AdminRoutes = () => {
                             (selectedRoute.stops[0]?.lng || -66.5901) : -66.5901)}
                         height="400px"
                         className="w-full border border-gray-300 rounded-md"
-                        interactive={true}
+                        interactive={false}
                       />
                     </div>
                     
@@ -435,15 +506,6 @@ const AdminRoutes = () => {
                           <p className="text-sm text-gray-500">{selectedRoute.area}</p>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <button 
-                            onClick={() => window.alert('PDF descargado (simulación)')}
-                            className="p-1 rounded-md hover:bg-gray-100"
-                            title="Descargar PDF"
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                          </button>
                           <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusBadgeClass(selectedRoute.status)}`}>
                             {getStatusLabel(selectedRoute.status)}
                           </span>
@@ -458,7 +520,7 @@ const AdminRoutes = () => {
                               <div className="flex-shrink-0 h-10 w-10 mr-3">
                                 <img 
                                   className="h-10 w-10 rounded-full object-cover border border-gray-200" 
-                                  src={`https://randomuser.me/api/portraits/${selectedRoute.driverName?.includes('María') || selectedRoute.driverName?.includes('Ana') ? 'women' : 'men'}/${selectedRoute.id.charCodeAt(0) % 10 + 1}.jpg`}
+                                  src={`https://randomuser.me/api/portraits/${selectedRoute.driverName?.includes('María') || selectedRoute.driverName?.includes('Ana') ? 'women' : 'men'}/${(String(selectedRoute.id).length % 10) + 1}.jpg`}
                                   alt={selectedRoute.driverName || 'Conductor'}
                                 />
                               </div>
@@ -528,8 +590,9 @@ const AdminRoutes = () => {
                           <li key={stop.id} className="px-4 py-3">
                             <div className="flex items-center justify-between">
                               <div>
-                                <p className="text-sm font-medium text-gray-900">{stop.address}</p>
-                                <p className="text-xs text-gray-500">ID: {stop.id}</p>
+                                <p className="text-sm font-medium text-gray-900">{stop.customer ? `${stop.customer} — ` : ''}{stop.orderId ? `Orden ${stop.orderId}` : stop.address}</p>
+                                <p className="text-xs text-gray-500">{stop.address}</p>
+                                <p className="text-xs text-gray-500">ID: {stop.id}{stop.eta ? ` · ETA: ${stop.eta}` : ''}</p>
                               </div>
                               <div>
                                 <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
@@ -552,7 +615,7 @@ const AdminRoutes = () => {
                             <div className="flex items-center justify-between">
                               <div>
                                 <p className="text-sm font-medium text-gray-900">{stop.address}</p>
-                                <p className="text-xs text-gray-500">ID: {stop.id}</p>
+                                <p className="text-xs text-gray-500">ID: {stop.id}{stop.eta ? ` · ETA: ${stop.eta}` : ''}</p>
                               </div>
                               <div>
                                 <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
@@ -577,7 +640,7 @@ const AdminRoutes = () => {
                       <svg className="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                       </svg>
-                      <p className="mt-2 text-sm text-gray-500">Selecciona una ruta para ver su visualización en el mapa</p>
+                      <p className="mt-2 text-sm text-gray-500">{activatedFromCalendar ? 'Selecciona una ruta para ver su visualización en el mapa' : 'Activa desde Calendario (Enviar a ruta) para ver detalles'}</p>
                     </div>
                   </div>
                 )}

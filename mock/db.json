@@ -48,276 +48,6231 @@
   "users": [
     {
       "id": "u1",
-      "email": "customer@example.com",
-      "name": "John Doe",
+      "name": "Cliente 1",
+      "email": "cliente1@demo.com",
+      "phone": "(787) 555-0001",
       "role": "customer",
-      "phone": "555-123-4567",
-      "address": "123 Main St, Anytown, USA"
+      "isActive": true,
+      "address": {
+        "street": "Calle Demo u1",
+        "city": "San Juan",
+        "state": "PR",
+        "zip": "00901",
+        "country": "PR"
+      }
     },
     {
       "id": "u2",
-      "email": "admin@ewa.com",
-      "name": "Admin User",
-      "role": "admin",
-      "phone": "555-987-6543",
-      "address": "456 Admin Ave, Adminville, USA"
+      "name": "Cliente 2",
+      "email": "cliente2@demo.com",
+      "phone": "(787) 555-0002",
+      "role": "customer",
+      "isActive": true,
+      "address": {
+        "street": "Calle Demo u2",
+        "city": "San Juan",
+        "state": "PR",
+        "zip": "00901",
+        "country": "PR"
+      }
     },
     {
       "id": "u3",
-      "email": "jane@example.com",
-      "name": "Jane Smith",
+      "name": "Cliente 3",
+      "email": "cliente3@demo.com",
+      "phone": "(787) 555-0003",
       "role": "customer",
-      "phone": "555-555-5555",
-      "address": "789 Oak St, Sometown, USA"
-    }
-  ],
-  "subscriptions": [
-    {
-      "id": "sub1",
-      "userId": "u1",
-      "productId": "p2",
-      "planId": "plan1",
-      "status": "active",
-      "startDate": "2025-01-15",
-      "nextDeliveryDate": "2025-05-29",
-      "address": "123 Main St, Anytown, USA",
-      "quantity": 1,
-      "price": 26.09
+      "isActive": true,
+      "address": {
+        "street": "Calle Demo u3",
+        "city": "San Juan",
+        "state": "PR",
+        "zip": "00901",
+        "country": "PR"
+      }
     },
     {
-      "id": "sub2",
-      "userId": "u3",
-      "productId": "p1",
-      "planId": "plan2",
-      "status": "active",
-      "startDate": "2025-02-01",
-      "nextDeliveryDate": "2025-06-01",
-      "address": "789 Oak St, Sometown, USA",
-      "quantity": 2,
-      "price": 30.38
+      "id": "u4",
+      "name": "Cliente 4",
+      "email": "cliente4@demo.com",
+      "phone": "(787) 555-0004",
+      "role": "customer",
+      "isActive": true,
+      "address": {
+        "street": "Calle Demo u4",
+        "city": "San Juan",
+        "state": "PR",
+        "zip": "00901",
+        "country": "PR"
+      }
     },
     {
-      "id": "sub3",
-      "userId": "u1",
-      "productId": "p3",
-      "planId": "plan3",
-      "status": "paused",
-      "startDate": "2025-01-10",
-      "nextDeliveryDate": null,
-      "address": "123 Main St, Anytown, USA",
-      "quantity": 1,
-      "price": 39.99
-    }
-  ],
-  "oneoffs": [
-    {
-      "id": "o1",
-      "userId": "u1",
-      "productId": "p1",
-      "status": "delivered",
-      "orderDate": "2025-05-01",
-      "deliveryDate": "2025-05-05",
-      "address": "123 Main St, Anytown, USA",
-      "quantity": 1,
-      "price": 15.99
+      "id": "u5",
+      "name": "Cliente 5",
+      "email": "cliente5@demo.com",
+      "phone": "(787) 555-0005",
+      "role": "customer",
+      "isActive": true,
+      "address": {
+        "street": "Calle Demo u5",
+        "city": "San Juan",
+        "state": "PR",
+        "zip": "00901",
+        "country": "PR"
+      }
     },
     {
-      "id": "o2",
-      "userId": "u3",
-      "productId": "p2",
-      "status": "processing",
-      "orderDate": "2025-05-20",
-      "deliveryDate": "2025-05-27",
-      "address": "789 Oak St, Sometown, USA",
-      "quantity": 1,
-      "price": 28.99
+      "id": "u6",
+      "name": "Cliente 6",
+      "email": "cliente6@demo.com",
+      "phone": "(787) 555-0006",
+      "role": "customer",
+      "isActive": true,
+      "address": {
+        "street": "Calle Demo u6",
+        "city": "San Juan",
+        "state": "PR",
+        "zip": "00901",
+        "country": "PR"
+      }
+    },
+    {
+      "id": "u7",
+      "name": "Cliente 7",
+      "email": "cliente7@demo.com",
+      "phone": "(787) 555-0007",
+      "role": "customer",
+      "isActive": true,
+      "address": {
+        "street": "Calle Demo u7",
+        "city": "San Juan",
+        "state": "PR",
+        "zip": "00901",
+        "country": "PR"
+      }
+    },
+    {
+      "id": "u8",
+      "name": "Cliente 8",
+      "email": "cliente8@demo.com",
+      "phone": "(787) 555-0008",
+      "role": "customer",
+      "isActive": true,
+      "address": {
+        "street": "Calle Demo u8",
+        "city": "San Juan",
+        "state": "PR",
+        "zip": "00901",
+        "country": "PR"
+      }
+    },
+    {
+      "id": "u9",
+      "name": "Cliente 9",
+      "email": "cliente9@demo.com",
+      "phone": "(787) 555-0009",
+      "role": "customer",
+      "isActive": true,
+      "address": {
+        "street": "Calle Demo u9",
+        "city": "San Juan",
+        "state": "PR",
+        "zip": "00901",
+        "country": "PR"
+      }
+    },
+    {
+      "id": "u10",
+      "name": "Cliente 10",
+      "email": "cliente10@demo.com",
+      "phone": "(787) 555-0010",
+      "role": "customer",
+      "isActive": true,
+      "address": {
+        "street": "Calle Demo u10",
+        "city": "San Juan",
+        "state": "PR",
+        "zip": "00901",
+        "country": "PR"
+      }
+    },
+    {
+      "id": "u11",
+      "name": "Cliente 11",
+      "email": "cliente11@demo.com",
+      "phone": "(787) 555-0011",
+      "role": "customer",
+      "isActive": true,
+      "address": {
+        "street": "Calle Demo u11",
+        "city": "San Juan",
+        "state": "PR",
+        "zip": "00901",
+        "country": "PR"
+      }
+    },
+    {
+      "id": "u12",
+      "name": "Cliente 12",
+      "email": "cliente12@demo.com",
+      "phone": "(787) 555-0012",
+      "role": "customer",
+      "isActive": true,
+      "address": {
+        "street": "Calle Demo u12",
+        "city": "San Juan",
+        "state": "PR",
+        "zip": "00901",
+        "country": "PR"
+      }
+    },
+    {
+      "id": "u13",
+      "name": "Cliente 13",
+      "email": "cliente13@demo.com",
+      "phone": "(787) 555-0013",
+      "role": "customer",
+      "isActive": true,
+      "address": {
+        "street": "Calle Demo u13",
+        "city": "San Juan",
+        "state": "PR",
+        "zip": "00901",
+        "country": "PR"
+      }
+    },
+    {
+      "id": "u14",
+      "name": "Cliente 14",
+      "email": "cliente14@demo.com",
+      "phone": "(787) 555-0014",
+      "role": "customer",
+      "isActive": true,
+      "address": {
+        "street": "Calle Demo u14",
+        "city": "San Juan",
+        "state": "PR",
+        "zip": "00901",
+        "country": "PR"
+      }
+    },
+    {
+      "id": "u15",
+      "name": "Cliente 15",
+      "email": "cliente15@demo.com",
+      "phone": "(787) 555-0015",
+      "role": "customer",
+      "isActive": true,
+      "address": {
+        "street": "Calle Demo u15",
+        "city": "San Juan",
+        "state": "PR",
+        "zip": "00901",
+        "country": "PR"
+      }
     }
   ],
+  "subscriptions": [],
+  "oneoffs": [],
+  "deliveries": [],
   "routes": [
     {
-      "id": "r1",
-      "name": "Ruta San Juan - Condado",
-      "area": "San Juan",
-      "driverId": "d1",
-      "driverName": "Carlos Rodríguez",
-      "status": "in-progress",
-      "deliveryDate": "2025-05-26",
-      "stops": 3,
-      "details": {
-        "stops": [
-          {
-            "id": "stop1",
-            "address": "Calle Loíza 123, San Juan, PR 00911",
-            "lat": 18.4655,
-            "lng": -66.0572,
-            "status": "pending",
-            "eta": "10:00 AM"
-          },
-          {
-            "id": "stop2",
-            "address": "Calle Taft 45, Condado, San Juan, PR 00911",
-            "lat": 18.4612,
-            "lng": -66.065,
-            "status": "completed",
-            "eta": "11:30 AM"
-          },
-          {
-            "id": "stop3",
-            "address": "Ashford Avenue 1058, Condado, San Juan, PR 00907",
-            "lat": 18.4571,
-            "lng": -66.0788,
-            "status": "pending",
-            "eta": "12:15 PM"
-          }
-        ]
-      },
-      "startTime": "2025-05-26T08:00:00",
-      "estimatedEndTime": "2025-05-26T12:00:00"
-    },
-    {
-      "id": "r2",
-      "name": "Ruta Río Piedras - Universidad",
-      "area": "Río Piedras",
-      "driverId": "d2",
-      "driverName": "Ana Martínez",
-      "status": "completed",
-      "deliveryDate": "2025-05-26",
-      "stops": 2,
-      "details": {
-        "stops": [
-          {
-            "id": "stop4",
-            "address": "Ave. Universidad 45, Río Piedras, PR 00925",
-            "lat": 18.4037,
-            "lng": -66.0501,
-            "status": "completed",
-            "eta": "9:15 AM"
-          },
-          {
-            "id": "stop5",
-            "address": "Calle Gandhi, Río Piedras, PR 00927",
-            "lat": 18.4008,
-            "lng": -66.0499,
-            "status": "completed",
-            "eta": "10:30 AM"
-          }
-        ]
-      },
-      "startTime": "2025-05-26T09:00:00",
-      "estimatedEndTime": "2025-05-26T11:00:00",
-      "actualEndTime": "2025-05-26T10:45:00"
-    },
-    {
-      "id": "r3",
-      "name": "Ruta Ponce - Centro",
-      "area": "Ponce",
-      "driverId": "d3",
-      "driverName": "Luis Vega",
-      "status": "active",
-      "deliveryDate": "2025-05-26",
-      "stops": 3,
-      "details": {
-        "stops": [
-          {
-            "id": "stop6",
-            "address": "Calle Marina 78, Ponce, PR 00716",
-            "lat": 18.0108,
-            "lng": -66.614,
-            "status": "pending",
-            "eta": "10:30 AM"
-          },
-          {
-            "id": "stop7",
-            "address": "Plaza Las Delicias, Ponce, PR 00730",
-            "lat": 18.0115,
-            "lng": -66.6141,
-            "status": "pending",
-            "eta": "11:45 AM"
-          },
-          {
-            "id": "stop8",
-            "address": "Calle Cristina 52, Ponce, PR 00731",
-            "lat": 18.0125,
-            "lng": -66.6133,
-            "status": "pending",
-            "eta": "1:15 PM"
-          }
-        ]
-      },
-      "startTime": "2025-05-26T10:00:00",
-      "estimatedEndTime": "2025-05-26T14:00:00"
-    },
-    {
-      "id": "r4",
-      "name": "Ruta Mayagüez",
-      "area": "Mayagüez",
-      "driverId": "d4",
-      "driverName": "Roberto Sánchez",
+      "name": "Demo Ruta 1",
+      "area": "Demo",
+      "driverId": "d0",
+      "driverName": "Demo",
       "status": "scheduled",
-      "deliveryDate": "2025-05-27",
-      "stops": 2,
-      "details": {
-        "stops": [
-          {
-            "id": "stop9",
-            "address": "Calle Méndez Vigo 55, Mayagüez, PR 00680",
-            "lat": 18.201,
-            "lng": -67.1391,
-            "status": "pending",
-            "eta": "9:30 AM"
-          },
-          {
-            "id": "stop10",
-            "address": "Plaza Colón, Mayagüez, PR 00680",
-            "lat": 18.2019,
-            "lng": -67.1397,
-            "status": "pending",
-            "eta": "10:45 AM"
-          }
-        ]
-      },
-      "startTime": "2025-05-27T09:00:00",
-      "estimatedEndTime": "2025-05-27T12:00:00"
+      "deliveryDate": "2025-08-13",
+      "startTime": "2025-08-13T09:00:00",
+      "estimatedEndTime": "2025-08-13T14:00:00",
+      "stops": [
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 1",
+          "orderId": "O-101"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 2",
+          "orderId": "O-102"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 3",
+          "orderId": "O-103"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 4",
+          "orderId": "O-104"
+        }
+      ],
+      "id": 1
     },
     {
-      "id": "r5",
-      "name": "Ruta Caguas",
-      "area": "Caguas",
-      "driverId": "d5",
-      "driverName": "María Torres",
+      "name": "Demo Ruta 2",
+      "area": "Demo",
+      "driverId": "d0",
+      "driverName": "Demo",
       "status": "scheduled",
-      "deliveryDate": "2025-05-27",
-      "stops": 3,
-      "details": {
-        "stops": [
-          {
-            "id": "stop11",
-            "address": "Calle Gautier Benítez 42, Caguas, PR 00725",
-            "lat": 18.2341,
-            "lng": -66.0361,
-            "status": "pending",
-            "eta": "10:15 AM"
-          },
-          {
-            "id": "stop12",
-            "address": "Plaza Palmer, Caguas, PR 00725",
-            "lat": 18.2349,
-            "lng": -66.0356,
-            "status": "pending",
-            "eta": "11:30 AM"
-          },
-          {
-            "id": "stop13",
-            "address": "Calle Padial 15, Caguas, PR 00725",
-            "lat": 18.2353,
-            "lng": -66.0372,
-            "status": "pending",
-            "eta": "1:00 PM"
-          }
-        ]
-      },
-      "startTime": "2025-05-27T10:00:00",
-      "estimatedEndTime": "2025-05-27T14:00:00"
+      "deliveryDate": "2025-08-13",
+      "startTime": "2025-08-13T09:00:00",
+      "estimatedEndTime": "2025-08-13T14:00:00",
+      "stops": [
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 1",
+          "orderId": "O-201"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 2",
+          "orderId": "O-202"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 3",
+          "orderId": "O-203"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 4",
+          "orderId": "O-204"
+        }
+      ],
+      "id": 2
+    },
+    {
+      "name": "Demo Ruta 3",
+      "area": "Demo",
+      "driverId": "d0",
+      "driverName": "Demo",
+      "status": "scheduled",
+      "deliveryDate": "2025-08-13",
+      "startTime": "2025-08-13T09:00:00",
+      "estimatedEndTime": "2025-08-13T14:00:00",
+      "stops": [
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 1",
+          "orderId": "O-301"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 2",
+          "orderId": "O-302"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 3",
+          "orderId": "O-303"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 4",
+          "orderId": "O-304"
+        }
+      ],
+      "id": 3
+    },
+    {
+      "name": "Auto Ruta 13-08-2025",
+      "area": "General",
+      "driverId": "auto",
+      "driverName": "Asignar",
+      "status": "scheduled",
+      "deliveryDate": "2025-08-13",
+      "startTime": "2025-08-13T09:00:00",
+      "estimatedEndTime": "2025-08-13T14:00:00",
+      "stops": [
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 1",
+          "orderId": "O-401"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 2",
+          "orderId": "O-402"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 3",
+          "orderId": "O-403"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 4",
+          "orderId": "O-404"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 5",
+          "orderId": "O-405"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 6",
+          "orderId": "O-406"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 7",
+          "orderId": "O-407"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 8",
+          "orderId": "O-408"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 9",
+          "orderId": "O-409"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 10",
+          "orderId": "O-410"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 11",
+          "orderId": "O-411"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 12",
+          "orderId": "O-412"
+        }
+      ],
+      "id": 4
+    },
+    {
+      "name": "Auto Ruta 13-08-2025",
+      "area": "General",
+      "driverId": "auto",
+      "driverName": "Asignar",
+      "status": "scheduled",
+      "deliveryDate": "2025-08-13",
+      "startTime": "2025-08-13T09:00:00",
+      "estimatedEndTime": "2025-08-13T14:00:00",
+      "stops": [
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 1",
+          "orderId": "O-501"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 2",
+          "orderId": "O-502"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 3",
+          "orderId": "O-503"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 4",
+          "orderId": "O-504"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 5",
+          "orderId": "O-505"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 6",
+          "orderId": "O-506"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 7",
+          "orderId": "O-507"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 8",
+          "orderId": "O-508"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 9",
+          "orderId": "O-509"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 10",
+          "orderId": "O-510"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 11",
+          "orderId": "O-511"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 12",
+          "orderId": "O-512"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 13",
+          "orderId": "O-513"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 14",
+          "orderId": "O-514"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 15",
+          "orderId": "O-515"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 16",
+          "orderId": "O-516"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 17",
+          "orderId": "O-517"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 18",
+          "orderId": "O-518"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 19",
+          "orderId": "O-519"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 20",
+          "orderId": "O-520"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 21",
+          "orderId": "O-521"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 22",
+          "orderId": "O-522"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 23",
+          "orderId": "O-523"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "customer": "Cliente 24",
+          "orderId": "O-524"
+        }
+      ],
+      "id": 5
+    },
+    {
+      "name": "Auto Ruta 13-08-2025",
+      "area": "General",
+      "driverId": "auto",
+      "driverName": "Asignar",
+      "status": "scheduled",
+      "deliveryDate": "2025-08-13",
+      "startTime": "2025-08-13T09:00:00",
+      "estimatedEndTime": "2025-08-13T14:00:00",
+      "stops": [
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        }
+      ],
+      "id": 6
+    },
+    {
+      "name": "Auto Ruta 13-08-2025",
+      "area": "General",
+      "driverId": "auto",
+      "driverName": "Asignar",
+      "status": "scheduled",
+      "deliveryDate": "2025-08-13",
+      "startTime": "2025-08-13T09:00:00",
+      "estimatedEndTime": "2025-08-13T14:00:00",
+      "stops": [
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        }
+      ],
+      "id": 7
+    },
+    {
+      "name": "Auto Ruta 13-08-2025",
+      "area": "General",
+      "driverId": "auto",
+      "driverName": "Asignar",
+      "status": "scheduled",
+      "deliveryDate": "2025-08-13",
+      "startTime": "2025-08-13T09:00:00",
+      "estimatedEndTime": "2025-08-13T14:00:00",
+      "stops": [
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-101",
+          "customer": "Cliente 1"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-102",
+          "customer": "Cliente 2"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-103",
+          "customer": "Cliente 3"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-104",
+          "customer": "Cliente 4"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-201",
+          "customer": "Cliente 1"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-202",
+          "customer": "Cliente 2"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-203",
+          "customer": "Cliente 3"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-204",
+          "customer": "Cliente 4"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-301",
+          "customer": "Cliente 1"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-302",
+          "customer": "Cliente 2"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-303",
+          "customer": "Cliente 3"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-304",
+          "customer": "Cliente 4"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-401",
+          "customer": "Cliente 1"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-402",
+          "customer": "Cliente 2"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-403",
+          "customer": "Cliente 3"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-404",
+          "customer": "Cliente 4"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-405",
+          "customer": "Cliente 5"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-406",
+          "customer": "Cliente 6"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-407",
+          "customer": "Cliente 7"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-408",
+          "customer": "Cliente 8"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-409",
+          "customer": "Cliente 9"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-410",
+          "customer": "Cliente 10"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-411",
+          "customer": "Cliente 11"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-412",
+          "customer": "Cliente 12"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-501",
+          "customer": "Cliente 1"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-502",
+          "customer": "Cliente 2"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-503",
+          "customer": "Cliente 3"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-504",
+          "customer": "Cliente 4"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-505",
+          "customer": "Cliente 5"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-506",
+          "customer": "Cliente 6"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-507",
+          "customer": "Cliente 7"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-508",
+          "customer": "Cliente 8"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-509",
+          "customer": "Cliente 9"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-510",
+          "customer": "Cliente 10"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-511",
+          "customer": "Cliente 11"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-512",
+          "customer": "Cliente 12"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-513",
+          "customer": "Cliente 13"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-514",
+          "customer": "Cliente 14"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-515",
+          "customer": "Cliente 15"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-516",
+          "customer": "Cliente 16"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-517",
+          "customer": "Cliente 17"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-518",
+          "customer": "Cliente 18"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-519",
+          "customer": "Cliente 19"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-520",
+          "customer": "Cliente 20"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-521",
+          "customer": "Cliente 21"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-522",
+          "customer": "Cliente 22"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-523",
+          "customer": "Cliente 23"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-524",
+          "customer": "Cliente 24"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        }
+      ],
+      "id": 8
+    },
+    {
+      "name": "Auto Ruta 13-08-2025",
+      "area": "General",
+      "driverId": "auto",
+      "driverName": "Asignar",
+      "status": "scheduled",
+      "deliveryDate": "2025-08-13",
+      "startTime": "2025-08-13T09:00:00",
+      "estimatedEndTime": "2025-08-13T14:00:00",
+      "stops": [
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-101",
+          "customer": "Cliente 1"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-102",
+          "customer": "Cliente 2"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-103",
+          "customer": "Cliente 3"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-104",
+          "customer": "Cliente 4"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-201",
+          "customer": "Cliente 1"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-202",
+          "customer": "Cliente 2"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-203",
+          "customer": "Cliente 3"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-204",
+          "customer": "Cliente 4"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-301",
+          "customer": "Cliente 1"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-302",
+          "customer": "Cliente 2"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-303",
+          "customer": "Cliente 3"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-304",
+          "customer": "Cliente 4"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-401",
+          "customer": "Cliente 1"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-402",
+          "customer": "Cliente 2"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-403",
+          "customer": "Cliente 3"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-404",
+          "customer": "Cliente 4"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-405",
+          "customer": "Cliente 5"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-406",
+          "customer": "Cliente 6"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-407",
+          "customer": "Cliente 7"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-408",
+          "customer": "Cliente 8"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-409",
+          "customer": "Cliente 9"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-410",
+          "customer": "Cliente 10"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-411",
+          "customer": "Cliente 11"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-412",
+          "customer": "Cliente 12"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-501",
+          "customer": "Cliente 1"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-502",
+          "customer": "Cliente 2"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-503",
+          "customer": "Cliente 3"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-504",
+          "customer": "Cliente 4"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-505",
+          "customer": "Cliente 5"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-506",
+          "customer": "Cliente 6"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-507",
+          "customer": "Cliente 7"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-508",
+          "customer": "Cliente 8"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-509",
+          "customer": "Cliente 9"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-510",
+          "customer": "Cliente 10"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-511",
+          "customer": "Cliente 11"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-512",
+          "customer": "Cliente 12"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-513",
+          "customer": "Cliente 13"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-514",
+          "customer": "Cliente 14"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-515",
+          "customer": "Cliente 15"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-516",
+          "customer": "Cliente 16"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-517",
+          "customer": "Cliente 17"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-518",
+          "customer": "Cliente 18"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-519",
+          "customer": "Cliente 19"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-520",
+          "customer": "Cliente 20"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-521",
+          "customer": "Cliente 21"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-522",
+          "customer": "Cliente 22"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-523",
+          "customer": "Cliente 23"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-524",
+          "customer": "Cliente 24"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-101",
+          "customer": "Cliente 1"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-102",
+          "customer": "Cliente 2"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-103",
+          "customer": "Cliente 3"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-104",
+          "customer": "Cliente 4"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-201",
+          "customer": "Cliente 1"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-202",
+          "customer": "Cliente 2"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-203",
+          "customer": "Cliente 3"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-204",
+          "customer": "Cliente 4"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-301",
+          "customer": "Cliente 1"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-302",
+          "customer": "Cliente 2"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-303",
+          "customer": "Cliente 3"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-304",
+          "customer": "Cliente 4"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-401",
+          "customer": "Cliente 1"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-402",
+          "customer": "Cliente 2"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-403",
+          "customer": "Cliente 3"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-404",
+          "customer": "Cliente 4"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-405",
+          "customer": "Cliente 5"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-406",
+          "customer": "Cliente 6"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-407",
+          "customer": "Cliente 7"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-408",
+          "customer": "Cliente 8"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-409",
+          "customer": "Cliente 9"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-410",
+          "customer": "Cliente 10"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-411",
+          "customer": "Cliente 11"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-412",
+          "customer": "Cliente 12"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-501",
+          "customer": "Cliente 1"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-502",
+          "customer": "Cliente 2"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-503",
+          "customer": "Cliente 3"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-504",
+          "customer": "Cliente 4"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-505",
+          "customer": "Cliente 5"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-506",
+          "customer": "Cliente 6"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-507",
+          "customer": "Cliente 7"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-508",
+          "customer": "Cliente 8"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-509",
+          "customer": "Cliente 9"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-510",
+          "customer": "Cliente 10"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-511",
+          "customer": "Cliente 11"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-512",
+          "customer": "Cliente 12"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-513",
+          "customer": "Cliente 13"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-514",
+          "customer": "Cliente 14"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-515",
+          "customer": "Cliente 15"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-516",
+          "customer": "Cliente 16"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-517",
+          "customer": "Cliente 17"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-518",
+          "customer": "Cliente 18"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-519",
+          "customer": "Cliente 19"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-520",
+          "customer": "Cliente 20"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-521",
+          "customer": "Cliente 21"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-522",
+          "customer": "Cliente 22"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-523",
+          "customer": "Cliente 23"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-524",
+          "customer": "Cliente 24"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending"
+        }
+      ],
+      "id": 9
+    },
+    {
+      "name": "Auto Ruta 13-08-2025",
+      "area": "General",
+      "driverId": "auto",
+      "driverName": "Asignar",
+      "status": "scheduled",
+      "deliveryDate": "2025-08-13",
+      "startTime": "2025-08-13T09:00:00",
+      "estimatedEndTime": "2025-08-13T14:00:00",
+      "stops": [
+        {
+          "id": "rDemo Ruta 1-s1",
+          "address": "Dirección demo Demo Ruta 1 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-101",
+          "customer": "Cliente 1"
+        },
+        {
+          "id": "rDemo Ruta 1-s2",
+          "address": "Dirección demo Demo Ruta 1 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-102",
+          "customer": "Cliente 2"
+        },
+        {
+          "id": "rDemo Ruta 1-s3",
+          "address": "Dirección demo Demo Ruta 1 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-103",
+          "customer": "Cliente 3"
+        },
+        {
+          "id": "rDemo Ruta 1-s4",
+          "address": "Dirección demo Demo Ruta 1 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-104",
+          "customer": "Cliente 4"
+        },
+        {
+          "id": "rDemo Ruta 2-s1",
+          "address": "Dirección demo Demo Ruta 2 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-201",
+          "customer": "Cliente 1"
+        },
+        {
+          "id": "rDemo Ruta 2-s2",
+          "address": "Dirección demo Demo Ruta 2 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-202",
+          "customer": "Cliente 2"
+        },
+        {
+          "id": "rDemo Ruta 2-s3",
+          "address": "Dirección demo Demo Ruta 2 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-203",
+          "customer": "Cliente 3"
+        },
+        {
+          "id": "rDemo Ruta 2-s4",
+          "address": "Dirección demo Demo Ruta 2 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-204",
+          "customer": "Cliente 4"
+        },
+        {
+          "id": "rDemo Ruta 3-s1",
+          "address": "Dirección demo Demo Ruta 3 #1",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-301",
+          "customer": "Cliente 1"
+        },
+        {
+          "id": "rDemo Ruta 3-s2",
+          "address": "Dirección demo Demo Ruta 3 #2",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-302",
+          "customer": "Cliente 2"
+        },
+        {
+          "id": "rDemo Ruta 3-s3",
+          "address": "Dirección demo Demo Ruta 3 #3",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-303",
+          "customer": "Cliente 3"
+        },
+        {
+          "id": "rDemo Ruta 3-s4",
+          "address": "Dirección demo Demo Ruta 3 #4",
+          "lat": 0,
+          "lng": 0,
+          "status": "pending",
+          "orderId": "O-304",
+          "customer": "Cliente 4"
+        }
+      ],
+      "id": 10
     }
   ],
   "metrics": {

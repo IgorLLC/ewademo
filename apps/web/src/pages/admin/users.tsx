@@ -10,7 +10,7 @@ const AdminUsers = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedRole, setSelectedRole] = useState<string>('all');
+  const [selectedRole, setSelectedRole] = useState<string>('customer');
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [userToDelete, setUserToDelete] = useState<User | null>(null);
@@ -35,31 +35,36 @@ const AdminUsers = () => {
   const fetchUsers = async () => {
     try {
       const usersData = await getUsers();
-      setUsers(usersData);
+      // Mostrar solo clientes (sin admins ni otros roles)
+      const customers = usersData.filter(u => u.role === 'customer');
+      if (customers.length < 15) {
+        const needed = 15 - customers.length;
+        const startIdx = customers.length + 1;
+        const fillers: User[] = Array.from({ length: needed }).map((_, i) => {
+          const n = startIdx + i;
+          return {
+            id: `demo-cust-${n}`,
+            name: `Cliente ${n}`,
+            email: `cliente${n}@demo.com`,
+            phone: `(787) 555-${String(n).padStart(4, '0')}`,
+            role: 'customer',
+            isActive: true,
+            address: { street: `Calle Demo ${n}`, city: 'San Juan', state: 'PR', zip: '00901', country: 'PR' },
+          } as User;
+        });
+        setUsers([...customers, ...fillers]);
+      } else {
+        setUsers(customers);
+      }
     } catch (err) {
       console.error('Error fetching users:', err);
       setError('Failed to load users. Please try again later.');
       
       // Usar datos mock si la API falla
       setUsers([
-        {
-          id: 'u1',
-          name: 'Juan Rivera',
-          email: 'juan@cliente.com',
-          role: 'customer'
-        },
-        {
-          id: 'u2',
-          name: 'María López',
-          email: 'admin@ewa.com',
-          role: 'admin'
-        },
-        {
-          id: 'u3',
-          name: 'Restaurante Sobao',
-          email: 'sobao@business.com',
-          role: 'customer'
-        }
+        { id: 'u1', name: 'Cliente 1', email: 'cliente1@demo.com', role: 'customer' },
+        { id: 'u2', name: 'Cliente 2', email: 'cliente2@demo.com', role: 'customer' },
+        { id: 'u3', name: 'Cliente 3', email: 'cliente3@demo.com', role: 'customer' }
       ]);
     } finally {
       setLoading(false);
@@ -289,6 +294,17 @@ const AdminUsers = () => {
                             Suscripciones
                           </button>
                         )}
+                        <button
+                          type="button"
+                          onClick={() => router.push(`/admin/users/view/${user.id}`)}
+                          className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs sm:text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ewa-blue"
+                        >
+                          <svg className="-ml-1 mr-1.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                          </svg>
+                          Ver
+                        </button>
                         <button
                           type="button"
                           onClick={() => router.push(`/admin/users/edit/${user.id}`)}
