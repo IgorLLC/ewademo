@@ -580,6 +580,7 @@ const AdminRoutes = () => {
                         height="400px"
                         className="w-full border border-gray-300 rounded-md"
                         interactive={false}
+                        showDirectionArrows={false}
                         routePath={(Array.isArray(selectedRoute.stops) ? selectedRoute.stops : (selectedRoute.details?.stops || []))
                           .map((s:any)=>({lng:Number(s.lng), lat:Number(s.lat)}))
                           .filter(p=>Number.isFinite(p.lng) && Number.isFinite(p.lat))}
