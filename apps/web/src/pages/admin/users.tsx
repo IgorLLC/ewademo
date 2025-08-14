@@ -37,34 +37,17 @@ const AdminUsers = () => {
       const usersData = await getUsers();
       // Mostrar solo clientes (sin admins ni otros roles)
       const customers = usersData.filter(u => u.role === 'customer');
-      if (customers.length < 15) {
-        const needed = 15 - customers.length;
-        const startIdx = customers.length + 1;
-        const fillers: User[] = Array.from({ length: needed }).map((_, i) => {
-          const n = startIdx + i;
-          return {
-            id: `demo-cust-${n}`,
-            name: `Cliente ${n}`,
-            email: `cliente${n}@demo.com`,
-            phone: `(787) 555-${String(n).padStart(4, '0')}`,
-            role: 'customer',
-            isActive: true,
-            address: { street: `Calle Demo ${n}`, city: 'San Juan', state: 'PR', zip: '00901', country: 'PR' },
-          } as User;
-        });
-        setUsers([...customers, ...fillers]);
-      } else {
-        setUsers(customers);
-      }
+      setUsers(customers);
     } catch (err) {
       console.error('Error fetching users:', err);
       setError('Failed to load users. Please try again later.');
       
-      // Usar datos mock si la API falla
+      // Fallback con nombres ficticios de PR (sin "demo") si la API falla
       setUsers([
-        { id: 'u1', name: 'Cliente 1', email: 'cliente1@demo.com', role: 'customer' },
-        { id: 'u2', name: 'Cliente 2', email: 'cliente2@demo.com', role: 'customer' },
-        { id: 'u3', name: 'Cliente 3', email: 'cliente3@demo.com', role: 'customer' }
+        { id: 'u1', name: 'Carmen Isabel Rodríguez Morales', email: 'carmen.rodriguez@gmail.com', role: 'customer' },
+        { id: 'u3', name: 'José Carlos Vega Mendoza', email: 'carlos@sobaorestaurant.com', role: 'customer' },
+        { id: 'u4', name: 'Ana Sofía Torres Rivera', email: 'anasofia.torres@outlook.com', role: 'customer' },
+        { id: 'u5', name: 'Miguel Ángel Díaz Fernández', email: 'miguel.diaz@yahoo.com', role: 'customer' }
       ]);
     } finally {
       setLoading(false);

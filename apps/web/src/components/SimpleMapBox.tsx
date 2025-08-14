@@ -121,40 +121,6 @@ const SimpleMapBox: React.FC<SimpleMapBoxProps> = ({
     return container;
   };
 
-  const createEndMarkerElement = (color = '#dc2626') => {
-    const container = document.createElement('div');
-    container.style.position = 'relative';
-    container.style.width = '24px';
-    container.style.height = '30px';
-    
-
-    const bubble = document.createElement('div');
-    bubble.style.width = '24px';
-    bubble.style.height = '24px';
-    bubble.style.borderRadius = '9999px';
-    bubble.style.background = color;
-    bubble.style.color = '#fff';
-    bubble.style.display = 'flex';
-    bubble.style.alignItems = 'center';
-    bubble.style.justifyContent = 'center';
-    bubble.style.fontSize = '12px';
-    bubble.style.fontWeight = '700';
-    bubble.textContent = 'F';
-
-    const pointer = document.createElement('div');
-    pointer.style.position = 'absolute';
-    pointer.style.top = '22px';
-    pointer.style.left = '6px';
-    pointer.style.width = '0';
-    pointer.style.height = '0';
-    pointer.style.borderLeft = '6px solid transparent';
-    pointer.style.borderRight = '6px solid transparent';
-    pointer.style.borderTop = `8px solid ${color}`;
-
-    container.appendChild(bubble);
-    container.appendChild(pointer);
-    return container;
-  };
 
   const createArrowElement = (angleDeg: number, color = '#64748b') => {
     const container = document.createElement('div');

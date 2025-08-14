@@ -23,7 +23,7 @@ const EditCustomer = () => {
       street: '',
       city: '',
       state: '',
-      zipCode: '',
+      zip: '',
       country: 'PR',
       instructions: ''
     },
@@ -69,7 +69,7 @@ const EditCustomer = () => {
           street: user.address?.street || '',
           city: user.address?.city || '',
           state: user.address?.state || '',
-          zipCode: user.address?.zipCode || '',
+          zip: (user.address as any)?.zip || '',
           country: user.address?.country || 'PR',
           instructions: user.address?.instructions || ''
         },
@@ -134,7 +134,7 @@ const EditCustomer = () => {
           street: formData.address.street,
           city: formData.address.city,
           state: formData.address.state || undefined,
-          zipCode: formData.address.zipCode || undefined,
+          zip: formData.address.zip || undefined,
           country: formData.address.country,
           instructions: formData.address.instructions || undefined
         } : undefined,
@@ -184,8 +184,8 @@ const EditCustomer = () => {
 
   return (
     <AdminLayout 
-      title="Editar Cliente" 
-      description="Modificar información del cliente" 
+      title={`Editar Cliente${formData.name ? ` — ${formData.name}` : ''}`} 
+      description={`Modificar información del cliente${formData.email ? ` (${formData.email})` : ''}`} 
       currentPage="users"
     >
       <div className="max-w-4xl mx-auto">
@@ -193,7 +193,9 @@ const EditCustomer = () => {
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Editar Cliente</h1>
+              <h1 className="text-2xl font-bold text-gray-900">
+                Editar: <span className="text-ewa-blue">{formData.name || 'Cliente'}</span>
+              </h1>
               <p className="mt-2 text-gray-600">Modifique la información del cliente según sea necesario</p>
             </div>
             <button
@@ -348,14 +350,14 @@ const EditCustomer = () => {
               </div>
               
               <div>
-                <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="zip" className="block text-sm font-medium text-gray-700">
                   Código Postal
                 </label>
                 <input
                   type="text"
-                  id="zipCode"
-                  name="zipCode"
-                  value={formData.address.zipCode}
+                  id="zip"
+                  name="zip"
+                  value={formData.address.zip}
                   onChange={(e) => handleInputChange(e, 'address')}
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ewa-blue focus:border-ewa-blue"
                   placeholder="Ej: 00901"

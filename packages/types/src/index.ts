@@ -49,6 +49,8 @@ export type User = {
     zip: string;
     country: string;
     instructions?: string;
+    lat?: number;
+    lng?: number;
   };
   
   // Business Information (optional for commercial customers)

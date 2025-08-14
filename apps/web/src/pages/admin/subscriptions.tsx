@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import AdminLayout from '../../components/AdminLayout';
-import { getSubscriptions, getPlans, getProducts } from '@ewa/api-client';
-import { Subscription, Plan, Product, User } from '@ewa/types';
+import { getSubscriptions, getPlans } from '@ewa/api-client';
+import { Subscription, Plan } from '@ewa/types';
 
 const AdminSubscriptions = () => {
   const router = useRouter();
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [plans, setPlans] = useState<Plan[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -39,37 +37,13 @@ const AdminSubscriptions = () => {
   const fetchData = async () => {
     try {
       // Cargar datos de la API
-      const [subscriptionsData, plansData, productsData] = await Promise.all([
+      const [subscriptionsData, plansData] = await Promise.all([
         getSubscriptions(),
-        getPlans(),
-        getProducts()
+        getPlans()
       ]);
       
       setSubscriptions(subscriptionsData);
       setPlans(plansData);
-      setProducts(productsData);
-      
-      // Cargar usuarios mock para mostrar nombres
-      setUsers([
-        {
-          id: 'u1',
-          name: 'Juan Rivera',
-          email: 'juan@cliente.com',
-          role: 'customer'
-        },
-        {
-          id: 'u2',
-          name: 'María López',
-          email: 'admin@ewa.com',
-          role: 'admin'
-        },
-        {
-          id: 'u3',
-          name: 'Restaurante Sobao',
-          email: 'sobao@business.com',
-          role: 'customer'
-        }
-      ]);
     } catch (err) {
       console.error('Error fetching data:', err);
       setError('Failed to load subscriptions. Please try again later.');
@@ -96,30 +70,6 @@ const AdminSubscriptions = () => {
           productId: "p3",
           frequency: "monthly",
           minQty: 24
-        }
-      ]);
-      
-      setProducts([
-        {
-          id: "p1",
-          name: "Small Box Water",
-          sizeOz: 11,
-          sku: "SM-BOX-330",
-          price: 1.99
-        },
-        {
-          id: "p2",
-          name: "Medium Box Water",
-          sizeOz: 17,
-          sku: "MD-BOX-500",
-          price: 2.49
-        },
-        {
-          id: "p3",
-          name: "Large Box Water",
-          sizeOz: 33,
-          sku: "LG-BOX-1000",
-          price: 2.99
         }
       ]);
       
@@ -163,13 +113,11 @@ const AdminSubscriptions = () => {
     }
   };
 
-  // Filter subscriptions based on search term and status filter
+  // Filtrar suscripciones según búsqueda (por plan o ID) y estado
   const filteredSubscriptions = subscriptions.filter(subscription => {
-    const user = users.find(u => u.id === subscription.userId);
     const plan = plans.find(p => p.id === subscription.planId);
     
     const matchesSearch = 
-      (user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
       (plan?.name?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
       subscription.id.toLowerCase().includes(searchTerm.toLowerCase());
     
@@ -190,10 +138,7 @@ const AdminSubscriptions = () => {
     return plan?.name || 'Plan desconocido';
   };
 
-  const getUserName = (userId: string) => {
-    const user = users.find(u => u.id === userId);
-    return user?.name || 'Usuario desconocido';
-  };
+  // No mostramos datos de clientes en esta vista
 
   const getStatusBadgeClass = (status: string) => {
     switch (status) {
@@ -232,7 +177,7 @@ const AdminSubscriptions = () => {
   }
 
   return (
-    <AdminLayout title="Crear Suscripciones" description="Crea nuevas suscripciones para adjudicarlas luego a clientes" currentPage="subscriptions">
+    <AdminLayout title="Crear Suscripciones" description="Crea nuevas suscripciones. La tabla solo muestra una descripción por suscripción (sin datos de clientes)." currentPage="subscriptions">
       <div className="py-2">
               {/* Success Message */}
               {successMessage && (
@@ -288,7 +233,7 @@ const AdminSubscriptions = () => {
                       </div>
                       <input
                         type="text"
-                        placeholder="Busca plan o cliente para vincular a una nueva suscripción..."
+                        placeholder="Busca plan o ID de suscripción..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="focus:ring-ewa-blue focus:border-ewa-blue block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
@@ -319,7 +264,7 @@ const AdminSubscriptions = () => {
                 </div>
               </div>
 
-              {/* Subscriptions Table: vista para validar lo creado */}
+              {/* Subscriptions Table: vista para validar lo creado (sin datos de clientes) */}
               <div className="bg-white shadow overflow-hidden rounded-lg">
                 {loading ? (
                   <div className="p-6 flex justify-center">
@@ -335,22 +280,7 @@ const AdminSubscriptions = () => {
                       <thead className="bg-gray-50">
                         <tr>
                           <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            ID
-                          </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Cliente
-                          </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Plan
-                          </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Estado
-                          </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Próxima entrega
-                          </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Cantidad
+                            Descripción
                           </th>
                           <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Acciones
@@ -360,25 +290,19 @@ const AdminSubscriptions = () => {
                       <tbody className="bg-white divide-y divide-gray-200">
                         {filteredSubscriptions.map((subscription) => (
                           <tr key={subscription.id}>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                              {subscription.id}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              {getUserName(subscription.userId)}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              {getPlanName(subscription.planId)}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusBadgeClass(subscription.status)}`}>
-                                {getStatusLabel(subscription.status)}
-                              </span>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              {formatDate(subscription.nextDeliveryDate || null)}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              {subscription.quantity}
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                              <div className="flex flex-col">
+                                <span className="font-medium text-gray-900">{getPlanName(subscription.planId)}</span>
+                                <span className="text-gray-500">ID: {subscription.id}</span>
+                                <span className="text-gray-500">Frecuencia: {subscription.frequency === 'weekly' ? 'Semanal' : subscription.frequency === 'biweekly' ? 'Bisemanal' : 'Mensual'}</span>
+                                <span className="text-gray-500">Cantidad: {subscription.quantity}</span>
+                                <span className="text-gray-500">Próxima entrega: {formatDate(subscription.nextDeliveryDate || null)}</span>
+                                <span className="mt-1">
+                                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusBadgeClass(subscription.status)}`}>
+                                    {getStatusLabel(subscription.status)}
+                                  </span>
+                                </span>
+                              </div>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                               <div className="flex justify-end space-x-2">
