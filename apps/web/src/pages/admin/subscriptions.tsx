@@ -232,7 +232,7 @@ const AdminSubscriptions = () => {
   }
 
   return (
-    <AdminLayout title="Gestión de Suscripciones" description="Gestión de suscripciones para el servicio de agua sustentable - Demo" currentPage="subscriptions">
+    <AdminLayout title="Crear Suscripciones" description="Crea nuevas suscripciones para adjudicarlas luego a clientes" currentPage="subscriptions">
       <div className="py-2">
               {/* Success Message */}
               {successMessage && (
@@ -276,7 +276,7 @@ const AdminSubscriptions = () => {
                 </div>
               )}
 
-              {/* Search and Filter */}
+              {/* Enfoque: Crear suscripciones */}
               <div className="bg-white shadow rounded-lg p-6 mb-6">
                 <div className="md:flex md:items-center md:justify-between">
                   <div className="md:flex-1">
@@ -288,7 +288,7 @@ const AdminSubscriptions = () => {
                       </div>
                       <input
                         type="text"
-                        placeholder="Buscar suscripciones..."
+                        placeholder="Busca plan o cliente para vincular a una nueva suscripción..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="focus:ring-ewa-blue focus:border-ewa-blue block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
@@ -301,7 +301,7 @@ const AdminSubscriptions = () => {
                       onChange={(e) => setStatusFilter(e.target.value)}
                       className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-ewa-blue focus:border-ewa-blue sm:text-sm rounded-md"
                     >
-                      <option value="all">Todos los estados</option>
+                      <option value="all">Todas</option>
                       <option value="active">Activas</option>
                       <option value="paused">Pausadas</option>
                       <option value="cancelled">Canceladas</option>
@@ -313,13 +313,13 @@ const AdminSubscriptions = () => {
                       <svg className="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                       </svg>
-                      Crear Suscripción
+                      Crear nueva suscripción
                     </button>
                   </div>
                 </div>
               </div>
 
-              {/* Subscriptions Table */}
+              {/* Subscriptions Table: vista para validar lo creado */}
               <div className="bg-white shadow overflow-hidden rounded-lg">
                 {loading ? (
                   <div className="p-6 flex justify-center">
@@ -327,7 +327,7 @@ const AdminSubscriptions = () => {
                   </div>
                 ) : filteredSubscriptions.length === 0 ? (
                   <div className="p-6 text-center text-gray-500">
-                    No se encontraron suscripciones que coincidan con los criterios de búsqueda.
+                    Aún no hay suscripciones creadas. Usa el botón “Crear nueva suscripción” para comenzar.
                   </div>
                 ) : (
                   <div className="overflow-x-auto">
