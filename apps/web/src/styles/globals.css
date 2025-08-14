@@ -156,3 +156,25 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Brand alert and badge styles based on EWA palette */
+.alert-brand {
+  background-color: #93E7FF; /* light */
+  border: 1px solid #2EC2E7; /* primary */
+  color: #00A8E1; /* deep accent */
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+}
+
+.badge-brand {
+  background-color: #93E7FF;
+  border: 1px solid #2EC2E7;
+  color: #00A8E1;
+  border-radius: 9999px;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}

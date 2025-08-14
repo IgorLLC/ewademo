@@ -623,14 +623,14 @@ const AdminRoutes = () => {
                       </div>
                       </div>
                       
-                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                      <div className="alert-brand mb-4">
                         <div className="flex items-center gap-2 mb-2">
-                          <svg className="h-4 w-4 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{color:'#00A8E1'}}>
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.998-.833-2.768 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
                           </svg>
-                          <p className="text-sm font-medium text-yellow-800">Entrega Específica</p>
+                          <p className="text-sm font-medium" style={{color:'#00A8E1'}}>Entrega Específica</p>
                         </div>
-                        <p className="text-sm text-yellow-700">Esta información corresponde únicamente a la entrega <strong>"{selectedRoute.name}"</strong>. Otras entregas en la cola tienen conductores, horarios y paradas diferentes.</p>
+                        <p className="text-sm" style={{color:'#00A8E1'}}>Esta información corresponde únicamente a la entrega <strong>"{selectedRoute.name}"</strong>. Otras entregas en la cola tienen conductores, horarios y paradas diferentes.</p>
                       </div>
                       
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
