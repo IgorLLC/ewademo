@@ -96,10 +96,8 @@ const AdminDashboard = () => {
                   </dl>
                 </div>
                 <div className="bg-gray-50 px-4 py-4 sm:px-6">
-                  <div className="text-sm">
-                    <a href="/admin/metrics" className="font-medium text-ewa-blue hover:text-ewa-dark-blue">
-                      Ver detalles
-                    </a>
+                  <div className="text-sm text-gray-400 select-none">
+                    Ver detalles
                   </div>
                 </div>
               </div>
@@ -117,11 +115,7 @@ const AdminDashboard = () => {
                   </dl>
                 </div>
                 <div className="bg-gray-50 px-4 py-4 sm:px-6">
-                  <div className="text-sm">
-                    <a href="/admin/metrics" className="font-medium text-ewa-blue hover:text-ewa-dark-blue">
-                      Ver detalles
-                    </a>
-                  </div>
+                  <div className="text-sm text-gray-400 select-none">Ver detalles</div>
                 </div>
               </div>
 
@@ -138,11 +132,7 @@ const AdminDashboard = () => {
                   </dl>
                 </div>
                 <div className="bg-gray-50 px-4 py-4 sm:px-6">
-                  <div className="text-sm">
-                    <a href="/admin/metrics" className="font-medium text-ewa-blue hover:text-ewa-dark-blue">
-                      Ver detalles
-                    </a>
-                  </div>
+                  <div className="text-sm text-gray-400 select-none">Ver detalles</div>
                 </div>
               </div>
 
@@ -159,11 +149,7 @@ const AdminDashboard = () => {
                   </dl>
                 </div>
                 <div className="bg-gray-50 px-4 py-4 sm:px-6">
-                  <div className="text-sm">
-                    <a href="/admin/subscriptions" className="font-medium text-ewa-blue hover:text-ewa-dark-blue">
-                      Ver suscripciones
-                    </a>
-                  </div>
+                  <div className="text-sm text-gray-400 select-none">Ver suscripciones</div>
                 </div>
               </div>
 
@@ -180,11 +166,7 @@ const AdminDashboard = () => {
                   </dl>
                 </div>
                 <div className="bg-gray-50 px-4 py-4 sm:px-6">
-                  <div className="text-sm">
-                    <a href="/admin/clients" className="font-medium text-ewa-blue hover:text-ewa-dark-blue">
-                      Ver clientes
-                    </a>
-                  </div>
+                  <div className="text-sm text-gray-400 select-none">Ver clientes</div>
                 </div>
               </div>
 
@@ -201,11 +183,7 @@ const AdminDashboard = () => {
                   </dl>
                 </div>
                 <div className="bg-gray-50 px-4 py-4 sm:px-6">
-                  <div className="text-sm">
-                    <a href="/admin/orders" className="font-medium text-ewa-blue hover:text-ewa-dark-blue">
-                      Ver pedidos
-                    </a>
-                  </div>
+                  <div className="text-sm text-gray-400 select-none">Ver pedidos</div>
                 </div>
               </div>
             </div>
