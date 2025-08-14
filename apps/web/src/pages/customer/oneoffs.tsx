@@ -168,6 +168,10 @@ const OneOffOrdersPage = () => {
                   Perfil
                   <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200"></div>
                 </a>
+                <a href="/customer/billing" className="relative border-b-2 border-transparent hover:border-blue-300 text-gray-600 hover:text-blue-600 font-medium py-2 transition-all duration-200 group">
+                  Billing
+                  <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200"></div>
+                </a>
               </nav>
             </div>
             <div className="flex items-center space-x-4">
