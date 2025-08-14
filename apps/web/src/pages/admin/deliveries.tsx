@@ -287,7 +287,10 @@ const AdminDeliveries: React.FC = () => {
       setCreatedRouteId(createdId);
       try { localStorage.setItem('ewa_routes_enabled', '1'); } catch {}
       try {
-        const snapshot = {
+        // Persistir en cola acumulativa
+        const queueRaw = localStorage.getItem('ewa_routes_queue');
+        const queue: any[] = queueRaw ? JSON.parse(queueRaw) : [];
+        const queuedItem = {
           id: createdId,
           name: newRoute.name,
           area: newRoute.area,
@@ -296,14 +299,21 @@ const AdminDeliveries: React.FC = () => {
           status: newRoute.status,
           startTime: newRoute.startTime,
           estimatedEndTime: newRoute.estimatedEndTime,
+          deliveryDate: newRoute.deliveryDate,
           stops: (newRoute.stops || []).slice(0, 12),
           demo: true,
           fromDeliveries: true,
         };
-        localStorage.setItem('ewa_routes_snapshot', JSON.stringify(snapshot));
+        // Reemplazar si ya existe una ruta para la misma fecha; si no, agregar
+        const sameDateIdx = queue.findIndex((r: any) => r.deliveryDate === queuedItem.deliveryDate);
+        if (sameDateIdx >= 0) {
+          queue[sameDateIdx] = queuedItem;
+        } else {
+          queue.push(queuedItem);
+        }
+        localStorage.setItem('ewa_routes_queue', JSON.stringify(queue));
       } catch {}
-      // Redirigir inmediatamente a Rutas con activación y selección
-      router.push(`/admin/routes?activated=1&routeId=${createdId}`);
+      // No redirigir: permanecer en calendario para permitir enviar más rutas
     } catch (e) {
       console.error(e);
       setError('No se pudo enviar a ruta');

@@ -50,9 +50,18 @@ const AdminRoutes = () => {
   const [selectedRoute, setSelectedRoute] = useState<ExtendedRoute | null>(null);
   const [activatedFromCalendar, setActivatedFromCalendar] = useState<boolean>(false);
 
-  // Cargar datos mock al montar si viene de Calendario; si no, mantener vacío
+  // Cargar cola desde localStorage si viene del Calendario; si no, mantener vacío
   useEffect(() => {
-    fetchRoutes();
+    // No precargamos datos por defecto; solo si viene activado o hay cola
+    try {
+      const queueRaw = (typeof window !== 'undefined') ? localStorage.getItem('ewa_routes_queue') : null;
+      if (queueRaw) {
+        const queue = JSON.parse(queueRaw);
+        if (Array.isArray(queue) && queue.length > 0) {
+          setRoutes(queue);
+        }
+      }
+    } catch {}
   }, []);
 
   useEffect(() => {
@@ -63,20 +72,10 @@ const AdminRoutes = () => {
     setActivatedFromCalendar(!!activatedParam);
     if (activatedParam) {
       try {
-        const snap = (typeof window !== 'undefined') ? localStorage.getItem('ewa_routes_snapshot') : null;
-        if (snap) {
-          const parsed = JSON.parse(snap);
-          if (parsed && parsed.fromDeliveries) {
-            setRoutes([parsed]);
-          } else {
-            setRoutes([]);
-          }
-        } else {
-          setRoutes([]);
-        }
-      } catch {
-        setRoutes([]);
-      }
+        const queueRaw = (typeof window !== 'undefined') ? localStorage.getItem('ewa_routes_queue') : null;
+        const queue = queueRaw ? JSON.parse(queueRaw) : [];
+        if (Array.isArray(queue)) setRoutes(queue);
+      } catch { setRoutes([]); }
     } else {
       setRoutes([]);
       setSelectedRoute(null);
@@ -111,7 +110,7 @@ const AdminRoutes = () => {
           id: "route1",
           name: "Ruta San Juan - Condado",
           driverId: "d1",
-          driverName: "Carlos Rodríguez",
+          driverName: "Francisco Javier Morales Cruz",
           status: "in-progress",
           area: "San Juan",
           stops: [
@@ -120,21 +119,27 @@ const AdminRoutes = () => {
               address: "Calle Loíza 123, San Juan, PR 00911",
               lat: 18.4655,
               lng: -66.0572,
-              status: "pending"
+              status: "completed",
+              customer: "Carmen Isabel Rodríguez Morales",
+              orderId: "ORD-001"
             },
             {
               id: "stop2",
               address: "Calle Taft 45, Condado, San Juan, PR 00911",
               lat: 18.4612,
               lng: -66.0650,
-              status: "completed"
+              status: "pending",
+              customer: "Ana Sofía Torres Rivera", 
+              orderId: "ORD-002"
             },
             {
               id: "stop3",
               address: "Ashford Avenue 1058, Condado, San Juan, PR 00907",
               lat: 18.4571,
               lng: -66.0788,
-              status: "pending"
+              status: "pending",
+              customer: "Isabella Marie Ortega Ruiz",
+              orderId: "ORD-003"
             }
           ],
           startTime: "2025-05-26T08:00:00",
@@ -144,7 +149,7 @@ const AdminRoutes = () => {
           id: "route2",
           name: "Ruta Río Piedras - Universidad",
           driverId: "d2",
-          driverName: "Ana Martínez",
+          driverName: "Elena Patricia Vázquez Rivera",
           status: "completed",
           area: "Río Piedras",
           stops: [
@@ -153,14 +158,18 @@ const AdminRoutes = () => {
               address: "Ave. Universidad 45, Río Piedras, PR 00925",
               lat: 18.4037,
               lng: -66.0501,
-              status: "completed"
+              status: "completed",
+              customer: "Rafael Antonio Jiménez López",
+              orderId: "ORD-004"
             },
             {
               id: "stop5",
               address: "Calle Gandhi, Río Piedras, PR 00927",
               lat: 18.4008,
               lng: -66.0499,
-              status: "completed"
+              status: "completed",
+              customer: "Daniela Cristina Soto Mendez",
+              orderId: "ORD-005"
             }
           ],
           startTime: "2025-05-26T09:00:00",
@@ -171,7 +180,7 @@ const AdminRoutes = () => {
           id: "route3",
           name: "Ruta Ponce - Centro",
           driverId: "d3",
-          driverName: "Luis Vega",
+          driverName: "Eduardo Luis Herrera Santos",
           status: "active",
           area: "Ponce",
           stops: [
@@ -180,21 +189,27 @@ const AdminRoutes = () => {
               address: "Calle Marina 78, Ponce, PR 00716",
               lat: 18.0108,
               lng: -66.6140,
-              status: "pending"
+              status: "pending",
+              customer: "Valentina Rosa Castillo Díaz",
+              orderId: "ORD-006"
             },
             {
               id: "stop7",
               address: "Plaza Las Delicias, Ponce, PR 00730",
               lat: 18.0115,
               lng: -66.6141,
-              status: "pending"
+              status: "pending",
+              customer: "José Carlos Vega Mendoza",
+              orderId: "ORD-007"
             },
             {
               id: "stop8",
               address: "Calle Cristina 52, Ponce, PR 00731",
               lat: 18.0125,
               lng: -66.6133,
-              status: "pending"
+              status: "pending",
+              customer: "Adriana Michelle Ruiz Torres",
+              orderId: "ORD-008"
             }
           ],
           startTime: "2025-05-26T10:00:00",
@@ -204,7 +219,7 @@ const AdminRoutes = () => {
           id: "route4",
           name: "Ruta Mayagüez",
           driverId: "d4",
-          driverName: "Roberto Sánchez",
+          driverName: "Roberto Carlos Sánchez Moreno",
           status: "scheduled",
           area: "Mayagüez",
           stops: [
@@ -213,14 +228,18 @@ const AdminRoutes = () => {
               address: "Calle Méndez Vigo 55, Mayagüez, PR 00680",
               lat: 18.2010,
               lng: -67.1391,
-              status: "pending"
+              status: "pending",
+              customer: "Miguel Ángel Díaz Fernández",
+              orderId: "ORD-009"
             },
             {
               id: "stop10",
               address: "Plaza Colón, Mayagüez, PR 00680",
               lat: 18.2019,
               lng: -67.1397,
-              status: "pending"
+              status: "pending",
+              customer: "Sofía Alejandra González Pérez",
+              orderId: "ORD-010"
             }
           ],
           startTime: "2025-05-27T09:00:00",
@@ -230,7 +249,7 @@ const AdminRoutes = () => {
           id: "route5",
           name: "Ruta Caguas",
           driverId: "d5",
-          driverName: "María Torres",
+          driverName: "Carmen Lucía Torres Delgado",
           status: "scheduled",
           area: "Caguas",
           stops: [
@@ -239,21 +258,27 @@ const AdminRoutes = () => {
               address: "Calle Gautier Benítez 42, Caguas, PR 00725",
               lat: 18.2341,
               lng: -66.0361,
-              status: "pending"
+              status: "pending",
+              customer: "Gabriel Esteban Ramírez Silva",
+              orderId: "ORD-011"
             },
             {
               id: "stop12",
               address: "Plaza Palmer, Caguas, PR 00725",
               lat: 18.2349,
               lng: -66.0356,
-              status: "pending"
+              status: "pending",
+              customer: "Natalia Isabel Martín Rodríguez",
+              orderId: "ORD-012"
             },
             {
               id: "stop13",
               address: "Calle Padial 15, Caguas, PR 00725",
               lat: 18.2353,
               lng: -66.0372,
-              status: "pending"
+              status: "pending",
+              customer: "Alejandro David Fernández Castro",
+              orderId: "ORD-013"
             }
           ],
           startTime: "2025-05-27T10:00:00",
@@ -464,7 +489,8 @@ const AdminRoutes = () => {
                                 <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 text-blue-800 text-xs font-semibold">{index + 1}</span>
                                 <p className="text-sm font-semibold text-gray-900 truncate">{route.name}</p>
                               </div>
-                              <p className="text-sm text-gray-600 truncate ml-8">📍 {route.area}</p>
+                        <p className="text-sm text-gray-600 truncate ml-8">📍 {route.area}</p>
+                        <p className="text-xs text-gray-500 truncate ml-8 mt-0.5">🗓️ Sale: {new Date(route.startTime).toLocaleString('es-PR', {year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit'})}</p>
                               <p className="text-xs text-gray-500 ml-8 mt-1">📦 Entrega independiente con {(Array.isArray(route.stops) ? route.stops.length : (route.details?.stops?.length || 0))} paradas</p>
                               <div className="mt-1 flex items-center">
                                 <div className="flex-shrink-0 h-5 w-5 mr-1">
