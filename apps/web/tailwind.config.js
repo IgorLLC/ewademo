@@ -9,9 +9,10 @@ module.exports = {
   theme: {
   	extend: {
   		colors: {
-  			'ewa-blue': '#0066cc',
-  			'ewa-light-blue': '#e6f2ff',
-  			'ewa-dark-blue': '#004d99',
+  			// Paleta EWA actualizada
+  			'ewa-blue': '#2EC2E7', // primario
+  			'ewa-light-blue': '#93E7FF', // claro
+  			'ewa-dark-blue': '#00A8E1', // acento profundo
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
