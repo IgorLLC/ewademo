@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactNode } from 'react';
+import React, { useState, useEffect, ReactNode, useRef } from 'react';
 import { readSessionFromCookie, hasAdminAccess } from '../lib/session';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
@@ -27,6 +27,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
   const [user, setUser] = useState<StoredUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpenUp, setMenuOpenUp] = useState(false);
+  const menuAnchorRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     // Preferir cookie httpOnly si existe; fallback a localStorage para compatibilidad
@@ -90,7 +92,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
 
       <div className="min-h-screen bg-gray-100 flex">
         {/* Sidebar (left) */}
-        <aside className="w-64 bg-white border-r border-gray-200 hidden md:flex md:flex-col md:sticky md:top-0 md:h-screen">
+        <aside className="w-64 bg-white border-r border-gray-200 hidden md:flex md:flex-col md:sticky md:top-0 md:h-screen relative z-30 overflow-visible">
           {/* Logo superior */}
               <div className="p-4 flex items-center justify-center border-b border-gray-200">
             <a href="/" aria-label="Inicio">
@@ -136,11 +138,24 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
             </nav>
           )}
           <div className="border-t border-gray-200 p-4">
-            <div className="relative">
+            <div className="relative" ref={menuAnchorRef}>
               <button
                 type="button"
                 className="w-full inline-flex items-center justify-between gap-3 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm hover:bg-gray-50"
-                onClick={() => setMenuOpen((v) => !v)}
+                onClick={() => {
+                  const next = !menuOpen;
+                  setMenuOpen(next);
+                  if (next) {
+                    setTimeout(() => {
+                      const anchor = menuAnchorRef.current;
+                      if (!anchor) return;
+                      const rect = anchor.getBoundingClientRect();
+                      const estimatedMenuHeight = 160;
+                      const hasSpaceDown = rect.bottom + estimatedMenuHeight + 8 <= window.innerHeight;
+                      setMenuOpenUp(!hasSpaceDown);
+                    }, 0);
+                  }
+                }}
                 aria-expanded={menuOpen}
                 aria-haspopup="true"
               >
@@ -162,7 +177,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
                 </svg>
               </button>
               {menuOpen && (
-                <div className="absolute left-0 right-0 z-10 mt-2 rounded-md border bg-white shadow-md overflow-hidden">
+                <div className={`absolute left-0 right-0 z-50 ${menuOpenUp ? 'bottom-full mb-2' : 'top-full mt-2'} rounded-md border bg-white shadow-md overflow-hidden max-h-[60vh] overflow-auto`}>
                   <button
                     onClick={() => { setMenuOpen(false); router.push('/admin/profile'); }}
                     className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"

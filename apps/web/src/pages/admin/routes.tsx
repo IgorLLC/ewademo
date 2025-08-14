@@ -49,6 +49,7 @@ const AdminRoutes = () => {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [selectedRoute, setSelectedRoute] = useState<ExtendedRoute | null>(null);
   const [activatedFromCalendar, setActivatedFromCalendar] = useState<boolean>(false);
+  const [expandedStopIds, setExpandedStopIds] = useState<string[]>([]);
 
   // Cargar cola desde localStorage si viene del Calendario; si no, mantener vacío
   useEffect(() => {
@@ -359,6 +360,10 @@ const AdminRoutes = () => {
 
   const handleViewRoute = (route: ExtendedRoute) => {
     setSelectedRoute(route);
+  };
+
+  const toggleStopExpansion = (stopId: string) => {
+    setExpandedStopIds(prev => prev.includes(stopId) ? prev.filter(id => id !== stopId) : [...prev, stopId]);
   };
 
   return (
@@ -714,55 +719,115 @@ const AdminRoutes = () => {
                         📍 <strong>Información específica:</strong> Estas son únicamente las paradas para la entrega seleccionada <strong>"{selectedRoute.name}"</strong>. Cada entrega en la cola tiene sus propias paradas independientes.
                       </p>
                       <ul className="divide-y divide-gray-200 border border-gray-200 rounded-md">
-                        {Array.isArray(selectedRoute.stops) ? selectedRoute.stops.map((stop, idx) => (
-                          <li key={stop.id} className="px-4 py-3">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-start gap-3">
-                                <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gray-200 text-[11px] font-semibold text-gray-700">{idx + 1}</span>
-                                <div>
-                                  <div className="text-[11px] text-gray-500 -mt-0.5 mb-0.5">Parada {idx + 1}</div>
-                                  <p className="text-sm font-medium text-gray-900">{stop.customer ? `${stop.customer} — ` : ''}{stop.orderId ? `Orden ${stop.orderId}` : stop.address}</p>
-                                  <p className="text-xs text-gray-500">{stop.address}</p>
-                                  <p className="text-xs text-gray-500">ID: {stop.id}{stop.eta ? ` · ETA: ${stop.eta}` : ''}</p>
+                        {Array.isArray(selectedRoute.stops) ? selectedRoute.stops.map((stop, idx) => {
+                          const isExpanded = expandedStopIds.includes(stop.id);
+                          return (
+                            <li key={stop.id} className="px-4 py-3">
+                              <button type="button" onClick={() => toggleStopExpansion(stop.id)} className="w-full text-left">
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-start gap-3">
+                                    <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gray-200 text-[11px] font-semibold text-gray-700">{idx + 1}</span>
+                                    <div>
+                                      <div className="text-[11px] text-gray-500 -mt-0.5 mb-0.5">Parada {idx + 1}</div>
+                                      <p className="text-sm font-medium text-gray-900">{stop.customer ? `${stop.customer} — ` : ''}{stop.orderId ? `Orden ${stop.orderId}` : stop.address}</p>
+                                      <p className="text-xs text-gray-500">{stop.address}</p>
+                                      <p className="text-xs text-gray-500">ID: {stop.id}{stop.eta ? ` · ETA: ${stop.eta}` : ''}</p>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${stop.status === 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                                      {stop.status === 'completed' ? 'Completada' : 'Pendiente'}
+                                    </span>
+                                    <svg className={`h-4 w-4 text-gray-500 transition-transform ${isExpanded ? 'transform rotate-180' : ''}`} viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.127l3.71-3.896a.75.75 0 111.08 1.04l-4.24 4.46a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd"/></svg>
+                                  </div>
                                 </div>
-                              </div>
-                              <div>
-                                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                                  stop.status === 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                                }`}>
-                                  {stop.status === 'completed' ? 'Completada' : 'Pendiente'}
-                                </span>
-                              </div>
-                            </div>
-                          </li>
-                        )) : selectedRoute.details && Array.isArray(selectedRoute.details.stops) ? selectedRoute.details.stops.map((stop: {
+                              </button>
+                              {isExpanded && (
+                                <div className="mt-3 bg-gray-50 border border-gray-200 rounded-md p-3 text-sm text-gray-700">
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    {stop.customer && (
+                                      <div>
+                                        <div className="text-xs text-gray-500">Cliente</div>
+                                        <div className="font-medium text-gray-900">{stop.customer}</div>
+                                      </div>
+                                    )}
+                                    {stop.orderId && (
+                                      <div>
+                                        <div className="text-xs text-gray-500">Orden</div>
+                                        <div className="font-medium text-gray-900">{stop.orderId}</div>
+                                      </div>
+                                    )}
+                                    <div>
+                                      <div className="text-xs text-gray-500">Dirección</div>
+                                      <div className="text-gray-900">{stop.address}</div>
+                                    </div>
+                                    {Number.isFinite(stop.lat) && Number.isFinite(stop.lng) && (
+                                      <div>
+                                        <div className="text-xs text-gray-500">Coordenadas</div>
+                                        <div className="text-gray-900">{Number(stop.lat).toFixed(5)}, {Number(stop.lng).toFixed(5)}</div>
+                                      </div>
+                                    )}
+                                    <div>
+                                      <div className="text-xs text-gray-500">Estado</div>
+                                      <div className="text-gray-900">{stop.status === 'completed' ? 'Completada' : 'Pendiente'}{stop.eta ? ` · ETA: ${stop.eta}` : ''}</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </li>
+                          );
+                        }) : selectedRoute.details && Array.isArray(selectedRoute.details.stops) ? selectedRoute.details.stops.map((stop: {
                           id: string;
                           address: string;
                           lat: number;
                           lng: number;
                           status: 'pending' | 'completed';
                           eta: string;
-                        }, idx: number) => (
-                          <li key={stop.id} className="px-4 py-3">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-start gap-3">
-                                <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gray-200 text-[11px] font-semibold text-gray-700">{idx + 1}</span>
-                                <div>
-                                  <div className="text-[11px] text-gray-500 -mt-0.5 mb-0.5">Parada {idx + 1}</div>
-                                  <p className="text-sm font-medium text-gray-900">{stop.address}</p>
-                                  <p className="text-xs text-gray-500">ID: {stop.id}{stop.eta ? ` · ETA: ${stop.eta}` : ''}</p>
+                        }, idx: number) => {
+                          const isExpanded = expandedStopIds.includes(stop.id);
+                          return (
+                            <li key={stop.id} className="px-4 py-3">
+                              <button type="button" onClick={() => toggleStopExpansion(stop.id)} className="w-full text-left">
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-start gap-3">
+                                    <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gray-200 text-[11px] font-semibold text-gray-700">{idx + 1}</span>
+                                    <div>
+                                      <div className="text-[11px] text-gray-500 -mt-0.5 mb-0.5">Parada {idx + 1}</div>
+                                      <p className="text-sm font-medium text-gray-900">{stop.address}</p>
+                                      <p className="text-xs text-gray-500">ID: {stop.id}{stop.eta ? ` · ETA: ${stop.eta}` : ''}</p>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${stop.status === 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                                      {stop.status === 'completed' ? 'Completada' : 'Pendiente'}
+                                    </span>
+                                    <svg className={`h-4 w-4 text-gray-500 transition-transform ${isExpanded ? 'transform rotate-180' : ''}`} viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.127l3.71-3.896a.75.75 0 111.08 1.04l-4.24 4.46a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd"/></svg>
+                                  </div>
                                 </div>
-                              </div>
-                              <div>
-                                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                                  stop.status === 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                                }`}>
-                                  {stop.status === 'completed' ? 'Completada' : 'Pendiente'}
-                                </span>
-                              </div>
-                            </div>
-                          </li>
-                        )) : (
+                              </button>
+                              {isExpanded && (
+                                <div className="mt-3 bg-gray-50 border border-gray-200 rounded-md p-3 text-sm text-gray-700">
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div>
+                                      <div className="text-xs text-gray-500">Dirección</div>
+                                      <div className="text-gray-900">{stop.address}</div>
+                                    </div>
+                                    {Number.isFinite(stop.lat) && Number.isFinite(stop.lng) && (
+                                      <div>
+                                        <div className="text-xs text-gray-500">Coordenadas</div>
+                                        <div className="text-gray-900">{Number(stop.lat).toFixed(5)}, {Number(stop.lng).toFixed(5)}</div>
+                                      </div>
+                                    )}
+                                    <div>
+                                      <div className="text-xs text-gray-500">Estado</div>
+                                      <div className="text-gray-900">{stop.status === 'completed' ? 'Completada' : 'Pendiente'}{stop.eta ? ` · ETA: ${stop.eta}` : ''}</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </li>
+                          );
+                        }) : (
                           <li className="px-4 py-3 text-center text-gray-500">
                             No hay paradas disponibles para esta ruta
                           </li>
