@@ -79,7 +79,7 @@ const BillingPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Billing • EWA</title>
+        <title>Facturación • EWA</title>
       </Head>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50">
         <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200/60 sticky top-0 z-50 shadow-sm">
@@ -94,24 +94,7 @@ const BillingPage: React.FC = () => {
         </header>
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="bg-white rounded-xl border p-4">
-              <div className="text-xs text-gray-500">Órdenes</div>
-              <div className="text-2xl font-semibold">{summary.ordersCount}</div>
-            </div>
-            <div className="bg-white rounded-xl border p-4">
-              <div className="text-xs text-gray-500">Subtotal</div>
-              <div className="text-2xl font-semibold">${summary.subtotal.toFixed(2)}</div>
-            </div>
-            <div className="bg-white rounded-xl border p-4">
-              <div className="text-xs text-gray-500">Impuestos (11.5%)</div>
-              <div className="text-2xl font-semibold">${summary.tax.toFixed(2)}</div>
-            </div>
-            <div className="bg-white rounded-xl border p-4">
-              <div className="text-xs text-gray-500">Total</div>
-              <div className="text-2xl font-semibold">${summary.total.toFixed(2)}</div>
-            </div>
-          </div>
+          {/* Se ocultan las tarjetas de resumen por no ser necesarias */}
 
           <div className="bg-white/90 rounded-2xl shadow-lg border border-gray-100 p-6">
             <div className="flex items-center gap-3 mb-6">

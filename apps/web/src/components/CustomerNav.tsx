@@ -8,7 +8,7 @@ const CustomerNav: React.FC = () => {
     { href: '/customer/oneoffs', label: 'Pedidos Únicos' },
     { href: '/customer/profile', label: 'Perfil' },
     { href: '/customer/locations', label: 'Puntos de entrega' },
-    { href: '/customer/billing', label: 'Billing' },
+    { href: '/customer/billing', label: 'Facturación' },
   ];
 
   const baseClasses = 'relative border-b-2 border-transparent hover:border-blue-300 text-gray-600 hover:text-blue-600 font-medium py-2 transition-all duration-200 group';
