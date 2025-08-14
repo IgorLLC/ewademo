@@ -1,8 +1,11 @@
 // Utilidades de fecha
-export { format, parseISO, addDays, subDays, isAfter, isBefore } from 'date-fns';
+import { format, parseISO, addDays, subDays, isAfter, isBefore } from 'date-fns';
 
 // Utilidades de validación
-export { z } from 'zod';
+import { z } from 'zod';
+
+export { format, parseISO, addDays, subDays, isAfter, isBefore };
+export { z };
 
 // Utilidades de objetos y arrays
 export { get, set, cloneDeep, debounce, throttle } from 'lodash';
