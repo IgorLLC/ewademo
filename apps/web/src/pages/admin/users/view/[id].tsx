@@ -504,11 +504,11 @@ const ViewUser = () => {
           <div className="px-6 py-4 space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-500">Fecha de Registro</label>
-              <p className="mt-1 text-sm text-gray-900">{formatDate(user.createdAt)}</p>
+              <p className="mt-1 text-sm text-gray-900">{formatDate(user.createdAt || new Date().toISOString())}</p>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-500">Última Actualización</label>
-              <p className="mt-1 text-sm text-gray-900">{formatDate(user.updatedAt)}</p>
+              <p className="mt-1 text-sm text-gray-900">{formatDate(user.updatedAt || new Date().toISOString())}</p>
             </div>
           </div>
         </div>

@@ -76,7 +76,7 @@ const MapBox: React.FC<MapBoxProps> = ({
   }, [address, latitude, longitude, onAddressChange]);
 
   // Manejar el clic en el mapa para cambiar el marcador
-  const handleMapClick = async (event: any) => {
+  const handleMapClick = async (event: MapLayerMouseEvent) => {
     if (!onAddressChange) return; // Solo permitir cambios si se proporciona la función onAddressChange
     
     const { lng, lat } = event.lngLat;
@@ -112,7 +112,7 @@ const MapBox: React.FC<MapBoxProps> = ({
         onMove={evt => setViewState(evt.viewState)}
         mapStyle="mapbox://styles/mapbox/streets-v11"
         style={{ width: '100%', height: '100%', borderRadius: '0.5rem' }}
-        onClick={onAddressChange ? (e: any) => handleMapClick(e) : undefined}
+        onClick={onAddressChange ? handleMapClick : undefined}
       >
         <Marker 
           latitude={viewState.latitude} 

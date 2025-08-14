@@ -9,6 +9,13 @@ interface AdminLayoutProps {
   currentPage: 'dashboard' | 'users' | 'subscriptions' | 'routes' | 'deliveries';
 }
 
+type UserRole = 'admin' | 'operator' | 'editor' | 'customer';
+interface StoredUser {
+  name?: string;
+  email?: string;
+  role?: UserRole | string;
+}
+
 const AdminLayout: React.FC<AdminLayoutProps> = ({ 
   children, 
   title, 
@@ -16,7 +23,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
   currentPage 
 }) => {
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<StoredUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -29,7 +36,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
     }
 
     try {
-      const userData = JSON.parse(userJson);
+      const userData = JSON.parse(userJson) as StoredUser;
       if (userData.role !== 'admin' && userData.role !== 'operator' && userData.role !== 'editor') {
         setLoading(false);
         router.push('/auth');

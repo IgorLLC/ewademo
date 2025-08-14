@@ -6,7 +6,14 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 const Home = () => {
-  const [user, setUser] = useState<any>(null);
+  type UserRole = 'admin' | 'operator' | 'editor' | 'customer';
+  interface StoredUser {
+    name?: string;
+    email?: string;
+    role?: UserRole | string;
+  }
+
+  const [user, setUser] = useState<StoredUser | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -14,7 +21,7 @@ const Home = () => {
     const userJson = localStorage.getItem('ewa_user');
     if (userJson) {
       try {
-        const userData = JSON.parse(userJson);
+        const userData = JSON.parse(userJson) as StoredUser;
         setUser(userData);
       } catch (error) {
         console.error('Error parsing user data:', error);

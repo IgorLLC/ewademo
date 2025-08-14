@@ -86,7 +86,7 @@ const NewSubscription = () => {
       
       // Pre-fill address if user has one
       if (userData.address) {
-        const fullAddress = `${userData.address.street}, ${userData.address.city}, ${userData.address.state || ''} ${userData.address.zipCode || ''}`.trim();
+        const fullAddress = `${userData.address.street}, ${userData.address.city}, ${userData.address.state || ''} ${userData.address.zip || ''}`.trim();
         setFormData(prev => ({ ...prev, address: fullAddress }));
       }
     } catch (err: any) {

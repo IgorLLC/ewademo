@@ -46,24 +46,47 @@ const NewCustomer = () => {
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
-    section?: string
+    section?: 'address' | 'businessInfo' | 'preferences'
   ) => {
     const { name, value } = e.target;
-    
-    if (section) {
+
+    if (section === 'address') {
       setFormData(prev => ({
         ...prev,
-        [section]: {
-          ...prev[section as keyof typeof prev],
+        address: {
+          ...prev.address,
           [name]: value
-        }
+        } as typeof prev.address
       }));
-    } else {
+      return;
+    }
+
+    if (section === 'businessInfo') {
       setFormData(prev => ({
         ...prev,
-        [name]: value
+        businessInfo: {
+          ...prev.businessInfo,
+          [name]: value
+        } as typeof prev.businessInfo
       }));
+      return;
     }
+
+    if (section === 'preferences') {
+      setFormData(prev => ({
+        ...prev,
+        preferences: {
+          ...prev.preferences,
+          [name]: value
+        } as typeof prev.preferences
+      }));
+      return;
+    }
+
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -72,6 +95,13 @@ const NewCustomer = () => {
     setError(null);
     
     try {
+      // Normalizar businessType a la unión permitida
+      type BizType = 'restaurant' | 'hotel' | 'office' | 'retail' | 'services' | 'other';
+      const allowedBizTypes: ReadonlyArray<BizType> = ['restaurant','hotel','office','retail','services','other'] as const;
+      const normalizedBusinessType: BizType | undefined = allowedBizTypes.includes(
+        formData.businessInfo.businessType as BizType
+      ) ? (formData.businessInfo.businessType as BizType) : undefined;
+
       // Send all the form data to the API
       const userData = {
         name: formData.name,
@@ -81,14 +111,14 @@ const NewCustomer = () => {
         address: formData.address.street ? {
           street: formData.address.street,
           city: formData.address.city,
-          state: formData.address.state || undefined,
-          zipCode: formData.address.zipCode || undefined,
+          state: formData.address.state || '',
+          zip: formData.address.zipCode || '',
           country: formData.address.country,
           instructions: formData.address.instructions || undefined
         } : undefined,
         businessInfo: formData.businessInfo.businessName ? {
           businessName: formData.businessInfo.businessName || undefined,
-          businessType: formData.businessInfo.businessType || undefined,
+          businessType: normalizedBusinessType,
           taxId: formData.businessInfo.taxId || undefined,
           contactPerson: formData.businessInfo.contactPerson || undefined
         } : undefined,

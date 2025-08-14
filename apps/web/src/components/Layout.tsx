@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import Link from 'next/link';
-import { Navbar, Footer, Button } from '@ewa/ui';
+import { Navbar, Footer } from '@ewa/ui';
 import { useRouter } from 'next/router';
 
 interface LayoutProps {
@@ -12,14 +11,21 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children, title = 'Agua Sustentable Demo' }) => {
   const router = useRouter();
   const [showAuthDropdown, setShowAuthDropdown] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  type UserRole = 'admin' | 'operator' | 'editor' | 'customer';
+  interface StoredUser {
+    name?: string;
+    email?: string;
+    role?: UserRole | string;
+  }
+
+  const [user, setUser] = useState<StoredUser | null>(null);
 
   useEffect(() => {
     // Verificar si hay usuario autenticado
     const userJson = localStorage.getItem('ewa_user');
     if (userJson) {
       try {
-        const userData = JSON.parse(userJson);
+        const userData = JSON.parse(userJson) as StoredUser;
         setUser(userData);
       } catch (error) {
         console.error('Error parsing user data:', error);

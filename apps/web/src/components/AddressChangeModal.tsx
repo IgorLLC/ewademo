@@ -102,7 +102,7 @@ const AddressChangeModal: React.FC<AddressChangeModalProps> = ({
               interactive={true}
             />
             <p className="text-xs text-gray-500 mt-1">
-              Nota: Usa el botón "Buscar" para actualizar la ubicación en el mapa según la dirección ingresada.
+              Nota: Usa el botón &quot;Buscar&quot; para actualizar la ubicación en el mapa según la dirección ingresada.
             </p>
           </div>
           
