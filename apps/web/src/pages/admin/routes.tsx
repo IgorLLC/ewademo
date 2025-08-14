@@ -749,23 +749,7 @@ const AdminRoutes = () => {
             </div>
           </div>
           
-          {/* Help section */}
-          <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <div className="flex items-start gap-3">
-              <svg className="h-5 w-5 text-blue-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <div>
-                <h3 className="font-medium text-blue-900 mb-2">💡 Cómo funciona la Cola de Entregas</h3>
-                <ul className="text-sm text-blue-800 space-y-1">
-                  <li>• <strong>Cada elemento</strong> en la cola representa una entrega independiente para un cliente específico</li>
-                  <li>• <strong>Un conductor</strong> procesa las entregas en orden de prioridad</li>
-                  <li>• <strong>Al seleccionar</strong> una entrega, el mapa muestra únicamente las paradas de ese cliente</li>
-                  <li>• <strong>Las entregas</strong> se programan desde el calendario y aparecen automáticamente en esta cola</li>
-                </ul>
-              </div>
-            </div>
-          </div>
+          {/* Help section removed per request */}
         {/* Pagination */}
           <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 mt-4 rounded-lg shadow">
             <div className="flex-1 flex justify-between sm:hidden">
