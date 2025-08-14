@@ -26,6 +26,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
   const router = useRouter();
   const [user, setUser] = useState<StoredUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     // Preferir cookie httpOnly si existe; fallback a localStorage para compatibilidad
@@ -63,6 +64,13 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
     localStorage.removeItem('ewa_user');
     sessionStorage.clear();
     router.push('/auth');
+  };
+
+  const getInitials = (fullName?: string) => {
+    if (!fullName) return 'U';
+    const parts = fullName.trim().split(/\s+/);
+    const letters = (parts[0]?.[0] || '') + (parts[1]?.[0] || '');
+    return letters.toUpperCase() || 'U';
   };
 
   if (loading) {
@@ -128,11 +136,47 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
             </nav>
           )}
           <div className="border-t border-gray-200 p-4">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-700 truncate max-w-[10rem]">{user?.name}</span>
-              <button onClick={handleLogout} className="text-sm font-medium text-ewa-blue hover:text-ewa-dark-blue">
-                Cerrar sesión
+            <div className="relative">
+              <button
+                type="button"
+                className="w-full inline-flex items-center justify-between gap-3 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm hover:bg-gray-50"
+                onClick={() => setMenuOpen((v) => !v)}
+                aria-expanded={menuOpen}
+                aria-haspopup="true"
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-9 h-9 rounded-full bg-ewa-light-blue text-ewa-dark-blue flex items-center justify-center border border-gray-200 font-semibold text-sm">
+                    {getInitials(user?.name)}
+                  </div>
+                  <div className="min-w-0 text-left">
+                    <div className="text-sm font-medium text-gray-900 truncate max-w-[9rem]">
+                      {user?.name || 'Usuario'}
+                    </div>
+                    <div className="text-xs text-gray-500 truncate max-w-[9rem]">
+                      {user?.email || ''}
+                    </div>
+                  </div>
+                </div>
+                <svg className={`h-4 w-4 text-gray-500 transition-transform ${menuOpen ? 'rotate-180' : ''}`} viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clipRule="evenodd" />
+                </svg>
               </button>
+              {menuOpen && (
+                <div className="absolute left-0 right-0 z-10 mt-2 rounded-md border bg-white shadow-md overflow-hidden">
+                  <button
+                    onClick={() => { setMenuOpen(false); router.push('/admin/profile'); }}
+                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                  >
+                    Editar perfil
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50"
+                  >
+                    Cerrar sesión
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </aside>
