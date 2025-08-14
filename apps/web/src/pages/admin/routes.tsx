@@ -597,11 +597,24 @@ const AdminRoutes = () => {
                           <h3 className="text-xl font-medium text-gray-900">{selectedRoute.name}</h3>
                           <p className="text-sm text-gray-500">{selectedRoute.area}</p>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusBadgeClass(selectedRoute.status)}`}>
-                            {getStatusLabel(selectedRoute.status)}
-                          </span>
-                        </div>
+                      <div className="flex items-center space-x-2">
+                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusBadgeClass(selectedRoute.status)}`}>
+                          {getStatusLabel(selectedRoute.status)}
+                        </span>
+                        <button
+                          type="button"
+                          className="inline-flex items-center gap-1 px-3 py-1.5 text-sm rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-60"
+                          title="Descargar PDF (próximamente)"
+                          disabled
+                        >
+                          <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path d="M3 3a2 2 0 012-2h6l4 4v3h-2V6.414L10.586 2H5a1 1 0 00-1 1v6H2V3z" />
+                            <path d="M5 12a1 1 0 011-1h2V8h4v3h2a1 1 0 011 1v5a1 1 0 01-1 1H6a1 1 0 01-1-1v-5z" />
+                            <path d="M9 10v3h2v-3H9z" />
+                          </svg>
+                          Descargar PDF
+                        </button>
+                      </div>
                       </div>
                       
                       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
