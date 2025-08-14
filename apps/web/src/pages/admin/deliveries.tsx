@@ -286,6 +286,7 @@ const AdminDeliveries: React.FC = () => {
       const createdId = `demo-${selectedDayKey}-${Date.now()}`;
       setCreatedRouteId(createdId);
       try { localStorage.setItem('ewa_routes_enabled', '1'); } catch {}
+      try { localStorage.setItem('ewa_routes_activated', '1'); } catch {}
       try {
         // Persistir en cola acumulativa
         const queueRaw = localStorage.getItem('ewa_routes_queue');

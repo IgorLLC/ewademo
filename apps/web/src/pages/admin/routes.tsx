@@ -69,22 +69,27 @@ const AdminRoutes = () => {
     setLoading(true);
     setError(null);
     const activatedParam = router.query.activated === '1';
-    setActivatedFromCalendar(!!activatedParam);
-    if (activatedParam) {
-      try {
-        const queueRaw = (typeof window !== 'undefined') ? localStorage.getItem('ewa_routes_queue') : null;
-        const queue = queueRaw ? JSON.parse(queueRaw) : [];
-        if (Array.isArray(queue)) setRoutes(queue);
-      } catch { setRoutes([]); }
-    } else {
+    try {
+      const queueRaw = (typeof window !== 'undefined') ? localStorage.getItem('ewa_routes_queue') : null;
+      const queue = queueRaw ? JSON.parse(queueRaw) : [];
+      if (Array.isArray(queue) && queue.length > 0) {
+        setRoutes(queue);
+        setActivatedFromCalendar(true);
+      } else {
+        setRoutes([]);
+        setActivatedFromCalendar(!!activatedParam);
+      }
+    } catch {
       setRoutes([]);
-      setSelectedRoute(null);
+      setActivatedFromCalendar(!!activatedParam);
     }
     // Auto seleccionar ruta si viene en la URL
     const qid = router.query.routeId as string | undefined;
     if (qid && routes.length > 0) {
       const found = routes.find(r => r.id === qid);
       if (found) setSelectedRoute(found as any);
+    } else {
+      setSelectedRoute(null);
     }
     setLoading(false);
   }, [router.isReady, router.query]);
@@ -297,7 +302,7 @@ const AdminRoutes = () => {
   };
 
   // Si no está activado, no mostramos rutas
-  const baseRoutes = activatedFromCalendar ? routes : [];
+  const baseRoutes = routes;
   // Filtrar rutas según el término de búsqueda y el filtro de estado
   const filteredRoutes = baseRoutes.filter(route => {
     const matchesSearch = 
@@ -424,7 +429,7 @@ const AdminRoutes = () => {
             </div>
           </div>
 
-          {/* Main content */}
+           {/* Main content */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Delivery Queue */}
             <div className="lg:col-span-4">
@@ -437,7 +442,7 @@ const AdminRoutes = () => {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                         </svg>
                         Cola de Entregas
-                        {activatedFromCalendar && (
+                        {(activatedFromCalendar || routes.length > 0) && (
                           <span className="inline-flex items-center gap-1 text-xs text-green-700 bg-green-50 border border-green-200 rounded px-2 py-0.5">
                             <svg className="h-3 w-3 text-green-600" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-7.25 7.25a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414l2.293 2.293 6.543-6.543a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
                             Activa
