@@ -49,28 +49,35 @@ const SimpleMapBox: React.FC<SimpleMapBoxProps> = ({
   const endMarkerRef = useRef<mapboxgl.Marker | null>(null);
   const segmentMarkersRef = useRef<mapboxgl.Marker[]>([]);
 
-  // Límites aproximados de Puerto Rico
-  const PR_BOUNDS = {
-    minLat: 17.8,
-    maxLat: 18.6,
-    minLng: -67.3,
-    maxLng: -65.2
-  };
-
-  const clampToPR = (lat: number, lng: number) => ({
-    lat: Math.min(Math.max(lat, PR_BOUNDS.minLat), PR_BOUNDS.maxLat),
-    lng: Math.min(Math.max(lng, PR_BOUNDS.minLng), PR_BOUNDS.maxLng)
-  });
+  // Validación/saneo de coordenadas sin clamping agresivo
+  const PR_BOUNDS = { minLat: 17.8, maxLat: 18.6, minLng: -67.5, maxLng: -65.1 };
+  const isLat = (v: number) => Number.isFinite(v) && v >= -90 && v <= 90;
+  const isLng = (v: number) => Number.isFinite(v) && v >= -180 && v <= 180;
+  const isInPR = (lat: number, lng: number) => lat >= PR_BOUNDS.minLat && lat <= PR_BOUNDS.maxLat && lng >= PR_BOUNDS.minLng && lng <= PR_BOUNDS.maxLng;
 
   const sanitizeRoutePath = (points: Array<{ lng: number; lat: number }>): Array<{ lng: number; lat: number }> => {
     if (!points) return [];
-    const cleaned = points
-      .filter(p => Number.isFinite(p.lat) && Number.isFinite(p.lng))
-      .map(p => {
-        const c = clampToPR(p.lat, p.lng);
-        return { lng: c.lng, lat: c.lat };
-      });
-    return cleaned;
+    const result: Array<{ lng: number; lat: number }> = [];
+    for (const p of points) {
+      let lat = Number(p.lat);
+      let lng = Number(p.lng);
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) continue;
+      // Detecta lat/lng posiblemente invertidos y corrige si mejora pertenencia a PR
+      const looksSwapped = isLat(lng) && isLng(lat) && isInPR(lng, lat) && !isInPR(lat, lng);
+      if (looksSwapped) {
+        const swapLat = lng;
+        const swapLng = lat;
+        lat = swapLat;
+        lng = swapLng;
+      }
+      if (isInPR(lat, lng)) {
+        const last = result[result.length - 1];
+        if (!last || last.lat !== lat || last.lng !== lng) {
+          result.push({ lng, lat });
+        }
+      }
+    }
+    return result;
   };
 
   const removeRouteMarkers = () => {
@@ -181,7 +188,7 @@ const SimpleMapBox: React.FC<SimpleMapBoxProps> = ({
       map.current.on('load', () => {
         // Solo añadir marker de pickup si se provee y no hay routePath (para evitar duplicación)
         if (pickupPoint && Number.isFinite(pickupPoint.lat) && Number.isFinite(pickupPoint.lng) && (!routePath || routePath.length === 0)) {
-          pickupMarkerRef.current = new mapboxgl.Marker({ color: '#16a34a' })
+          pickupMarkerRef.current = new mapboxgl.Marker({ color: '#16a34a', anchor: 'bottom' })
             .setLngLat([pickupPoint.lng, pickupPoint.lat])
             .setPopup(new mapboxgl.Popup({ offset: 12 }).setText(pickupLabel || 'Punto de recogido'))
             .addTo(map.current!);
@@ -224,7 +231,7 @@ const SimpleMapBox: React.FC<SimpleMapBoxProps> = ({
                 // Primer marcador usa verde para indicar inicio
                 const color = i === 0 ? '#16a34a' : (i === sanitized.length - 1 ? '#dc2626' : '#2563eb');
                 const el = createNumberMarkerElement(i + 1, color);
-                return new mapboxgl.Marker({ element: el }).setLngLat([p.lng, p.lat]).addTo(map.current!);
+                return new mapboxgl.Marker({ element: el, anchor: 'bottom' }).setLngLat([p.lng, p.lat]).addTo(map.current!);
               });
             }
             // Flechas de dirección en segmentos

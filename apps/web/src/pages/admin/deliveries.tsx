@@ -76,6 +76,7 @@ const AdminDeliveries: React.FC = () => {
   const [pageSize, setPageSize] = useState<number>(10);
   const [submittingRoute, setSubmittingRoute] = useState<boolean>(false);
   const [createdRouteId, setCreatedRouteId] = useState<string | null>(null);
+  const [alreadySubmittedToday, setAlreadySubmittedToday] = useState<boolean>(false);
   const router = useRouter();
 
   const week: WeekView = useMemo(() => {
@@ -154,6 +155,22 @@ const AdminDeliveries: React.FC = () => {
       setLoading(false);
     }
   }, [week.start, week.end]);
+
+  // Verificar si el día seleccionado ya fue enviado a rutas (persistencia local por día)
+  useEffect(() => {
+    if (!selectedDayKey) {
+      setAlreadySubmittedToday(false);
+      return;
+    }
+    try {
+      const raw = (typeof window !== 'undefined') ? localStorage.getItem('ewa_routes_submitted_days') : null;
+      const map = raw ? JSON.parse(raw) as Record<string, string> : {};
+      // Marcamos como bloqueado si existe un registro para esa fecha
+      setAlreadySubmittedToday(Boolean(map[selectedDayKey]));
+    } catch {
+      setAlreadySubmittedToday(false);
+    }
+  }, [selectedDayKey]);
 
   const groupedByDay = useMemo(() => {
     const map = new Map<string, Route[]>();
@@ -259,6 +276,8 @@ const AdminDeliveries: React.FC = () => {
 
   async function handleSubmitDayToRoute() {
     if (!selectedDayKey) return;
+    // Evitar múltiples envíos el mismo día para la misma fecha
+    if (alreadySubmittedToday) return;
     try {
       setSubmittingRoute(true);
       const newRoute: any = {
@@ -313,6 +332,14 @@ const AdminDeliveries: React.FC = () => {
           queue.push(queuedItem);
         }
         localStorage.setItem('ewa_routes_queue', JSON.stringify(queue));
+      } catch {}
+      // Marcar fecha como ya enviada hoy
+      try {
+        const raw = localStorage.getItem('ewa_routes_submitted_days');
+        const map = raw ? JSON.parse(raw) : {};
+        map[selectedDayKey] = new Date().toISOString();
+        localStorage.setItem('ewa_routes_submitted_days', JSON.stringify(map));
+        setAlreadySubmittedToday(true);
       } catch {}
       // No redirigir: permanecer en calendario para permitir enviar más rutas
     } catch (e) {
@@ -508,13 +535,13 @@ const AdminDeliveries: React.FC = () => {
                         ))}
                       </ul>
                     )}
-                    <div className="mt-4 flex items-center justify-end gap-3">
+                      <div className="mt-4 flex items-center justify-end gap-3">
                       <button
                         className="px-3 py-1 border rounded disabled:opacity-50"
-                        disabled={submittingRoute || selectedDayStops.length === 0}
+                          disabled={submittingRoute || selectedDayStops.length === 0 || alreadySubmittedToday}
                         onClick={handleSubmitDayToRoute}
                       >
-                        {submittingRoute ? 'Generando ruta…' : 'Enviar a ruta'}
+                          {submittingRoute ? 'Generando ruta…' : alreadySubmittedToday ? 'Ya enviado hoy' : 'Enviar a ruta'}
                       </button>
                       {createdRouteId && (
                         <button

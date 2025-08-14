@@ -6,11 +6,16 @@
     "dev": "next dev -p 3005",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "vercel-build": "npm run -w @ewa/types build && npm run -w @ewa/ui build && npm run -w @ewa/utils build && next build"
   },
   "dependencies": {
-    "@ewa/types": "*",
+    "@ewa/api-client": "file:../../packages/api-client",
+    "@ewa/types": "file:../../packages/types",
+    "@ewa/ui": "file:../../packages/ui",
+    "@ewa/utils": "file:../../packages/utils",
     "@radix-ui/react-slot": "^1.2.3",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
     "@types/mapbox-gl": "^3.4.1",
     "axios": "^1.4.0",
     "class-variance-authority": "^0.7.1",

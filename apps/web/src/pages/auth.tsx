@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { readSessionFromCookie } from '../lib/session';
 // Using inline SVG icons for better compatibility
 
 type AuthMode = 'login' | 'signup' | 'forgot-password' | 'reset-password';
@@ -28,15 +29,18 @@ const Auth = () => {
 
   // Verificar si ya hay un usuario autenticado al cargar la página
   useEffect(() => {
+    const cookieUser = readSessionFromCookie();
+    if (cookieUser) {
+      if (cookieUser.role === 'admin') router.replace('/admin/dashboard');
+      else if (cookieUser.role === 'customer') router.replace('/customer/subscriptions');
+      return;
+    }
     const userJson = localStorage.getItem('ewa_user');
     if (userJson) {
       try {
         const user = JSON.parse(userJson);
-        if (user.role === 'admin') {
-          router.replace('/admin/dashboard');
-        } else if (user.role === 'customer') {
-          router.replace('/customer/subscriptions');
-        }
+        if (user.role === 'admin') router.replace('/admin/dashboard');
+        else if (user.role === 'customer') router.replace('/customer/subscriptions');
       } catch (error) {
         console.error('Error parsing user data:', error);
         localStorage.removeItem('ewa_user');
@@ -139,6 +143,7 @@ const Auth = () => {
           
           localStorage.setItem('ewa_token', mockToken);
           localStorage.setItem('ewa_user', JSON.stringify(user));
+          try { await fetch('/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(user) }); } catch {}
           
           if (user.role === 'admin') {
             router.replace('/admin/dashboard');
@@ -167,6 +172,7 @@ const Auth = () => {
         
         localStorage.setItem('ewa_token', mockToken);
         localStorage.setItem('ewa_user', JSON.stringify(newUser));
+        try { await fetch('/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newUser) }); } catch {}
         
         router.replace('/customer/subscriptions');
       } else if (authMode === 'forgot-password') {
@@ -212,6 +218,7 @@ const Auth = () => {
       
       localStorage.setItem('ewa_token', mockToken);
       localStorage.setItem('ewa_user', JSON.stringify(googleUser));
+      try { await fetch('/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(googleUser) }); } catch {}
       
       if (googleUser.role === 'admin') {
         router.replace('/admin/dashboard');
