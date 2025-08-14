@@ -10,6 +10,7 @@ const ViewUser = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [usingFallback, setUsingFallback] = useState<boolean>(false);
 
   useEffect(() => {
     if (id && typeof id === 'string') {
@@ -24,7 +25,7 @@ const ViewUser = () => {
       setUser(userData);
     } catch (err: any) {
       console.error('Error fetching user:', err);
-      setError('Error al cargar la información del usuario.');
+      setError('No se pudo cargar desde la API. Mostrando datos de demostración.');
       
       // Usar datos mock mejorados si la API falla
       const mockUsers: Record<string, User> = {
@@ -179,6 +180,7 @@ const ViewUser = () => {
         updatedAt: new Date().toISOString()
       };
       setUser(mockUser);
+      setUsingFallback(true);
     } finally {
       setLoading(false);
     }
@@ -198,7 +200,7 @@ const ViewUser = () => {
     );
   }
 
-  if (error || !user) {
+  if (!user) {
     return (
       <AdminLayout 
         title="Error" 
@@ -356,6 +358,11 @@ const ViewUser = () => {
               )}
             </div>
           </div>
+          {usingFallback && (
+            <div className="alert-brand mt-3">
+              Se muestran datos de demostración porque la API no respondió.
+            </div>
+          )}
         </div>
 
         {/* User Information Cards */}
