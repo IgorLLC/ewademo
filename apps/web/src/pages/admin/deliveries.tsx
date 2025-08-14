@@ -271,14 +271,14 @@ const AdminDeliveries: React.FC = () => {
         startTime: `${selectedDayKey}T09:00:00`,
         estimatedEndTime: `${selectedDayKey}T14:00:00`,
         // Usamos stops como arreglo (compatible con nuestro lector getStops)
-        stops: selectedDayStops.map((s) => ({
+        stops: selectedDayStops.map((s, i) => ({
           id: s.stopId,
           address: s.address,
           lat: Number.isFinite(s.lat as any) ? Number(s.lat) : 18.4655,
           lng: Number.isFinite(s.lng as any) ? Number(s.lng) : -66.1057,
           status: 'pending',
           eta: s.eta || undefined,
-          orderId: s.orderId || undefined,
+          orderId: s.orderId || `O-${100 + i}`,
           customer: s.customer || undefined,
         })),
       };
@@ -391,7 +391,12 @@ const AdminDeliveries: React.FC = () => {
                         {dayStops.slice(0, 5).map((s: any, i: number) => (
                           <li key={s.id} className="text-xs text-gray-700 truncate flex items-center gap-2">
                             <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-gray-200 text-[10px] font-semibold text-gray-700">{i + 1}</span>
-                            <span>{s.customer || 'Cliente'} — {(s.orderId ? `Orden ${s.orderId}` : 'Entrega')}</span>
+                            {s.orderId && (
+                              <span className="inline-flex items-center rounded px-1.5 py-0.5 bg-ewa-light-blue text-ewa-dark-blue border border-ewa-blue/30 text-[10px] font-semibold">
+                                {s.orderId}
+                              </span>
+                            )}
+                            <span className="truncate">{s.customer || 'Cliente'}{s.orderId ? '' : ' — Entrega'}</span>
                           </li>
                         ))}
                         {dayStops.length > 5 && (
