@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { getPlans, getProducts, getUsers, createSubscription, createPlan, createProduct } from '@ewa/api-client';
@@ -15,6 +15,7 @@ const NewSubscription = () => {
   const [createType, setCreateType] = useState<'subscription' | 'plan' | 'product'>('subscription');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const [formData, setFormData] = useState({
     // For subscription
@@ -36,6 +37,13 @@ const NewSubscription = () => {
     sizeOz: 330,
     sku: ''
   });
+
+  const selectedPlan = useMemo(() => plans.find(p => p.id === formData.planId) || null, [plans, formData.planId]);
+  const selectedProduct = useMemo(() => {
+    const pid = selectedPlan?.productId || formData.productId;
+    return products.find(p => p.id === pid) || null;
+  }, [products, selectedPlan, formData.productId]);
+  const selectedUser = useMemo(() => users.find(u => u.id === formData.userId) || null, [users, formData.userId]);
 
   useEffect(() => {
     // Verificar si el usuario está autenticado
@@ -154,22 +162,64 @@ const NewSubscription = () => {
     }
   };
 
+  // Sincroniza frecuencia/cantidad/producto al elegir plan
+  useEffect(() => {
+    if (!selectedPlan) return;
+    setFormData(prev => ({
+      ...prev,
+      frequency: selectedPlan.frequency as any,
+      quantity: Math.max(prev.quantity || 1, selectedPlan.minQty || 1),
+      productId: selectedPlan.productId || prev.productId,
+    }));
+    setFieldErrors(prev => ({ ...prev, quantity: '' }));
+  }, [selectedPlan?.id]);
+
+  // Autocompleta dirección desde el cliente
+  useEffect(() => {
+    if (!selectedUser) return;
+    const addr: any = (selectedUser as any).address;
+    if (!addr) return;
+    const composed = [addr.street, addr.city, addr.state, addr.zip].filter(Boolean).join(', ');
+    setFormData(prev => ({ ...prev, address: composed }));
+  }, [selectedUser?.id]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
+    setFieldErrors({});
 
     try {
+      // Validaciones básicas
+      const nextFieldErrors: Record<string, string> = {};
+      if (!formData.planId) nextFieldErrors.planId = 'Selecciona un plan';
+      if (!formData.userId) nextFieldErrors.userId = 'Selecciona un cliente';
+      if (!formData.address?.trim()) nextFieldErrors.address = 'La dirección es requerida';
+      const minQty = selectedPlan?.minQty || 1;
+      if (!formData.quantity || formData.quantity < minQty) nextFieldErrors.quantity = `Cantidad mínima ${minQty}`;
+      if (Object.keys(nextFieldErrors).length > 0) {
+        setFieldErrors(nextFieldErrors);
+        throw new Error('validation_error');
+      }
+
+      const addDays = (days: number) => {
+        const d = new Date();
+        d.setDate(d.getDate() + days);
+        return d.toISOString().split('T')[0];
+      };
+      const nextDeliveryDate = formData.frequency === 'weekly' ? addDays(7) : formData.frequency === 'biweekly' ? addDays(14) : addDays(30);
+
       if (createType === 'subscription') {
         const newSubscription = {
           planId: formData.planId,
           userId: formData.userId,
           status: 'active' as const,
           startDate: new Date().toISOString().split('T')[0],
-          nextDeliveryDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+          nextDeliveryDate,
           frequency: formData.frequency,
           quantity: formData.quantity,
           address: formData.address,
+          productId: selectedPlan?.productId || undefined,
           createdAt: new Date().toISOString()
         };
 
@@ -207,9 +257,11 @@ const NewSubscription = () => {
           router.push('/admin/subscriptions?success=product_created');
         }
       }
-    } catch (error) {
-      console.error('Error creating:', error);
-      setError('Error al crear. Por favor intenta de nuevo.');
+    } catch (error: any) {
+      if (error?.message !== 'validation_error') {
+        console.error('Error creating:', error);
+        setError('Error al crear. Por favor intenta de nuevo.');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -223,6 +275,10 @@ const NewSubscription = () => {
         ? Number(value) 
         : value
     }));
+    if (name === 'quantity') {
+      const minQty = selectedPlan?.minQty || 1;
+      setFieldErrors(prev => ({ ...prev, quantity: Number(value) < minQty ? `Cantidad mínima ${minQty}` : '' }));
+    }
   };
 
   if (loading) {
@@ -329,6 +385,11 @@ const NewSubscription = () => {
                             <option key={plan.id} value={plan.id}>{plan.name}</option>
                           ))}
                         </select>
+                        {selectedPlan && (
+                          <div className="mt-2 text-xs text-gray-600">
+                            Frecuencia: <strong>{selectedPlan.frequency === 'weekly' ? 'Semanal' : selectedPlan.frequency === 'biweekly' ? 'Bisemanal' : 'Mensual'}</strong> · Cant. mínima: <strong>{selectedPlan.minQty}</strong>
+                          </div>
+                        )}
                       </div>
                       
                       <div>
@@ -345,6 +406,11 @@ const NewSubscription = () => {
                             <option key={user.id} value={user.id}>{user.name} ({user.email})</option>
                           ))}
                         </select>
+                        {selectedUser && (
+                          <div className="mt-2 text-xs text-gray-600 break-words">
+                            Dirección predeterminada: <span className="text-gray-700">{formData.address}</span>
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -356,10 +422,11 @@ const NewSubscription = () => {
                           name="quantity"
                           value={formData.quantity}
                           onChange={handleInputChange}
-                          min="1"
+                          min={selectedPlan?.minQty || 1}
                           required
                           className="mt-1 focus:ring-ewa-blue focus:border-ewa-blue block w-full sm:text-sm border-gray-300 rounded-md"
                         />
+                        {fieldErrors.quantity && <p className="mt-1 text-xs text-red-600">{fieldErrors.quantity}</p>}
                       </div>
 
                       <div>
@@ -388,7 +455,26 @@ const NewSubscription = () => {
                         className="mt-1 focus:ring-ewa-blue focus:border-ewa-blue block w-full sm:text-sm border-gray-300 rounded-md"
                         placeholder="Dirección completa de entrega"
                       />
+                      {fieldErrors.address && <p className="mt-1 text-xs text-red-600">{fieldErrors.address}</p>}
                     </div>
+
+                    {selectedProduct && (
+                      <div className="border rounded-md p-3 bg-gray-50 text-sm text-gray-700">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <div className="font-medium">{selectedProduct.name}</div>
+                            <div className="text-xs text-gray-500">SKU: {selectedProduct.sku} · Tamaño: {selectedProduct.sizeOz}ml</div>
+                          </div>
+                          <div className="text-right">
+                            <div className="font-semibold">${selectedProduct.price.toFixed(2)}</div>
+                            <div className="text-xs text-gray-500">Precio unitario</div>
+                          </div>
+                        </div>
+                        <div className="mt-2 text-xs text-gray-600">
+                          Subtotal: <strong>${(selectedProduct.price * (formData.quantity || 0)).toFixed(2)}</strong>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
 
