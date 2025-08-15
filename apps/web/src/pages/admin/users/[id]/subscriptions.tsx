@@ -176,6 +176,7 @@ const UserSubscriptions = () => {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'subscriptions' | 'transactions' | 'payment_methods'>('subscriptions');
+  const [usingFallback, setUsingFallback] = useState<boolean>(false);
 
   useEffect(() => {
     if (id && typeof id === 'string') {
@@ -206,7 +207,35 @@ const UserSubscriptions = () => {
       setPaymentMethods(mockPaymentMethods);
     } catch (err: any) {
       console.error('Error loading user data:', err);
-      setError('Error al cargar la información del cliente.');
+      // Fallback a datos de demostración
+      const fallbackUser: User = {
+        id: userId,
+        name: userId === 'u1' ? 'Carmen Isabel Rodríguez Morales' : `Usuario ${userId}`,
+        email: userId === 'u1' ? 'carmen.rodriguez@gmail.com' : `user${userId}@example.com`,
+        role: 'customer',
+        phone: '(787) 555-0123',
+        isActive: true,
+        createdAt: '2024-01-15T10:00:00Z',
+        updatedAt: '2024-08-14T14:30:00Z',
+        address: {
+          street: '123 Calle Loíza',
+          city: 'San Juan',
+          state: 'PR',
+          zip: '00911',
+          country: 'Puerto Rico',
+        },
+      } as any;
+
+      // Ajustar suscripciones mock al usuario actual
+      const fallbackSubs = mockSubscriptions.map(s => ({ ...s, userId }));
+      const relatedTransactions = mockTransactions.filter(t => fallbackSubs.some(s => s.id === t.subscriptionId));
+      
+      setUser(fallbackUser);
+      setSubscriptions(fallbackSubs);
+      setTransactions(relatedTransactions);
+      setPaymentMethods(mockPaymentMethods);
+      setUsingFallback(true);
+      setError(null);
     } finally {
       setIsLoading(false);
     }
@@ -439,6 +468,9 @@ const UserSubscriptions = () => {
       currentPage="users"
     >
       <div className="max-w-6xl mx-auto">
+        {usingFallback && (
+          <div className="alert-brand mb-6">Se muestran datos de demostración porque la API no respondió.</div>
+        )}
         {/* Success Message */}
         {successMessage && (
           <div className="mb-6 bg-green-50 border-l-4 border-green-400 p-4">
