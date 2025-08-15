@@ -251,15 +251,7 @@ const AdminSubscriptions = () => {
                       <option value="paused">Pausadas</option>
                       <option value="cancelled">Canceladas</option>
                     </select>
-                    <button
-                      onClick={() => router.push('/admin/subscriptions/new')}
-                      className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-ewa-blue hover:bg-ewa-dark-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ewa-blue"
-                    >
-                      <svg className="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                      </svg>
-                      Crear nueva suscripción
-                    </button>
+                    {/* Botón de creación oculto a solicitud */}
                   </div>
                 </div>
               </div>
