@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { notificationService } from '@ewa/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -122,6 +123,23 @@ const Register = () => {
       // Guardar en localStorage (en una app real esto iría al backend)
       localStorage.setItem('ewa_user', JSON.stringify(newUser));
       localStorage.setItem('ewa_token', 'mock_token_' + Date.now());
+
+      // Notificación de bienvenida (mock)
+      try {
+        await notificationService.sendEmail({
+          to: newUser.email,
+          subject: 'Bienvenido a EWA Box Water',
+          text: `Hola ${newUser.name}, tu cuenta ha sido creada exitosamente.`,
+        });
+        if (newUser.phone) {
+          await notificationService.sendSms({
+            to: newUser.phone,
+            body: 'Bienvenido a EWA Box Water. Tu cuenta está lista.',
+          });
+        }
+      } catch (err) {
+        console.error('Error enviando notificaciones de registro (mock):', err);
+      }
 
       // Redirigir a la página de suscripciones
       router.push('/customer/subscriptions');

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { getPlans, getProducts, getUsers, createSubscription, createPlan, createProduct } from '@ewa/api-client';
+import { notificationService } from '@ewa/utils';
 import { Plan, Product, User } from '@ewa/types';
 import AdminLayout from '../../../components/AdminLayout';
 
@@ -223,7 +224,16 @@ const NewSubscription = () => {
           createdAt: new Date().toISOString()
         };
 
-        await createSubscription(newSubscription);
+        const created = await createSubscription(newSubscription);
+        try {
+          await notificationService.sendEmail({
+            to: selectedUser?.email || 'test@example.com',
+            subject: 'Nueva suscripción creada',
+            text: `Se creó la suscripción ${created.id} para el usuario ${selectedUser?.name}.`,
+          });
+        } catch (err) {
+          console.error('Error enviando email (mock):', err);
+        }
         router.push('/admin/subscriptions?success=created');
       } else if (createType === 'plan') {
         const newPlan = {
