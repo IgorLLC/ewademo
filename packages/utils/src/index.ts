@@ -55,4 +55,17 @@ export const addressSchema = z.object({
   city: z.string().min(1, 'Ciudad requerida'),
   state: z.string().min(1, 'Estado requerido'),
   zipCode: z.string().min(5, 'Código postal requerido'),
-}); 
+});
+
+// Notifications
+export * from './notifications';
+export * from './services/smart-notification-service';
+
+// Exportaciones de providers
+export * from './providers/provider-factory';
+export * from './providers/sendgrid-provider';
+export * from './providers/twilio-provider';
+
+// Re-exportar servicios específicos para fácil acceso
+export { smartNotificationService } from './services/smart-notification-service';
+export { notificationService } from './notifications';

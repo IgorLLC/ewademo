@@ -1,0 +1,30 @@
+# Configuración de Notificaciones EWA
+# Copia este archivo a .env.local y configura tus credenciales
+
+# Entorno
+NODE_ENV=development
+
+# SendGrid Configuration
+SENDGRID_API_KEY=SG.your_sendgrid_api_key_here
+SENDGRID_FROM_EMAIL=noreply@ewa.com
+
+# Twilio Configuration
+TWILIO_ACCOUNT_SID=AC.your_twilio_account_sid_here
+TWILIO_AUTH_TOKEN=your_twilio_auth_token_here
+TWILIO_FROM_PHONE=+10000000000
+
+# Notas de configuración:
+# 
+# SendGrid:
+# 1. Crear cuenta en https://sendgrid.com
+# 2. Verificar tu dominio de email
+# 3. Generar API Key en Settings > API Keys
+# 4. Configurar remitente verificado en Settings > Sender Authentication
+#
+# Twilio:
+# 1. Crear cuenta en https://twilio.com
+# 2. Obtener Account SID y Auth Token del dashboard
+# 3. Comprar número de teléfono en Phone Numbers > Manage > Buy a number
+# 4. Para cuentas trial, verificar números de destino en Phone Numbers > Manage > Verified Caller IDs
+#
+# En desarrollo, si no configuras estas variables, el sistema usará proveedores mock automáticamente.

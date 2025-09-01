@@ -37,6 +37,8 @@
     "node": ">=16.0.0"
   },
   "dependencies": {
-    "react-qr-code": "^2.0.15"
+    "@sendgrid/mail": "^8.1.5",
+    "react-qr-code": "^2.0.15",
+    "twilio": "^5.8.2"
   }
 }
