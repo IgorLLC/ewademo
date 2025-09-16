@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { Delivery, DeliverySkipRequest, DeliveryRescheduleRequest, DeliveryTimeSlot } from '@ewa/types';
+import { smartNotificationService } from '@ewa/utils';
 
 const DeliveriesPage = () => {
   const [deliveries, setDeliveries] = useState<Delivery[]>([]);
@@ -235,47 +236,73 @@ const DeliveriesPage = () => {
   };
 
   const handleRescheduleDelivery = async () => {
-    if (!selectedDelivery || !newDeliveryDate) return;
+    if (!selectedDelivery || !newDeliveryDate || !newTimeSlot) return;
+
+    const rescheduleRequest: DeliveryRescheduleRequest = {
+      deliveryId: selectedDelivery.id,
+      newDate: newDeliveryDate,
+      newTimeSlotId: newTimeSlot,
+      reason: rescheduleReason,
+      customReason: customRescheduleReason,
+      originalDate: selectedDelivery.scheduledDate,
+    };
 
     try {
-      // Simular API call
-      const rescheduleRequest: DeliveryRescheduleRequest = {
-        id: `reschedule_${Date.now()}`,
-        deliveryId: selectedDelivery.id,
-        subscriptionId: selectedDelivery.subscriptionId,
-        userId: selectedDelivery.userId,
-        originalDate: selectedDelivery.scheduledDate,
-        requestedDate: newDeliveryDate,
-        timeSlotId: newTimeSlot || undefined,
-        reason: rescheduleReason,
-        customReason: rescheduleReason === 'other' ? customRescheduleReason : undefined,
-        requestedAt: new Date().toISOString(),
-        status: 'pending'
-      };
+      // Simular envío de solicitud
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       // Actualizar estado local
       setDeliveries(prev => prev.map(del => 
         del.id === selectedDelivery.id 
-          ? { 
-              ...del, 
-              status: 'rescheduled' as const, 
+          ? {
+              ...del,
+              status: 'rescheduled' as const,
+              scheduledDate: newDeliveryDate,
               rescheduledFrom: del.scheduledDate,
               rescheduledTo: newDeliveryDate,
               rescheduledReason: rescheduleRequest.reason,
-              timeSlotId: newTimeSlot || del.timeSlotId
             }
           : del
       ));
 
+      // Obtener usuario actual para enviar email
+      const userJson = localStorage.getItem('ewa_user');
+      let userEmail = 'test@ewa.com'; // fallback
+      let userPhone = '+1234567890'; // fallback
+      
+      if (userJson) {
+        try {
+          const userData = JSON.parse(userJson);
+          userEmail = userData.email;
+          userPhone = userData.phone || '+1234567890';
+          
+          // Enviar email de recordatorio de entrega reprogramada
+          try {
+            await smartNotificationService.sendDeliveryReminder(userEmail, userPhone, {
+              date: newDeliveryDate,
+              estimatedTime: newTimeSlot,
+              address: selectedDelivery.deliveryAddress.street + ', ' + 
+                      selectedDelivery.deliveryAddress.city + ', ' + 
+                      selectedDelivery.deliveryAddress.state + ' ' + 
+                      selectedDelivery.deliveryAddress.zipCode
+            });
+            console.log('Email de recordatorio de entrega reprogramada enviado exitosamente');
+          } catch (emailError) {
+            console.error('Error enviando email de recordatorio:', emailError);
+            // No bloquear la reprogramación si falla el email
+          }
+        } catch (error) {
+          console.error('Error parsing user data:', error);
+        }
+      }
+
       setSuccessMessage('Tu solicitud de reprogramación ha sido enviada. Te contactaremos para confirmar.');
       setShowRescheduleModal(false);
       setSelectedDelivery(null);
-      setRescheduleReason('not_available');
-      setCustomRescheduleReason('');
       setNewDeliveryDate('');
       setNewTimeSlot('');
-
-      setTimeout(() => setSuccessMessage(null), 5000);
+      setRescheduleReason('not_available');
+      setCustomRescheduleReason('');
     } catch (error) {
       console.error('Error rescheduling delivery:', error);
     }

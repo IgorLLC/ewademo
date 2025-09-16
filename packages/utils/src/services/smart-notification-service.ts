@@ -27,16 +27,10 @@ export class SmartNotificationService {
   async sendWelcomeNotification(email: string, phone?: string, name?: string) {
     const emailPromise = this.sendEmail({
       to: email,
-      subject: '¡Bienvenido a EWA Box Water!',
-      html: `
-        <h1>¡Bienvenido a EWA Box Water!</h1>
-        <p>Hola ${name || 'Usuario'},</p>
-        <p>Gracias por registrarte en nuestra plataforma de entrega de agua.</p>
-        <p>Tu cuenta ha sido creada exitosamente.</p>
-        <br>
-        <p>Saludos,<br>El equipo de EWA</p>
-      `,
-      text: `¡Bienvenido a EWA Box Water! Hola ${name || 'Usuario'}, gracias por registrarte. Tu cuenta ha sido creada exitosamente.`,
+      templateId: 'd-b3f67b9b9c324ab2a18a1b9b01881e05',
+      dynamicTemplateData: {
+        name: name || 'Usuario'
+      }
     });
 
     const promises: Promise<any>[] = [emailPromise];
@@ -52,26 +46,48 @@ export class SmartNotificationService {
     return Promise.all(promises);
   }
 
+  // Método para enviar verificación de email
+  async sendEmailVerification(email: string, name: string, verificationToken: string) {
+    const verificationUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://ewaboxwater.com'}/verify-email?token=${verificationToken}`;
+    
+    return this.sendEmail({
+      to: email,
+      subject: 'Verifica tu email - EWA Box Water',
+      templateId: 'd-131acd21940649d88f9c6c00ae60186f',
+      dynamicTemplateData: {
+        name: name,
+        verificationUrl: verificationUrl
+      }
+    });
+  }
+
+  // Método para enviar reset de contraseña
+  async sendPasswordReset(email: string, name: string, resetToken: string) {
+    const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://ewaboxwater.com'}/reset-password?token=${resetToken}`;
+    
+    return this.sendEmail({
+      to: email,
+      subject: 'Restablece tu contraseña - EWA Box Water',
+      templateId: 'd-be181dd18e7d4f10a38246df5267321e',
+      dynamicTemplateData: {
+        name: name,
+        resetUrl: resetUrl
+      }
+    });
+  }
+
   // Método para enviar confirmación de suscripción
   async sendSubscriptionConfirmation(email: string, subscriptionDetails: any) {
     return this.sendEmail({
       to: email,
       subject: 'Confirmación de Suscripción - EWA Box Water',
-      html: `
-        <h1>Confirmación de Suscripción</h1>
-        <p>Tu suscripción ha sido activada exitosamente.</p>
-        <h2>Detalles de la Suscripción:</h2>
-        <ul>
-          <li><strong>Plan:</strong> ${subscriptionDetails.planName}</li>
-          <li><strong>Frecuencia:</strong> ${subscriptionDetails.frequency}</li>
-          <li><strong>Precio:</strong> $${subscriptionDetails.price}</li>
-          <li><strong>Próxima entrega:</strong> ${subscriptionDetails.nextDelivery}</li>
-        </ul>
-        <br>
-        <p>Gracias por confiar en EWA Box Water.</p>
-        <p>Saludos,<br>El equipo de EWA</p>
-      `,
-      text: `Confirmación de Suscripción - Tu suscripción ha sido activada. Plan: ${subscriptionDetails.planName}, Frecuencia: ${subscriptionDetails.frequency}, Precio: $${subscriptionDetails.price}. Próxima entrega: ${subscriptionDetails.nextDelivery}`,
+      templateId: 'd-35744003e329438ba316c354ae59c798',
+      dynamicTemplateData: {
+        planName: subscriptionDetails.planName,
+        frequency: subscriptionDetails.frequency,
+        price: subscriptionDetails.price,
+        nextDelivery: subscriptionDetails.nextDelivery
+      }
     });
   }
 
@@ -80,19 +96,12 @@ export class SmartNotificationService {
     const emailPromise = this.sendEmail({
       to: email,
       subject: 'Recordatorio de Entrega - EWA Box Water',
-      html: `
-        <h1>Recordatorio de Entrega</h1>
-        <p>Tu entrega está programada para mañana.</p>
-        <h2>Detalles de la Entrega:</h2>
-        <ul>
-          <li><strong>Fecha:</strong> ${deliveryDetails.date}</li>
-          <li><strong>Hora estimada:</strong> ${deliveryDetails.estimatedTime}</li>
-          <li><strong>Dirección:</strong> ${deliveryDetails.address}</li>
-        </ul>
-        <br>
-        <p>Saludos,<br>El equipo de EWA</p>
-      `,
-      text: `Recordatorio de Entrega - Tu entrega está programada para mañana. Fecha: ${deliveryDetails.date}, Hora estimada: ${deliveryDetails.estimatedTime}, Dirección: ${deliveryDetails.address}`,
+      templateId: 'd-d0387f9b50934966baa0f92e67457800',
+      dynamicTemplateData: {
+        date: deliveryDetails.date,
+        estimatedTime: deliveryDetails.estimatedTime,
+        address: deliveryDetails.address
+      }
     });
 
     const smsPromise = this.sendSms({
@@ -101,6 +110,37 @@ export class SmartNotificationService {
     });
 
     return Promise.all([emailPromise, smsPromise]);
+  }
+
+  // Método para enviar recibo de pago
+  async sendPaymentReceipt(email: string, paymentDetails: any) {
+    return this.sendEmail({
+      to: email,
+      subject: 'Recibo de Pago - EWA Box Water',
+      templateId: 'd-cce56a9296184160a716c7772320f85f',
+      dynamicTemplateData: {
+        receiptId: paymentDetails.receiptId,
+        date: paymentDetails.date,
+        amount: paymentDetails.amount,
+        paymentMethod: paymentDetails.paymentMethod,
+        description: paymentDetails.description
+      }
+    });
+  }
+
+  // Método para enviar notificación de pago fallido
+  async sendPaymentFailed(email: string, paymentDetails: any) {
+    return this.sendEmail({
+      to: email,
+      subject: 'Pago Fallido - EWA Box Water',
+      templateId: 'd-321b70181eda475a96d27d4805b5e213',
+      dynamicTemplateData: {
+        date: paymentDetails.date,
+        amount: paymentDetails.amount,
+        paymentMethod: paymentDetails.paymentMethod,
+        reason: paymentDetails.reason
+      }
+    });
   }
 
   // Método para verificar el estado de los proveedores

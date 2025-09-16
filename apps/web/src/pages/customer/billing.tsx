@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import CustomerNav from '../../components/CustomerNav';
+import { smartNotificationService } from '@ewa/utils';
 
 const BillingPage: React.FC = () => {
   const router = useRouter();
@@ -63,7 +64,7 @@ const BillingPage: React.FC = () => {
     localStorage.setItem('ewa_payment_methods', JSON.stringify(updated));
   };
 
-  const handleAddMethod = () => {
+  const handleAddMethod = async () => {
     const last4 = form.number.replace(/\s|-/g, '').slice(-4) || '0000';
     const parts = form.exp.split('/');
     const mm = parseInt((parts[0] || '').trim(), 10);
@@ -72,6 +73,35 @@ const BillingPage: React.FC = () => {
     const updated = [...paymentMethods, newMethod];
     setPaymentMethods(updated);
     localStorage.setItem('ewa_payment_methods', JSON.stringify(updated));
+    
+    // Obtener usuario actual para enviar email
+    const userJson = localStorage.getItem('ewa_user');
+    let userEmail = 'test@ewa.com'; // fallback
+    
+    if (userJson) {
+      try {
+        const userData = JSON.parse(userJson);
+        userEmail = userData.email;
+        
+        // Enviar email de confirmación de método de pago agregado
+        try {
+          await smartNotificationService.sendPaymentReceipt(userEmail, {
+            receiptId: `PM-${Date.now()}`,
+            date: new Date().toLocaleDateString('es-PR'),
+            amount: '0.00', // No hay cargo por agregar método
+            paymentMethod: `Visa •••• ${last4}`,
+            description: 'Método de pago agregado exitosamente'
+          });
+          console.log('Email de confirmación de método de pago enviado exitosamente');
+        } catch (emailError) {
+          console.error('Error enviando email de confirmación:', emailError);
+          // No bloquear la operación si falla el email
+        }
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+      }
+    }
+    
     setShowAddMethod(false);
     setForm({ name: '', number: '', exp: '', cvc: '', address: '' });
   };

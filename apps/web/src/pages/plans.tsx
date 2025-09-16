@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
 import { SubscriptionPlan, PaymentMethod } from '@ewa/types';
 import { ArrowLeft, CheckCircle, Check, Clock, Settings } from 'lucide-react';
+import { smartNotificationService } from '@ewa/utils';
 
 const PlansPage = () => {
   const router = useRouter();
@@ -261,6 +262,33 @@ const PlansPage = () => {
 
       // Simular procesamiento de pago
       await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Obtener usuario actual para enviar email
+      const userJson = localStorage.getItem('ewa_user');
+      let userEmail = 'test@ewa.com'; // fallback
+      
+      if (userJson) {
+        try {
+          const userData = JSON.parse(userJson);
+          userEmail = userData.email;
+        } catch (error) {
+          console.error('Error parsing user data:', error);
+        }
+      }
+
+      // Enviar email de confirmación de suscripción
+      try {
+        await smartNotificationService.sendSubscriptionConfirmation(userEmail, {
+          planName: selectedPlan.name,
+          frequency: getFrequencyLabel(selectedPlan.frequency),
+          price: (selectedPlan.price * quantity).toFixed(2),
+          nextDelivery: new Date(startDate).toLocaleDateString('es-PR')
+        });
+        console.log('Email de confirmación de suscripción enviado exitosamente');
+      } catch (emailError) {
+        console.error('Error enviando email de confirmación:', emailError);
+        // No bloquear la suscripción si falla el email
+      }
 
       setSuccessMessage('¡Suscripción creada exitosamente! Recibirás tu primera entrega el ' + new Date(startDate).toLocaleDateString('es-PR'));
       

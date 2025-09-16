@@ -1,6 +1,6 @@
 export type EmailMessage = {
   to: string;
-  subject: string;
+  subject?: string; // Opcional cuando se usa templateId
   html?: string;
   text?: string;
   templateId?: string;

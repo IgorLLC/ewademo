@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { smartNotificationService } from '@ewa/utils';
 
 const Register = () => {
   const router = useRouter();
@@ -122,6 +123,19 @@ const Register = () => {
       // Guardar en localStorage (en una app real esto iría al backend)
       localStorage.setItem('ewa_user', JSON.stringify(newUser));
       localStorage.setItem('ewa_token', 'mock_token_' + Date.now());
+
+      // Enviar email de bienvenida
+      try {
+        await smartNotificationService.sendWelcomeNotification(
+          formData.email,
+          formData.phone,
+          `${formData.firstName} ${formData.lastName}`
+        );
+        console.log('Email de bienvenida enviado exitosamente');
+      } catch (emailError) {
+        console.error('Error enviando email de bienvenida:', emailError);
+        // No bloquear el registro si falla el email
+      }
 
       // Redirigir a la página de suscripciones
       router.push('/customer/subscriptions');
