@@ -1,18 +1,30 @@
 import { EmailProvider, SmsProvider } from '../notifications';
 import { MockEmailProvider, MockSmsProvider } from '../notifications';
-import { SendGridEmailProvider } from './sendgrid-provider';
 import { TwilioSmsProvider } from './twilio-provider';
+
+// Importación condicional de SendGrid solo en el servidor
+let SendGridEmailProvider: any = null;
+if (typeof window === 'undefined') {
+  // Solo importar en el servidor (Node.js)
+  try {
+    const { SendGridEmailProvider: SGProvider } = require('./sendgrid-provider');
+    SendGridEmailProvider = SGProvider;
+  } catch (error) {
+    console.warn('SendGrid not available in server environment');
+  }
+}
 
 export class ProviderFactory {
   static createEmailProvider(): EmailProvider {
     const apiKey = process.env.SENDGRID_API_KEY;
     const fromEmail = process.env.SENDGRID_FROM_EMAIL;
     
-    if (apiKey && fromEmail && process.env.NODE_ENV === 'production') {
+    // Solo usar SendGrid si está disponible y en producción
+    if (SendGridEmailProvider && apiKey && fromEmail && process.env.NODE_ENV === 'production') {
       return new SendGridEmailProvider(apiKey);
     }
     
-    // En desarrollo o si no hay API key, usar mock
+    // En desarrollo, cliente, o si no hay API key, usar mock
     return new MockEmailProvider();
   }
 
@@ -34,7 +46,7 @@ export class ProviderFactory {
   }
 
   static hasSendGridConfig(): boolean {
-    return !!(process.env.SENDGRID_API_KEY && process.env.SENDGRID_FROM_EMAIL);
+    return !!(SendGridEmailProvider && process.env.SENDGRID_API_KEY && process.env.SENDGRID_FROM_EMAIL);
   }
 
   static hasTwilioConfig(): boolean {
