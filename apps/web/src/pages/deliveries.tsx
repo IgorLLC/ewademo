@@ -238,13 +238,22 @@ const DeliveriesPage = () => {
   const handleRescheduleDelivery = async () => {
     if (!selectedDelivery || !newDeliveryDate || !newTimeSlot) return;
 
+    // Obtener usuario actual
+    const userJson = localStorage.getItem('ewa_user');
+    const userData = userJson ? JSON.parse(userJson) : { id: 'temp-user-id' };
+
     const rescheduleRequest: DeliveryRescheduleRequest = {
+      id: `reschedule-${Date.now()}`,
       deliveryId: selectedDelivery.id,
-      newDate: newDeliveryDate,
-      newTimeSlotId: newTimeSlot,
+      subscriptionId: selectedDelivery.subscriptionId,
+      userId: userData.id,
+      originalDate: selectedDelivery.scheduledDate,
+      requestedDate: newDeliveryDate,
+      timeSlotId: newTimeSlot,
       reason: rescheduleReason,
       customReason: customRescheduleReason,
-      originalDate: selectedDelivery.scheduledDate,
+      requestedAt: new Date().toISOString(),
+      status: 'pending',
     };
 
     try {

@@ -19,9 +19,20 @@ export class ProviderFactory {
     const apiKey = process.env.SENDGRID_API_KEY;
     const fromEmail = process.env.SENDGRID_FROM_EMAIL;
     
+    // Verificar que las credenciales sean válidas (no placeholders)
+    const hasValidCredentials = apiKey && 
+                               fromEmail && 
+                               apiKey.startsWith('SG.') && 
+                               fromEmail.includes('@');
+    
     // Solo usar SendGrid si está disponible y en producción
-    if (SendGridEmailProvider && apiKey && fromEmail && process.env.NODE_ENV === 'production') {
-      return new SendGridEmailProvider(apiKey);
+    if (SendGridEmailProvider && hasValidCredentials && process.env.NODE_ENV === 'production') {
+      try {
+        return new SendGridEmailProvider(apiKey);
+      } catch (error) {
+        console.warn('Failed to create SendGrid provider, falling back to mock:', error);
+        return new MockEmailProvider();
+      }
     }
     
     // En desarrollo, cliente, o si no hay API key, usar mock
@@ -33,11 +44,24 @@ export class ProviderFactory {
     const authToken = process.env.TWILIO_AUTH_TOKEN;
     const fromPhone = process.env.TWILIO_FROM_PHONE;
     
-    if (accountSid && authToken && fromPhone && process.env.NODE_ENV === 'production') {
-      return new TwilioSmsProvider(accountSid, authToken, fromPhone);
+    // Verificar que las credenciales sean válidas (no placeholders)
+    const hasValidCredentials = accountSid && 
+                               authToken && 
+                               fromPhone && 
+                               accountSid.startsWith('AC') && 
+                               authToken.length > 20 && 
+                               fromPhone.startsWith('+');
+    
+    if (hasValidCredentials && process.env.NODE_ENV === 'production') {
+      try {
+        return new TwilioSmsProvider(accountSid, authToken, fromPhone);
+      } catch (error) {
+        console.warn('Failed to create Twilio provider, falling back to mock:', error);
+        return new MockSmsProvider();
+      }
     }
     
-    // En desarrollo o si no hay credenciales, usar mock
+    // En desarrollo o si no hay credenciales válidas, usar mock
     return new MockSmsProvider();
   }
 
