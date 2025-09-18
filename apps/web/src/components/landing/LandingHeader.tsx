@@ -102,17 +102,18 @@ const LandingHeader: React.FC<LandingHeaderProps> = ({ user, onAccessRedirect })
                 encontrar tienda
               </a>
               
-              {/* Account Dropdown */}
-              <div className="relative auth-dropdown-container">
-                <button 
-                  onClick={handleAuthButtonClick}
-                  className="flex items-center text-gray-700 hover:text-blue-600 font-medium transition-colors"
-                >
-                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                  {user ? 'cuenta' : 'cuenta'}
-                  {user && (
+              {/* Authentication Section */}
+              {user ? (
+                /* User is logged in - Show account dropdown */
+                <div className="relative auth-dropdown-container">
+                  <button 
+                    onClick={handleAuthButtonClick}
+                    className="flex items-center text-gray-700 hover:text-blue-600 font-medium transition-colors"
+                  >
+                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    Mi Cuenta
                     <svg 
                       className={`w-4 h-4 ml-1 transition-transform duration-200 ${showAuthDropdown ? 'rotate-180' : ''}`} 
                       fill="none" 
@@ -121,59 +122,75 @@ const LandingHeader: React.FC<LandingHeaderProps> = ({ user, onAccessRedirect })
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
-                  )}
-                </button>
-                
-                {/* Dropdown menu */}
-                {showAuthDropdown && user && (
-                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
-                    <div className="px-4 py-3 border-b border-gray-100">
-                      <div className="flex items-center">
-                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                          <span className="text-sm font-medium text-blue-600">
-                            {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
-                          </span>
-                        </div>
-                        <div className="ml-3">
-                          <p className="text-sm font-medium text-gray-900">
-                            {user.name || 'Usuario'}
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            {user.email || user.role || 'Cliente'}
-                          </p>
+                  </button>
+                  
+                  {/* Dropdown menu */}
+                  {showAuthDropdown && (
+                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
+                      <div className="px-4 py-3 border-b border-gray-100">
+                        <div className="flex items-center">
+                          <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                            <span className="text-sm font-medium text-blue-600">
+                              {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                            </span>
+                          </div>
+                          <div className="ml-3">
+                            <p className="text-sm font-medium text-gray-900">
+                              {user.name || 'Usuario'}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {user.email || user.role || 'Cliente'}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    
-                    <a 
-                      href="/customer" 
-                      className="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                      onClick={() => handleAuthRedirect('/customer')}
-                    >
-                      Mi Portal
-                    </a>
-                    
-                    {user.role === 'admin' || user.role === 'operator' || user.role === 'editor' ? (
+                      
                       <a 
-                        href="/admin/dashboard" 
+                        href="/customer" 
                         className="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                        onClick={() => handleAuthRedirect('/admin/dashboard')}
+                        onClick={() => handleAuthRedirect('/customer')}
                       >
-                        Panel Admin
+                        Mi Portal
                       </a>
-                    ) : null}
-                    
-                    <div className="border-t border-gray-100 my-1"></div>
-                    
-                    <button 
-                      onClick={handleLogout}
-                      className="w-full text-left block px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors"
-                    >
-                      Cerrar Sesión
-                    </button>
-                  </div>
-                )}
-              </div>
+                      
+                      {user.role === 'admin' || user.role === 'operator' || user.role === 'editor' ? (
+                        <a 
+                          href="/admin/dashboard" 
+                          className="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                          onClick={() => handleAuthRedirect('/admin/dashboard')}
+                        >
+                          Panel Admin
+                        </a>
+                      ) : null}
+                      
+                      <div className="border-t border-gray-100 my-1"></div>
+                      
+                      <button 
+                        onClick={handleLogout}
+                        className="w-full text-left block px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                      >
+                        Cerrar Sesión
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                /* User is not logged in - Show clear Login/Signup buttons */
+                <div className="flex items-center space-x-4">
+                  <a 
+                    href="/auth" 
+                    className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
+                  >
+                    Iniciar Sesión
+                  </a>
+                  <a 
+                    href="/register" 
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 font-medium transition-colors"
+                  >
+                    Registrarse
+                  </a>
+                </div>
+              )}
 
             </div>
 
@@ -217,6 +234,14 @@ const LandingHeader: React.FC<LandingHeaderProps> = ({ user, onAccessRedirect })
               {user ? (
                 <>
                   <div className="border-t border-gray-200 my-2"></div>
+                  <div className="px-3 py-2 border-b border-gray-100">
+                    <p className="text-sm font-medium text-gray-900">
+                      Hola, {user.name || 'Usuario'}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {user.email || user.role || 'Cliente'}
+                    </p>
+                  </div>
                   <a href="/customer" className="block px-3 py-2 text-gray-700 hover:text-blue-600 font-medium">
                     Mi Portal
                   </a>
