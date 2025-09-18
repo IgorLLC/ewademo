@@ -11,6 +11,9 @@ import {
   AuthResponse,
 } from '@ewa/types';
 
+// Export Back4App client
+export { getBack4AppClient, Back4AppClient } from './back4app-client';
+
 const api = axios.create({
   baseURL: '/api',
   headers: {
