@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import AdminLayout from '../../components/AdminLayout';
-import { readSessionFromCookie } from '../../lib/session';
+import { changePassword, getCurrentUser, updateUser } from '@ewa/api-client';
 
 const AdminProfilePage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [userId, setUserId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [pwOld, setPwOld] = useState('');
@@ -16,19 +17,11 @@ const AdminProfilePage = () => {
   const [pwEditing, setPwEditing] = useState(false);
 
   useEffect(() => {
-    const u = readSessionFromCookie();
-    if (u) {
-      setName(u.name || '');
-      setEmail(u.email);
-    } else {
-      try {
-        const json = localStorage.getItem('ewa_user');
-        if (json) {
-          const lu = JSON.parse(json);
-          setName(lu.name || '');
-          setEmail(lu.email || '');
-        }
-      } catch {}
+    const current = getCurrentUser();
+    if (current) {
+      setUserId(current.id);
+      setName(current.name || '');
+      setEmail(current.email || '');
     }
   }, []);
 
@@ -37,13 +30,12 @@ const AdminProfilePage = () => {
     setSaving(true);
     setSaved(false);
     try {
-      // Demo: solo persiste en localStorage, en real enviaría a API
-      const json = localStorage.getItem('ewa_user');
-      if (json) {
-        const lu = JSON.parse(json);
-        lu.name = name;
-        lu.email = email;
-        localStorage.setItem('ewa_user', JSON.stringify(lu));
+      if (!userId) return;
+      const updated = await updateUser(userId, { name, email });
+      const stored = getCurrentUser();
+      if (stored && typeof window !== 'undefined') {
+        const merged = { ...stored, ...updated };
+        localStorage.setItem('ewa_user', JSON.stringify(merged));
       }
       setSaved(true);
       setTimeout(() => setSaved(false), 2500);
@@ -127,24 +119,16 @@ const AdminProfilePage = () => {
               }
               setPwSaving(true);
               try {
-                const res = await fetch('/api/auth/change-password', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ oldPassword: pwOld, newPassword: pwNew, confirmPassword: pwConfirm })
-                });
-                const data = await res.json().catch(() => ({}));
-                if (!res.ok) {
-                  setPwError(data?.error || 'No se pudo cambiar la contraseña');
-                } else {
-                  setPwSaved(true);
-                  setPwOld('');
-                  setPwNew('');
-                  setPwConfirm('');
-                  setPwEditing(false);
-                  setTimeout(() => setPwSaved(false), 2500);
-                }
+                await changePassword(email, pwOld, pwNew);
+                setPwSaved(true);
+                setPwOld('');
+                setPwNew('');
+                setPwConfirm('');
+                setPwEditing(false);
+                setTimeout(() => setPwSaved(false), 2500);
               } catch (err) {
-                setPwError('Error de red');
+                const message = err instanceof Error ? err.message : 'No se pudo cambiar la contraseña';
+                setPwError(message);
               } finally {
                 setPwSaving(false);
               }
@@ -244,5 +228,3 @@ const AdminProfilePage = () => {
 };
 
 export default AdminProfilePage;
-
-

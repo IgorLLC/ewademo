@@ -14,7 +14,9 @@ const NewCustomer = () => {
     email: '',
     phone: '',
     role: 'customer' as 'customer' | 'admin',
-    
+    password: '',
+    confirmPassword: '',
+
     // Address Information
     address: {
       street: '',
@@ -95,6 +97,16 @@ const NewCustomer = () => {
     setError(null);
     
     try {
+      if (!formData.password || formData.password.length < 8) {
+        throw new Error('La contraseña debe tener al menos 8 caracteres.');
+      }
+      if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
+        throw new Error('La contraseña debe incluir mayúsculas, minúsculas y números.');
+      }
+      if (formData.password !== formData.confirmPassword) {
+        throw new Error('Las contraseñas no coinciden.');
+      }
+
       // Normalizar businessType a la unión permitida
       type BizType = 'restaurant' | 'hotel' | 'office' | 'retail' | 'services' | 'other';
       const allowedBizTypes: ReadonlyArray<BizType> = ['restaurant','hotel','office','retail','services','other'] as const;
@@ -130,8 +142,8 @@ const NewCustomer = () => {
         notes: formData.notes || undefined
       };
       
-      await createUser(userData);
-      
+      await createUser({ ...userData, password: formData.password });
+
       // Redirect back to users list with success message
       router.push('/admin/users?success=created');
     } catch (err: any) {
@@ -241,7 +253,40 @@ const NewCustomer = () => {
                   placeholder="Ej: (787) 123-4567"
                 />
               </div>
-              
+
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                  Contraseña temporal *
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ewa-blue focus:border-ewa-blue"
+                  placeholder="Contraseña segura"
+                  required
+                />
+                <p className="text-xs text-gray-500 mt-1">Compártela con el cliente; podrá cambiarla luego.</p>
+              </div>
+
+              <div>
+                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+                  Confirmar contraseña *
+                </label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ewa-blue focus:border-ewa-blue"
+                  placeholder="Repite la contraseña"
+                  required
+                />
+              </div>
+
               <div>
                 <label htmlFor="role" className="block text-sm font-medium text-gray-700">
                   Tipo de cuenta *

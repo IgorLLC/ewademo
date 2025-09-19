@@ -4,10 +4,10 @@ import Head from 'next/head';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { readSessionFromCookie } from '../lib/session';
-// Using inline SVG icons for better compatibility
+import { getCurrentUser, login as loginApi, logout as logoutApi, requestPasswordReset as requestPasswordResetApi, signUp as signUpApi } from '@ewa/api-client';
+import BrandLogo from '../components/BrandLogo';
 
-type AuthMode = 'login' | 'signup' | 'forgot-password' | 'reset-password';
+type AuthMode = 'login' | 'signup' | 'forgot-password';
 
 const Auth = () => {
   const router = useRouter();
@@ -16,7 +16,6 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
-  const [resetToken] = useState(''); // For demo purposes
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,25 +26,18 @@ const Auth = () => {
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [nameError, setNameError] = useState('');
 
-  // Verificar si ya hay un usuario autenticado al cargar la página
   useEffect(() => {
-    const cookieUser = readSessionFromCookie();
-    if (cookieUser) {
-      if (cookieUser.role === 'admin') router.replace('/admin/dashboard');
-      else if (cookieUser.role === 'customer') router.replace('/customer/subscriptions');
-      return;
-    }
-    const userJson = localStorage.getItem('ewa_user');
-    if (userJson) {
-      try {
-        const user = JSON.parse(userJson);
-        if (user.role === 'admin') router.replace('/admin/dashboard');
-        else if (user.role === 'customer') router.replace('/customer/subscriptions');
-      } catch (error) {
-        console.error('Error parsing user data:', error);
-        localStorage.removeItem('ewa_user');
-        localStorage.removeItem('ewa_token');
+    try {
+      const user = getCurrentUser();
+      if (!user) return;
+      if (user.role === 'admin') {
+        router.replace('/admin/dashboard');
+      } else if (user.role === 'customer') {
+        router.replace('/customer/subscriptions');
       }
+    } catch (err) {
+      console.error('Error reading session:', err);
+      logoutApi().catch(() => {});
     }
   }, [router]);
 
@@ -87,7 +79,7 @@ const Auth = () => {
         isValid = false;
       }
 
-      if (authMode === 'signup' || authMode === 'reset-password') {
+      if (authMode === 'signup') {
         if (!confirmPassword) {
           setConfirmPasswordError('Confirma tu contraseña');
           isValid = false;
@@ -101,30 +93,6 @@ const Auth = () => {
     return isValid;
   };
 
-  const mockUsers = [
-    {
-      id: 'u1',
-      name: 'Juan Rivera',
-      email: 'juan@cliente.com',
-      password: 'Test123!',
-      role: 'customer'
-    },
-    {
-      id: 'u3',
-      name: 'Restaurante Sobao',
-      email: 'info@sobao.com',
-      password: 'Sobao123!',
-      role: 'customer'
-    },
-    {
-      id: 'admin1',
-      name: 'Administrador EWA',
-      email: 'admin@ewa.com',
-      password: 'Admin123!',
-      role: 'admin'
-    }
-  ];
-
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -132,102 +100,37 @@ const Auth = () => {
       return;
     }
 
+    setError('');
+    setSuccess('');
     setIsLoading(true);
-
     try {
       if (authMode === 'login') {
-        const user = mockUsers.find(u => u.email === email && u.password === password);
-        
-        if (user) {
-          const mockToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6XCIke3VzZXIuaWR9XCIsInJvbGUiOlwiJHt1c2VyLnJvbGV9XCIsImlhdCI6MTYxNjE0ODM2NX0.hR6QxyZ8H6LI1KcPm7CxO8S-yGlE87gGaUlHCpEkYLo`;
-          
-          localStorage.setItem('ewa_token', mockToken);
-          localStorage.setItem('ewa_user', JSON.stringify(user));
-          try { await fetch('/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(user) }); } catch {}
-          
-          if (user.role === 'admin') {
-            router.replace('/admin/dashboard');
-          } else {
-            router.replace('/customer/subscriptions');
-          }
+        const { user } = await loginApi(email.trim(), password);
+        if (user.role === 'admin') {
+          router.replace('/admin/dashboard');
         } else {
-          setError('Credenciales inválidas. Por favor verifica tu email y contraseña.');
+          router.replace('/customer/subscriptions');
         }
       } else if (authMode === 'signup') {
-        const existingUser = mockUsers.find(u => u.email === email);
-        if (existingUser) {
-          setError('Ya existe una cuenta con este email.');
-          return;
-        }
-
-        const newUser = {
-          id: `u${Date.now()}`,
+        const { user } = await signUpApi({
           name: name.trim(),
-          email,
+          email: email.trim(),
           password,
-          role: 'customer' as const
-        };
-
-        const mockToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6XCIke25ld1VzZXIuaWR9XCIsInJvbGUiOlwiJHtuZXdVc2VyLnJvbGV9XCIsImlhdCI6MTYxNjE0ODM2NX0.hR6QxyZ8H6LI1KcPm7CxO8S-yGlE87gGaUlHCpEkYLo`;
-        
-        localStorage.setItem('ewa_token', mockToken);
-        localStorage.setItem('ewa_user', JSON.stringify(newUser));
-        try { await fetch('/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newUser) }); } catch {}
-        
-        router.replace('/customer/subscriptions');
-      } else if (authMode === 'forgot-password') {
-        const user = mockUsers.find(u => u.email === email);
-        if (user) {
-          setSuccess('Se ha enviado un enlace de recuperación a tu email.');
-          // In a real app, this would send an email with a secure reset link
-          setTimeout(() => {
-            setAuthMode('reset-password');
-          }, 2000);
+          role: 'customer',
+        });
+        if (user.role === 'admin') {
+          router.replace('/admin/dashboard');
         } else {
-          setError('No se encontró una cuenta con este email.');
+          router.replace('/customer/subscriptions');
         }
-      } else if (authMode === 'reset-password') {
-        setSuccess('Contraseña actualizada correctamente.');
-        setTimeout(() => {
-          setAuthMode('login');
-          setPassword('');
-          setConfirmPassword('');
-        }, 2000);
+      } else if (authMode === 'forgot-password') {
+        await requestPasswordResetApi(email.trim());
+        setSuccess('Hemos enviado un enlace de recuperación a tu email. Revisa tu bandeja de entrada.');
       }
     } catch (err) {
-      setError('Error en la operación. Por favor intenta nuevamente.');
       console.error('Auth error:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleGoogleSignIn = async () => {
-    clearErrors();
-    setIsLoading(true);
-
-    try {
-      const googleUser = {
-        id: 'google_user_1',
-        name: 'Usuario Google',
-        email: 'usuario@gmail.com',
-        role: 'customer'
-      };
-
-      const mockToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6XCIke2dvb2dsZVVzZXIuaWR9XCIsInJvbGUiOlwiJHtnb29nbGVVc2VyLnJvbGV9XCIsImlhdCI6MTYxNjE0ODM2NX0.hR6QxyZ8H6LI1KcPm7CxO8S-yGlE87gGaUlHCpEkYLo`;
-      
-      localStorage.setItem('ewa_token', mockToken);
-      localStorage.setItem('ewa_user', JSON.stringify(googleUser));
-      try { await fetch('/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(googleUser) }); } catch {}
-      
-      if (googleUser.role === 'admin') {
-        router.replace('/admin/dashboard');
-      } else {
-        router.replace('/customer/subscriptions');
-      }
-    } catch (err) {
-      setError('Error al iniciar sesión con Google. Por favor intenta nuevamente.');
-      console.error('Google login error:', err);
+      const message = err instanceof Error ? err.message : 'Error en la operación. Por favor intenta nuevamente.';
+      setError(message);
     } finally {
       setIsLoading(false);
     }
@@ -242,7 +145,7 @@ const Auth = () => {
           submitText: 'Iniciar sesión',
           switchText: '¿No tienes una cuenta?',
           switchAction: 'Regístrate',
-          switchMode: 'signup' as AuthMode
+          switchMode: 'signup' as AuthMode,
         };
       case 'signup':
         return {
@@ -251,25 +154,16 @@ const Auth = () => {
           submitText: 'Crear cuenta',
           switchText: '¿Ya tienes una cuenta?',
           switchAction: 'Iniciar sesión',
-          switchMode: 'login' as AuthMode
+          switchMode: 'login' as AuthMode,
         };
       case 'forgot-password':
         return {
           title: 'Recuperar Contraseña',
-          description: 'Ingresa tu email para recibir instrucciones',
+          description: 'Ingresa tu email y te enviaremos instrucciones para restablecer tu contraseña',
           submitText: 'Enviar instrucciones',
           switchText: '¿Recordaste tu contraseña?',
           switchAction: 'Iniciar sesión',
-          switchMode: 'login' as AuthMode
-        };
-      case 'reset-password':
-        return {
-          title: 'Nueva Contraseña',
-          description: 'Ingresa tu nueva contraseña',
-          submitText: 'Actualizar contraseña',
-          switchText: 'Volver al',
-          switchAction: 'inicio de sesión',
-          switchMode: 'login' as AuthMode
+          switchMode: 'login' as AuthMode,
         };
     }
   };
@@ -301,12 +195,9 @@ const Auth = () => {
           </div>
 
           {/* Logo/Brand */}
-          <div className="flex justify-center gap-2 md:justify-start">
-            <a href="/" className="flex items-center gap-2 font-medium">
-              <div className="bg-blue-600 text-white flex size-8 items-center justify-center rounded-md">
-                <span className="text-sm font-bold">EWA</span>
-              </div>
-              EWA Box Water
+          <div className="flex justify-center md:justify-start">
+            <a href="/" className="flex items-center" aria-label="Ir al inicio">
+              <BrandLogo size="md" className="h-12 w-12" />
             </a>
           </div>
 
@@ -373,7 +264,7 @@ const Auth = () => {
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
                           <label htmlFor="password" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                            {authMode === 'reset-password' ? 'Nueva contraseña' : 'Contraseña'}
+                            Contraseña
                           </label>
                           {authMode === 'login' && (
                             <Button
@@ -427,7 +318,7 @@ const Auth = () => {
                       </div>
                     )}
 
-                    {(authMode === 'signup' || authMode === 'reset-password') && (
+                    {authMode === 'signup' && (
                       <div className="space-y-2">
                         <label htmlFor="confirmPassword" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                           Confirmar contraseña
@@ -489,34 +380,6 @@ const Auth = () => {
                       {isLoading ? 'Procesando...' : config.submitText}
                     </Button>
 
-                    {(authMode === 'login' || authMode === 'signup') && (
-                      <>
-                        <div className="relative">
-                          <div className="absolute inset-0 flex items-center">
-                            <span className="w-full border-t" />
-                          </div>
-                          <div className="relative flex justify-center text-xs uppercase">
-                            <span className="bg-background px-2 text-muted-foreground">O continúa con</span>
-                          </div>
-                        </div>
-
-                        <Button
-                          type="button"
-                          variant="outline"
-                          onClick={handleGoogleSignIn}
-                          disabled={isLoading}
-                          className="w-full"
-                        >
-                          <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
-                            <path fill="#4285F4" d="M22.56 12.26c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                          </svg>
-                          {isLoading ? 'Iniciando...' : 'Continuar con Google'}
-                        </Button>
-                      </>
-                    )}
                   </form>
 
                   <div className="text-center text-sm mt-6">
@@ -537,19 +400,6 @@ const Auth = () => {
                       {config.switchAction}
                     </Button>
                   </div>
-
-                  {authMode === 'login' && (
-                    <div className="mt-4 text-center">
-                      <p className="text-xs text-muted-foreground">
-                        Credenciales de prueba:
-                      </p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        juan@cliente.com / Test123!<br />
-                        info@sobao.com / Sobao123!<br />
-                        admin@ewa.com / Admin123!
-                      </p>
-                    </div>
-                  )}
                 </CardContent>
               </Card>
             </div>

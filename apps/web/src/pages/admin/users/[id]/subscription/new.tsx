@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import type { GetStaticPaths, GetStaticProps } from 'next';
 import { getUserById, getPlans, getProducts, createSubscription } from '@ewa/api-client';
 import { User, Plan, Product, Subscription } from '@ewa/types';
 import AdminLayout from '../../../../../components/AdminLayout';
@@ -386,3 +387,12 @@ const NewSubscription = () => {
 };
 
 export default NewSubscription;
+
+export const getStaticPaths: GetStaticPaths = async () => ({
+  paths: [],
+  fallback: 'blocking',
+});
+
+export const getStaticProps: GetStaticProps = async () => ({
+  props: {},
+});

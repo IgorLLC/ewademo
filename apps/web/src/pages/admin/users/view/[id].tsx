@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import type { GetStaticPaths, GetStaticProps } from 'next';
 import { getUserById } from '@ewa/api-client';
 import { User } from '@ewa/types';
 import AdminLayout from '../../../../components/AdminLayout';
@@ -525,3 +526,12 @@ const ViewUser = () => {
 };
 
 export default ViewUser;
+
+export const getStaticPaths: GetStaticPaths = async () => ({
+  paths: [],
+  fallback: 'blocking',
+});
+
+export const getStaticProps: GetStaticProps = async () => ({
+  props: {},
+});

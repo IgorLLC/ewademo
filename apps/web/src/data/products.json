@@ -1,0 +1,169 @@
+[
+  {
+    "slug": "caja",
+    "sku": "EWA-CAJA",
+    "name": "Caja Reutilizable EWA",
+    "shortDescription": "Pack modular de cartón reciclado para distribuir hasta 12 botellas en frío",
+    "description": "La Caja EWA está diseñada para optimizar la logística de reparto: materiales certificados FSC, aislamiento térmico y cierres que soportan humedad tropical. Cada caja puede reutilizarse más de 25 ciclos antes de ser reciclada.",
+    "volumeLabel": "Capacidad para 12 botellas mixtas",
+    "servings": "Distribución y storage inteligente",
+    "sizeOz": null,
+    "unitPrice": null,
+    "oneOffEligible": false,
+    "heroImage": {
+      "src": "/images/products/Caja/CAJA MOCKUP.png",
+      "alt": "Caja reutilizable EWA con botellas"
+    },
+    "gallery": [
+      { "src": "/images/products/Caja/CAJA MOCKUP.png", "alt": "Caja reutilizable EWA" }
+    ],
+    "highlights": [
+      {
+        "title": "Identificación inteligente",
+        "description": "Código QR único por caja para rastrear entregas, temperatura y ciclos de reintegro."
+      },
+      {
+        "title": "Aislamiento térmico",
+        "description": "Lámina interna compostable que mantiene el agua fría hasta 6 horas sin refrigeración."
+      },
+      {
+        "title": "Diseño apilable",
+        "description": "Refuerzos laterales que soportan hasta 80 kg, ideal para bodegas y comercios."
+      }
+    ],
+    "sustainability": [
+      "Cartón 100% reciclado, tintas a base de agua.",
+      "Sistema de devolución que reduce residuos por caja en 92%.",
+      "Diseñada y producida localmente para minimizar huella de transporte."
+    ]
+  },
+  {
+    "slug": "250ml",
+    "sku": "EWA-250",
+    "name": "Botella EWA 250 ml",
+    "shortDescription": "Formato individual para amenidades, hospitality y eventos de rotación rápida",
+    "description": "La botella de 250 ml ofrece hidratación premium en un tamaño compacto perfecto para hoteles, conferencias y kits de bienvenida. Mineralización balanceada para acompañar alimentos sin alterar sabores.",
+    "volumeLabel": "250 ml",
+    "servings": "1 porción individual",
+    "sizeOz": 8.45,
+    "unitPrice": 2.5,
+    "oneOffEligible": true,
+    "heroImage": {
+      "src": "/images/products/250ml/250ml.png",
+      "alt": "Botella de 250 ml EWA"
+    },
+    "gallery": [
+      { "src": "/images/products/250ml/250ml.png", "alt": "Botella 250 ml" },
+      { "src": "/images/products/250ml/2.png", "alt": "Detalle lateral botella 250 ml" },
+      { "src": "/images/products/250ml/3.png", "alt": "Botella 250 ml en mesa" },
+      { "src": "/images/products/250ml/4.png", "alt": "Pack de botellas 250 ml" },
+      { "src": "/images/products/250ml/5.png", "alt": "Botellas 250 ml en exhibición" },
+      { "src": "/images/products/250ml/6.png", "alt": "Botella 250 ml lifestyle" }
+    ],
+    "highlights": [
+      {
+        "title": "Tamaño amenity",
+        "description": "Cabe en minibares, bandejas de cortesía y taquillas sin ocupar espacio."
+      },
+      {
+        "title": "Sellado inviolable",
+        "description": "Tapón twist-proof con precinto higiénico y código de trazabilidad."
+      },
+      {
+        "title": "Minerales balanceados",
+        "description": "Perfil de sabor neutro, ideal para combinar con café, té o mixología."
+      }
+    ],
+    "sustainability": [
+      "Envase de aluminio reciclable que reduce plásticos de un solo uso.",
+      "Etiqueta biodegradable fabricada en Puerto Rico.",
+      "Producción bajo energía renovable con certificación local."
+    ]
+  },
+  {
+    "slug": "500ml",
+    "sku": "EWA-500",
+    "name": "Botella EWA 500 ml",
+    "shortDescription": "El formato estándar para oficinas, gimnasios boutique y delivery corporativo",
+    "description": "Nuestro formato insignia: 500 ml de agua remineralizada con perfil alcalino suave. Diseñada para mantenerse fría por más tiempo y adaptarse a portavasos estándar.",
+    "volumeLabel": "500 ml",
+    "servings": "2 porciones individuales",
+    "sizeOz": 16.9,
+    "unitPrice": 3.1,
+    "oneOffEligible": true,
+    "heroImage": {
+      "src": "/images/products/500ml/500.png",
+      "alt": "Botella de 500 ml EWA"
+    },
+    "gallery": [
+      { "src": "/images/products/500ml/500.png", "alt": "Botella 500 ml" },
+      { "src": "/images/products/500ml/2.png", "alt": "Detalle tapa botella 500 ml" },
+      { "src": "/images/products/500ml/3.png", "alt": "Varias botellas 500 ml" },
+      { "src": "/images/products/500ml/4.png", "alt": "Botella 500 ml en escritorio" },
+      { "src": "/images/products/500ml/5.png", "alt": "Pack de botellas 500 ml" },
+      { "src": "/images/products/500ml/6.png", "alt": "Botella 500 ml lifestyle" }
+    ],
+    "highlights": [
+      {
+        "title": "Tapa sport reutilizable",
+        "description": "Boquilla ergonómica que evita derrames y permite consumo en movimiento."
+      },
+      {
+        "title": "Control de temperatura",
+        "description": "Aluminio con doble barniz que mantiene la frescura hasta 15% más que botellas PET."
+      },
+      {
+        "title": "Datos en tiempo real",
+        "description": "Compatible con el sistema de cajas inteligentes para monitorear rotación."
+      }
+    ],
+    "sustainability": [
+      "Aluminio 80% reciclado post-consumo.",
+      "Proceso de envasado con agua recuperada en planta (95% reutilización).",
+      "Programa de recolección con incentivos para clientes corporativos."
+    ]
+  },
+  {
+    "slug": "1000ml",
+    "sku": "EWA-1000",
+    "name": "Botella EWA 1000 ml",
+    "shortDescription": "Máximo rendimiento para equipos en campo, hospitality premium y entregas familiares",
+    "description": "Nuestra presentación de 1 litro está pensada para cubrir la hidratación diaria con menos reposiciones. Perfecta para habitaciones de hotel, suites corporativas y rutas de trabajo extendidas.",
+    "volumeLabel": "1000 ml",
+    "servings": "Hasta 4 vasos de 250 ml",
+    "sizeOz": 33.8,
+    "unitPrice": 4.9,
+    "oneOffEligible": true,
+    "heroImage": {
+      "src": "/images/products/1000ml/1000ml.png",
+      "alt": "Botella de 1000 ml EWA"
+    },
+    "gallery": [
+      { "src": "/images/products/1000ml/1000ml.png", "alt": "Botella 1000 ml" },
+      { "src": "/images/products/1000ml/2.png", "alt": "Detalle lateral botella 1000 ml" },
+      { "src": "/images/products/1000ml/3.png", "alt": "Botella 1000 ml en habitación" },
+      { "src": "/images/products/1000ml/4.png", "alt": "Pack de botellas 1000 ml" },
+      { "src": "/images/products/1000ml/5.png", "alt": "Botella 1000 ml en bandeja" },
+      { "src": "/images/products/1000ml/6.png", "alt": "Botella 1000 ml lifestyle" }
+    ],
+    "highlights": [
+      {
+        "title": "Mayor alcalinidad",
+        "description": "pH 8.3 para apoyar recuperación muscular y digestión equilibrada."
+      },
+      {
+        "title": "Ideal para compartir",
+        "description": "Etiqueta con guía de porciones y espacio para personalizar con tu marca."
+      },
+      {
+        "title": "Compatible con caja EWA",
+        "description": "Optimizada para encajar en la caja reutilizable y mantener temperatura."
+      }
+    ],
+    "sustainability": [
+      "Reduce en 42% la cantidad de envases por litro consumido frente a formatos individuales.",
+      "Tapa y sello reciclables por separado.",
+      "Diseñada para recarga en puntos EWA sin perder hermeticidad."
+    ]
+  }
+]

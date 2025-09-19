@@ -1,259 +1,449 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import CustomerNav from '../../components/CustomerNav';
-import { smartNotificationService } from '@ewa/utils';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import CustomerLayout from '../../components/CustomerLayout';
+import { getCurrentUser } from '@ewa/api-client';
+import type { User } from '@ewa/types';
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
+
+type PaymentMethodSummary = {
+  id: string;
+  brand: string;
+  last4: string;
+  expMonth: number | null;
+  expYear: number | null;
+  isDefault: boolean;
+};
+
+type InvoiceSummary = {
+  id: string;
+  invoiceNumber: string;
+  status: string;
+  amount: number;
+  taxAmount: number;
+  totalAmount: number;
+  currency: string;
+  dueDate: string;
+};
+
+const AddPaymentMethodForm: React.FC<{
+  user: User;
+  onClose: () => void;
+  onAdded: () => void;
+}> = ({ user, onClose, onAdded }) => {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [name, setName] = useState(user.name || '');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!stripe || !elements) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const setupIntentResponse = await fetch('/api/stripe/setup-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user.id, email: user.email, name: user.name }),
+      });
+
+      if (!setupIntentResponse.ok) {
+        throw new Error('No se pudo iniciar la configuración de la tarjeta');
+      }
+
+      const { clientSecret } = (await setupIntentResponse.json()) as { clientSecret: string };
+
+      const cardElement = elements.getElement(CardElement);
+      if (!cardElement) {
+        throw new Error('No se pudo inicializar el formulario de tarjeta');
+      }
+
+      const { error: stripeError, setupIntent } = await stripe.confirmCardSetup(clientSecret, {
+        payment_method: {
+          card: cardElement,
+          billing_details: {
+            name: name || user.name || undefined,
+            email: user.email,
+          },
+        },
+      });
+
+      if (stripeError || !setupIntent?.payment_method) {
+        throw new Error(stripeError?.message || 'No se pudo guardar el método de pago');
+      }
+
+      const addResponse = await fetch('/api/stripe/payment-methods/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user.id,
+          email: user.email,
+          name: user.name,
+          paymentMethodId: setupIntent.payment_method,
+          makeDefault: true,
+        }),
+      });
+
+      if (!addResponse.ok) {
+        throw new Error('No se pudo registrar el método de pago');
+      }
+
+      onAdded();
+      onClose();
+    } catch (err) {
+      console.error(err);
+      setError(err instanceof Error ? err.message : 'Ocurrió un error inesperado');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="rounded-lg border border-yellow-200 bg-yellow-50 px-4 py-3 text-sm text-yellow-800">
+          Falta configurar NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY para habilitar Stripe.
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-2">
+        <label className="text-sm text-gray-600">Nombre en la tarjeta</label>
+        <input
+          value={name}
+          onChange={(event) => setName(event.target.value)}
+          className="w-full rounded-lg border border-gray-200 px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-ewa-blue"
+          placeholder="Nombre completo"
+          required
+        />
+      </div>
+      <div className="space-y-2">
+        <label className="text-sm text-gray-600">Detalles de la tarjeta</label>
+        <div className="rounded-lg border border-gray-200 px-3 py-2 bg-white focus-within:border-ewa-blue">
+          <CardElement options={{ hidePostalCode: true }} />
+        </div>
+      </div>
+      {error && (
+        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">
+          {error}
+        </div>
+      )}
+      <div className="flex justify-end gap-3">
+        <button
+          type="button"
+          onClick={onClose}
+          className="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-600 hover:bg-gray-100"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          disabled={loading}
+          className="rounded-md bg-ewa-blue px-4 py-2 text-sm font-medium text-white hover:bg-ewa-dark-blue disabled:opacity-60"
+        >
+          {loading ? 'Guardando…' : 'Guardar método'}
+        </button>
+      </div>
+    </form>
+  );
+};
 
 const BillingPage: React.FC = () => {
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
-  const [paymentMethods, setPaymentMethods] = useState<Array<{ id: string; brand: string; last4: string; expMonth: number; expYear: number; isDefault: boolean }>>([]);
+  const [user, setUser] = useState<User | null>(null);
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethodSummary[]>([]);
+  const [invoices, setInvoices] = useState<InvoiceSummary[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [showAddMethod, setShowAddMethod] = useState(false);
-  const [form, setForm] = useState({ name: '', number: '', exp: '', cvc: '', address: '' });
+  const [settingDefault, setSettingDefault] = useState(false);
 
   useEffect(() => {
-    const userJson = localStorage.getItem('ewa_user');
-    if (!userJson) {
-      router.push('/auth');
+    const current = getCurrentUser();
+    if (!current || current.role !== 'customer') {
+      router.replace('/auth');
       return;
     }
-    try {
-      const u = JSON.parse(userJson);
-      if (u.role !== 'customer') {
-        router.push('/auth');
-        return;
-      }
-      setUser(u);
-      const saved = localStorage.getItem('ewa_payment_methods');
-      if (saved) {
-        try { setPaymentMethods(JSON.parse(saved)); } catch {}
-      } else {
-        const seed = [{ id: 'pm_1', brand: 'Visa', last4: '4242', expMonth: 12, expYear: 2034, isDefault: true }];
-        setPaymentMethods(seed);
-        localStorage.setItem('ewa_payment_methods', JSON.stringify(seed));
-      }
-    } catch {
-      router.push('/auth');
-    }
+    setUser(current);
   }, [router]);
 
-  const invoices = useMemo(() => {
-    const now = new Date();
-    const fmt = (d: Date) => d.toLocaleDateString('es-PR', { year: 'numeric', month: 'short', day: '2-digit' });
-    const make = (idx: number) => {
-      const d = new Date(now);
-      d.setMonth(d.getMonth() - idx);
-      return { id: `INV-${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`, date: fmt(d), amount: 49.99, tax: 49.99 * 0.115, status: idx === 0 ? 'pendiente' : 'pagada' };
+  useEffect(() => {
+    const loadData = async () => {
+      if (!user) return;
+      setLoading(true);
+      setError(null);
+      try {
+        const params = new URLSearchParams({
+          userId: user.id,
+          email: user.email,
+          name: user.name || '',
+        });
+
+        const [pmRes, invoiceRes] = await Promise.all([
+          fetch(`/api/stripe/payment-methods?${params.toString()}`),
+          fetch(`/api/stripe/invoices?${params.toString()}`),
+        ]);
+
+        if (!pmRes.ok) {
+          throw new Error('No se pudieron cargar los métodos de pago');
+        }
+        if (!invoiceRes.ok) {
+          throw new Error('No se pudieron cargar las facturas');
+        }
+
+        const pmJson = (await pmRes.json()) as { paymentMethods: PaymentMethodSummary[] };
+        const invoiceJson = (await invoiceRes.json()) as { invoices: InvoiceSummary[] };
+
+        setPaymentMethods(pmJson.paymentMethods);
+        setInvoices(invoiceJson.invoices);
+      } catch (err) {
+        console.error(err);
+        setError(err instanceof Error ? err.message : 'Ocurrió un error inesperado');
+      } finally {
+        setLoading(false);
+      }
     };
-    return [make(0), make(1), make(2)];
-  }, []);
+
+    loadData();
+  }, [user]);
 
   const summary = useMemo(() => {
-    const ordersCount = 12;
-    const subtotal = 12 * 49.99;
-    const tax = subtotal * 0.115;
-    const total = subtotal + tax;
-    const nextInvoiceDate = new Date();
-    nextInvoiceDate.setDate(nextInvoiceDate.getDate() + 7);
-    return { ordersCount, subtotal, tax, total, nextInvoiceDate: nextInvoiceDate.toLocaleDateString('es-PR', { year:'numeric', month:'short', day:'2-digit' }) };
-  }, []);
-
-  const setDefaultMethod = (id: string) => {
-    const updated = paymentMethods.map(m => ({ ...m, isDefault: m.id === id }));
-    setPaymentMethods(updated);
-    localStorage.setItem('ewa_payment_methods', JSON.stringify(updated));
-  };
-
-  const handleAddMethod = async () => {
-    const last4 = form.number.replace(/\s|-/g, '').slice(-4) || '0000';
-    const parts = form.exp.split('/');
-    const mm = parseInt((parts[0] || '').trim(), 10);
-    const yy = parseInt((parts[1] || '').trim(), 10);
-    const newMethod = { id: `pm_${Date.now()}`, brand: 'Visa', last4, expMonth: isFinite(mm as any) ? (mm || 12) : 12, expYear: isFinite(yy as any) ? (2000 + (yy || 34)) : 2034, isDefault: paymentMethods.length === 0 };
-    const updated = [...paymentMethods, newMethod];
-    setPaymentMethods(updated);
-    localStorage.setItem('ewa_payment_methods', JSON.stringify(updated));
-    
-    // Obtener usuario actual para enviar email
-    const userJson = localStorage.getItem('ewa_user');
-    let userEmail = 'test@ewa.com'; // fallback
-    
-    if (userJson) {
-      try {
-        const userData = JSON.parse(userJson);
-        userEmail = userData.email;
-        
-        // Enviar email de confirmación de método de pago agregado
-        try {
-          await smartNotificationService.sendPaymentReceipt(userEmail, {
-            receiptId: `PM-${Date.now()}`,
-            date: new Date().toLocaleDateString('es-PR'),
-            amount: '0.00', // No hay cargo por agregar método
-            paymentMethod: `Visa •••• ${last4}`,
-            description: 'Método de pago agregado exitosamente'
-          });
-          console.log('Email de confirmación de método de pago enviado exitosamente');
-        } catch (emailError) {
-          console.error('Error enviando email de confirmación:', emailError);
-          // No bloquear la operación si falla el email
-        }
-      } catch (error) {
-        console.error('Error parsing user data:', error);
-      }
+    if (invoices.length === 0) {
+      return { subtotal: 0, tax: 0, total: 0 };
     }
-    
-    setShowAddMethod(false);
-    setForm({ name: '', number: '', exp: '', cvc: '', address: '' });
+    const subtotal = invoices.reduce((acc, invoice) => acc + invoice.amount, 0);
+    const tax = invoices.reduce((acc, invoice) => acc + invoice.taxAmount, 0);
+    const total = invoices.reduce((acc, invoice) => acc + invoice.totalAmount, 0);
+    return { subtotal, tax, total };
+  }, [invoices]);
+
+  const handleSetDefault = async (paymentMethodId: string) => {
+    if (!user) return;
+    setSettingDefault(true);
+    setError(null);
+    try {
+      const response = await fetch('/api/stripe/payment-methods/default', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user.id,
+          email: user.email,
+          name: user.name,
+          paymentMethodId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('No se pudo actualizar el método predeterminado');
+      }
+
+      const params = new URLSearchParams({ userId: user.id, email: user.email, name: user.name || '' });
+      const updated = await fetch(`/api/stripe/payment-methods?${params.toString()}`);
+      if (updated.ok) {
+        const data = (await updated.json()) as { paymentMethods: PaymentMethodSummary[] };
+        setPaymentMethods(data.paymentMethods);
+      }
+    } catch (err) {
+      console.error(err);
+      setError(err instanceof Error ? err.message : 'Ocurrió un error inesperado');
+    } finally {
+      setSettingDefault(false);
+    }
   };
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-ewa-blue" />
+      </div>
+    );
+  }
 
   return (
     <>
       <Head>
         <title>Facturación • EWA</title>
       </Head>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50">
-        <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200/60 sticky top-0 z-50 shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <div className="flex items-center">
-              <div className="mr-8">
-                <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">EWA Box Water</h1>
-              </div>
-              <CustomerNav />
-            </div>
+
+      <CustomerLayout
+        user={user}
+        title="Facturación"
+        description="Administra tus métodos de pago y consulta tus facturas recientes."
+        actions={
+          <button
+            onClick={() => setShowAddMethod(true)}
+            className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-3 py-2 text-sm text-white hover:bg-blue-700"
+          >
+            <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" />
+            </svg>
+            Agregar método
+          </button>
+        }
+      >
+        {error && (
+          <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {error}
           </div>
-        </header>
+        )}
 
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-          {/* Se ocultan las tarjetas de resumen por no ser necesarias */}
+        <section className="bg-white/90 rounded-2xl shadow-lg border border-gray-100 p-6 space-y-6">
+          <header className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-900">Métodos de pago</h2>
+          </header>
 
-          <div className="bg-white/90 rounded-2xl shadow-lg border border-gray-100 p-6">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 1.343-3 3v1H8a1 1 0 100 2h1v1a3 3 0 006 0v-1h1a1 1 0 100-2h-1v-1c0-1.657-1.343-3-3-3z" />
-                </svg>
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-gray-900">Facturación (Stripe)</h2>
-                <p className="text-sm text-gray-600">Guarda tu tarjeta de crédito/débito de forma segura</p>
-              </div>
+          {loading ? (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-ewa-blue" />
             </div>
+          ) : paymentMethods.length === 0 ? (
+            <p className="text-sm text-gray-600">Aún no tienes métodos de pago registrados.</p>
+          ) : (
+            <ul className="divide-y rounded-lg border border-gray-200">
+              {paymentMethods.map((method) => (
+                <li key={method.id} className="flex items-center justify-between p-4">
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900">
+                      {method.brand} •••• {method.last4}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      Expira {method.expMonth ? String(method.expMonth).padStart(2, '0') : '--'}/
+                      {method.expYear || '--'}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {method.isDefault ? (
+                      <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-700">
+                        Predeterminado
+                      </span>
+                    ) : (
+                      <button
+                        onClick={() => handleSetDefault(method.id)}
+                        disabled={settingDefault}
+                        className="rounded border border-gray-200 px-3 py-1 text-xs hover:bg-gray-50 disabled:opacity-60"
+                      >
+                        Usar como predeterminado
+                      </button>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
 
-            <div className="mb-6">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold">Métodos de pago</h3>
-                <button onClick={() => setShowAddMethod(true)} className="inline-flex items-center gap-1 px-3 py-1.5 text-sm rounded-md bg-blue-600 text-white hover:bg-blue-700">
-                  <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/></svg>
-                  Agregar método
-                </button>
-              </div>
-              <ul className="divide-y border rounded">
-                {paymentMethods.length === 0 ? (
-                  <li className="p-3 text-sm text-gray-500">No hay métodos de pago guardados.</li>
-                ) : paymentMethods.map((m) => (
-                  <li key={m.id} className="p-3 flex items-center justify-between">
-                    <div>
-                      <div className="text-sm font-medium">{m.brand} •••• {m.last4}</div>
-                      <div className="text-xs text-gray-500">Expira {String(m.expMonth).padStart(2,'0')}/{m.expYear}</div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      {m.isDefault ? (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700 border border-green-200">Predeterminado</span>
-                      ) : (
-                        <button onClick={() => setDefaultMethod(m.id)} className="text-xs px-2 py-0.5 rounded border hover:bg-gray-50">Hacer predeterminado</button>
-                      )}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-              <p className="text-xs text-gray-500 mt-2">Datos simulados de Stripe. Solo demostración.</p>
+        <section className="bg-white/90 rounded-2xl shadow-lg border border-gray-100 p-6 space-y-6">
+          <header className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-900">Historial de facturas</h2>
+          </header>
+
+          {loading ? (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-ewa-blue" />
             </div>
-
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold">Facturas</h3>
-                <div className="text-xs text-gray-500">Próxima factura: {summary.nextInvoiceDate}</div>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="min-w-full text-sm">
-                  <thead>
-                    <tr className="text-left text-gray-500">
-                      <th className="py-2">Fecha</th>
-                      <th className="py-2">Factura</th>
-                      <th className="py-2">Subtotal</th>
-                      <th className="py-2">Impuestos</th>
-                      <th className="py-2">Total</th>
-                      <th className="py-2">Estado</th>
-                      <th className="py-2"></th>
+          ) : invoices.length === 0 ? (
+            <p className="text-sm text-gray-600">Aún no hay facturas registradas.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full text-sm">
+                <thead>
+                  <tr className="text-left text-gray-500">
+                    <th className="py-2">Fecha</th>
+                    <th className="py-2">Factura</th>
+                    <th className="py-2">Subtotal</th>
+                    <th className="py-2">Impuestos</th>
+                    <th className="py-2">Total</th>
+                    <th className="py-2">Estado</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y">
+                  {invoices.map((invoice) => (
+                    <tr key={invoice.id}>
+                      <td className="py-2">
+                        {new Date(invoice.dueDate).toLocaleDateString('es-PR', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: '2-digit',
+                        })}
+                      </td>
+                      <td className="py-2">{invoice.invoiceNumber}</td>
+                      <td className="py-2">${invoice.amount.toFixed(2)}</td>
+                      <td className="py-2">${invoice.taxAmount.toFixed(2)}</td>
+                      <td className="py-2">${invoice.totalAmount.toFixed(2)}</td>
+                      <td className="py-2">
+                        <span
+                          className={`px-2 py-0.5 rounded-full text-xs ${
+                            invoice.status === 'paid'
+                              ? 'bg-emerald-100 text-emerald-700'
+                              : invoice.status === 'open'
+                              ? 'bg-amber-100 text-amber-700'
+                              : 'bg-gray-200 text-gray-700'
+                          }`}
+                        >
+                          {invoice.status}
+                        </span>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody className="divide-y">
-                    {invoices.map(inv => (
-                      <tr key={inv.id}>
-                        <td className="py-2">{inv.date}</td>
-                        <td className="py-2">{inv.id}</td>
-                        <td className="py-2">${inv.amount.toFixed(2)}</td>
-                        <td className="py-2">${inv.tax.toFixed(2)}</td>
-                        <td className="py-2">${(inv.amount + inv.tax).toFixed(2)}</td>
-                        <td className="py-2">
-                          <span className={`px-2 py-0.5 rounded-full text-xs ${inv.status === 'pagada' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-800'}`}>{inv.status}</span>
-                        </td>
-                        <td className="py-2 text-right">
-                          <button disabled className="text-xs px-2 py-1 rounded border text-gray-400 cursor-not-allowed">Descargar</button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          {showAddMethod && (
-            <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-              <div className="bg-white w-full max-w-md rounded-xl shadow-xl p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h4 className="font-semibold">Agregar método de pago</h4>
-                  <button onClick={() => setShowAddMethod(false)} className="text-gray-500 hover:text-gray-700">✕</button>
-                </div>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm mb-1">Nombre en la tarjeta</label>
-                    <input value={form.name} onChange={e=>setForm({...form, name:e.target.value})} className="w-full border rounded px-3 py-2" placeholder="Nombre y Apellido" />
-                  </div>
-                  <div>
-                    <label className="block text-sm mb-1">Número de tarjeta</label>
-                    <input value={form.number} onChange={e=>setForm({...form, number:e.target.value})} className="w-full border rounded px-3 py-2" placeholder="4242 4242 4242 4242" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-sm mb-1">Expira</label>
-                      <input value={form.exp} onChange={e=>setForm({...form, exp:e.target.value})} className="w-full border rounded px-3 py-2" placeholder="MM/YY" />
-                    </div>
-                    <div>
-                      <label className="block text-sm mb-1">CVC</label>
-                      <input value={form.cvc} onChange={e=>setForm({...form, cvc:e.target.value})} className="w-full border rounded px-3 py-2" placeholder="CVC" />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-sm mb-1">Dirección de facturación</label>
-                    <input value={form.address} onChange={e=>setForm({...form, address:e.target.value})} className="w-full border rounded px-3 py-2" placeholder="Calle y número" />
-                  </div>
-                </div>
-                <div className="flex items-center justify-end gap-2 mt-6">
-                  <button onClick={()=>setShowAddMethod(false)} className="px-3 py-2 rounded border">Cancelar</button>
-                  <button onClick={handleAddMethod} className="px-3 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">Guardar método</button>
-                </div>
-                <p className="text-[11px] text-gray-500 mt-3">Demo UI: no se conecta con Stripe.</p>
-              </div>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
-        </div>
-      </div>
+
+          <footer className="grid grid-cols-1 gap-4 border-t border-gray-200 pt-4 text-sm text-gray-600 sm:grid-cols-3">
+            <div>
+              Subtotal acumulado
+              <p className="text-lg font-semibold text-gray-900">${summary.subtotal.toFixed(2)}</p>
+            </div>
+            <div>
+              Impuestos acumulados
+              <p className="text-lg font-semibold text-gray-900">${summary.tax.toFixed(2)}</p>
+            </div>
+            <div>
+              Total facturado
+              <p className="text-lg font-semibold text-gray-900">${summary.total.toFixed(2)}</p>
+            </div>
+          </footer>
+        </section>
+
+        {showAddMethod && stripePromise && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+            <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+              <div className="mb-4 flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-gray-900">Agregar método de pago</h3>
+                <button onClick={() => setShowAddMethod(false)} className="text-gray-500 hover:text-gray-700">
+                  ✕
+                </button>
+              </div>
+              <Elements stripe={stripePromise}>
+                <AddPaymentMethodForm
+                  user={user}
+                  onClose={() => setShowAddMethod(false)}
+                  onAdded={() => {
+                    const params = new URLSearchParams({ userId: user.id, email: user.email, name: user.name || '' });
+                    fetch(`/api/stripe/payment-methods?${params.toString()}`)
+                      .then((res) => (res.ok ? res.json() : Promise.reject()))
+                      .then((data: { paymentMethods: PaymentMethodSummary[] }) => setPaymentMethods(data.paymentMethods))
+                      .catch(() => {});
+                  }}
+                />
+              </Elements>
+            </div>
+          </div>
+        )}
+      </CustomerLayout>
     </>
   );
 };
 
 export default BillingPage;
-
-

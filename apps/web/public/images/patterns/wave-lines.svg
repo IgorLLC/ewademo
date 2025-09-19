@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#15afe0" />
+      <stop offset="100%" stop-color="#3cc8f0" />
+    </linearGradient>
+    <linearGradient id="lineGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#49d0ff" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.7" />
+    </linearGradient>
+    <filter id="soften" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="4" />
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)" />
+  <g fill="none" stroke="url(#lineGradient)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" opacity="0.8">
+    <path d="M-160 160 Q 120 40 320 160 T 800 160 T 1280 160 T 1760 160" />
+    <path d="M-140 260 Q 180 140 400 260 T 860 240 T 1340 300 T 1780 260" />
+    <path d="M-120 360 Q 180 260 360 360 T 820 380 T 1300 340 T 1760 360" />
+    <path d="M-180 460 Q 80 360 320 460 T 740 520 T 1180 440 T 1620 500 T 1980 460" />
+    <path d="M-140 560 Q 120 460 360 580 T 860 560 T 1320 620 T 1820 560" />
+    <path d="M-200 680 Q 60 560 320 680 T 760 700 T 1200 660 T 1660 720 T 2080 680" />
+    <path d="M-160 780 Q 80 680 320 780 T 760 820 T 1160 780 T 1600 820 T 2040 780" />
+    <path d="M-120 880 Q 120 780 360 880 T 840 880 T 1320 860 T 1800 900" />
+  </g>
+  <g fill="none" stroke="#5fe0ff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" filter="url(#soften)" opacity="0.6">
+    <path d="M-100 120 Q 200 0 500 140 T 980 120 T 1480 140 T 1900 120" />
+    <path d="M-80 220 Q 220 120 520 240 T 1000 220 T 1500 240 T 1920 220" />
+    <path d="M-60 320 Q 240 220 540 340 T 1020 320 T 1520 340 T 1940 320" />
+    <path d="M-40 420 Q 260 320 560 440 T 1040 420 T 1540 440 T 1960 420" />
+    <path d="M-20 520 Q 280 420 580 540 T 1060 520 T 1560 540 T 1980 520" />
+    <path d="M0 620 Q 300 520 600 640 T 1080 620 T 1580 640 T 2000 620" />
+    <path d="M20 720 Q 320 620 620 740 T 1100 720 T 1600 740 T 2020 720" />
+  </g>
+</svg>

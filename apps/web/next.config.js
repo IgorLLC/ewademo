@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  transpilePackages: ["@ewa/types"],
+  transpilePackages: ["@ewa/types", "@ewa/ui", "@ewa/utils", "@ewa/api-client"],
   eslint: {
     // Evita que errores de ESLint bloqueen builds de producción
     ignoreDuringBuilds: true,
@@ -27,14 +27,6 @@ const nextConfig = {
       };
     }
     return config;
-  },
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'http://localhost:4000/api/:path*',
-      },
-    ];
   },
 };
 

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { smartNotificationService } from '@ewa/utils';
+import { signUp as signUpApi, updateUser } from '@ewa/api-client';
 
 const Register = () => {
   const router = useRouter();
@@ -104,40 +105,43 @@ const Register = () => {
     setIsLoading(true);
 
     try {
-      // Simular registro exitoso
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Crear usuario mock
-      const newUser = {
-        id: `u${Date.now()}`,
-        name: `${formData.firstName} ${formData.lastName}`,
-        email: formData.email,
+      const fullName = `${formData.firstName} ${formData.lastName}`.trim();
+      const { user } = await signUpApi({
+        name: fullName,
+        email: formData.email.trim(),
+        password: formData.password,
         phone: formData.phone,
-        businessName: formData.businessName,
-        address: formData.address,
-        city: formData.city,
-        zipCode: formData.zipCode,
-        role: 'customer'
-      };
+        role: 'customer',
+      });
 
-      // Guardar en localStorage (en una app real esto iría al backend)
-      localStorage.setItem('ewa_user', JSON.stringify(newUser));
-      localStorage.setItem('ewa_token', 'mock_token_' + Date.now());
+      try {
+        await updateUser(user.id, {
+          phone: formData.phone,
+          address: {
+            street: formData.address,
+            city: formData.city,
+            state: formData.city,
+            zip: formData.zipCode,
+            country: 'PR',
+          },
+          businessInfo: {
+            businessName: formData.businessName,
+          },
+        });
+      } catch (profileError) {
+        console.warn('No se pudo actualizar la información adicional del usuario:', profileError);
+      }
 
-      // Enviar email de bienvenida
       try {
         await smartNotificationService.sendWelcomeNotification(
           formData.email,
           formData.phone,
-          `${formData.firstName} ${formData.lastName}`
+          fullName
         );
-        console.log('Email de bienvenida enviado exitosamente');
       } catch (emailError) {
         console.error('Error enviando email de bienvenida:', emailError);
-        // No bloquear el registro si falla el email
       }
 
-      // Redirigir a la página de suscripciones
       router.push('/customer/subscriptions');
     } catch (error) {
       console.error('Error en el registro:', error);

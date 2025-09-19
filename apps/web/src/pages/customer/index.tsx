@@ -1,35 +1,25 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { getCurrentUser } from '@ewa/api-client';
 
 const CustomerRedirect = () => {
   const router = useRouter();
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Verificar si el usuario está autenticado y es cliente
-    const userJson = localStorage.getItem('ewa_user');
-    if (!userJson) {
-      // Si no hay usuario, redirigir a la página de autenticación
-      router.push('/auth');
+    const user = getCurrentUser();
+    if (!user) {
+      router.replace('/auth');
       return;
     }
 
-    try {
-      const user = JSON.parse(userJson);
-      if (user.role === 'customer') {
-        // Si es cliente, redirigir a la página de suscripciones
-        router.push('/customer/subscriptions');
-      } else {
-        // Si no es cliente, mostrar error y redirigir a la página de autenticación
-        setError('No tienes permisos para acceder al portal de clientes');
-        setTimeout(() => {
-          router.push('/auth');
-        }, 2000);
-      }
-    } catch (error) {
-      console.error('Error al verificar usuario:', error);
-      router.push('/auth');
+    if (user.role === 'customer') {
+      router.replace('/customer/subscriptions');
+      return;
     }
+
+    setError('No tienes permisos para acceder al portal de clientes');
+    setTimeout(() => router.replace('/auth'), 2000);
   }, [router]);
 
   return (

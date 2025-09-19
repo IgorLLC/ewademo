@@ -10,9 +10,13 @@ const Footer: React.FC<FooterProps> = ({ children }) => {
   return (
     <footer className="bg-gray-900 text-white py-12">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           <div>
-            <h3 className="text-2xl font-bold mb-4 text-white">EWA Box Water</h3>
+            <img
+              src="/images/branding/ewa-logo.svg"
+              alt="EWA Box Water"
+              className="mb-4 h-12 w-auto object-contain"
+            />
             <p className="text-gray-200 leading-relaxed">
               Servicio de entrega de agua sustentable para un planeta mejor.
             </p>
@@ -23,7 +27,7 @@ const Footer: React.FC<FooterProps> = ({ children }) => {
               <li><a href="/" className="text-gray-200 hover:text-blue-300 transition-colors duration-200">Inicio</a></li>
               <li><a href="/plans" className="text-gray-200 hover:text-blue-300 transition-colors duration-200">Planes</a></li>
               <li><a href="/about" className="text-gray-200 hover:text-blue-300 transition-colors duration-200">Sobre Nosotros</a></li>
-              <li><a href="/contact" className="text-gray-200 hover:text-blue-300 transition-colors duration-200">Contacto</a></li>
+              <li><a href="mailto:hola@ewa.com" className="text-gray-200 hover:text-blue-300 transition-colors duration-200">Contacto</a></li>
             </ul>
           </div>
           <div>
@@ -36,7 +40,7 @@ const Footer: React.FC<FooterProps> = ({ children }) => {
           </div>
         </div>
         {children}
-        <div className="mt-12 pt-8 border-t border-gray-700 text-center text-gray-300">
+        <div className="mt-12 border-t border-gray-700 pt-8 text-center text-gray-300">
           &copy; {currentYear} EWA Box Water. Todos los derechos reservados.
         </div>
       </div>

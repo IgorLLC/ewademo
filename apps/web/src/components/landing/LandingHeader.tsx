@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import BrandLogo from '../BrandLogo';
 
 interface LandingHeaderProps {
   user?: any;
@@ -66,43 +67,32 @@ const LandingHeader: React.FC<LandingHeaderProps> = ({ user, onAccessRedirect })
       <nav className="bg-white shadow-sm sticky top-0 z-50">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center py-4">
-            {/* Left Navigation Links */}
-            <div className="hidden lg:flex items-center space-x-8">
-              <a href="/plans" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-                planes
+            {/* Primary navigation + logo */}
+            <div className="hidden lg:flex flex-1 items-center gap-8">
+              <a href="/" className="flex items-center" aria-label="EWA Box Water">
+                <BrandLogo size="lg" className="h-24 w-24" />
               </a>
-              <a href="/subscriptions" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-                suscribirse
-              </a>
-              <a href="/about" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-                aprender
-              </a>
-              <a href="/blog" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-                blog
-              </a>
+              <nav className="flex items-center gap-6 text-gray-700 font-medium transition-colors">
+                <a href="/plans" className="hover:text-blue-600">
+                  planes
+                </a>
+                <a href="/products" className="hover:text-blue-600">
+                  productos
+                </a>
+                <a href="/about" className="hover:text-blue-600">
+                  aprender
+                </a>
+                <a href="/blog" className="hover:text-blue-600">
+                  blog
+                </a>
+                <a href="/stores" className="hover:text-blue-600">
+                  encontrar tienda
+                </a>
+              </nav>
             </div>
 
-            {/* Center Logo */}
-            <div className="flex-shrink-0">
-              <a href="/" className="flex items-center">
-                <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-white font-bold text-lg">E</span>
-                </div>
-                <span className="text-2xl font-bold text-gray-800">ewa</span>
-                <span className="text-xs text-gray-500 ml-1">®</span>
-              </a>
-            </div>
-
-            {/* Right Navigation Links */}
+            {/* Account / auth actions */}
             <div className="hidden lg:flex items-center space-x-8">
-              <a href="/guarantee" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-                garantía
-              </a>
-              <a href="/stores" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-                encontrar tienda
-              </a>
-              
-              {/* Account Dropdown */}
               <div className="relative auth-dropdown-container">
                 <button 
                   onClick={handleAuthButtonClick}
@@ -177,6 +167,13 @@ const LandingHeader: React.FC<LandingHeaderProps> = ({ user, onAccessRedirect })
 
             </div>
 
+            {/* Mobile logo */}
+            <div className="flex items-center gap-3 lg:hidden">
+              <a href="/" aria-label="EWA Box Water" className="flex items-center">
+                <BrandLogo size="md" className="h-16 w-16" />
+              </a>
+            </div>
+
             {/* Mobile Menu Button */}
             <div className="lg:hidden">
               <button 
@@ -198,17 +195,14 @@ const LandingHeader: React.FC<LandingHeaderProps> = ({ user, onAccessRedirect })
               <a href="/plans" className="block px-3 py-2 text-gray-700 hover:text-blue-600 font-medium">
                 planes
               </a>
-              <a href="/subscriptions" className="block px-3 py-2 text-gray-700 hover:text-blue-600 font-medium">
-                suscribirse
+              <a href="/products" className="block px-3 py-2 text-gray-700 hover:text-blue-600 font-medium">
+                productos
               </a>
               <a href="/about" className="block px-3 py-2 text-gray-700 hover:text-blue-600 font-medium">
                 aprender
               </a>
               <a href="/blog" className="block px-3 py-2 text-gray-700 hover:text-blue-600 font-medium">
                 blog
-              </a>
-              <a href="/guarantee" className="block px-3 py-2 text-gray-700 hover:text-blue-600 font-medium">
-                garantía
               </a>
               <a href="/stores" className="block px-3 py-2 text-gray-700 hover:text-blue-600 font-medium">
                 encontrar tienda

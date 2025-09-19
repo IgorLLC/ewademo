@@ -1,139 +1,159 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Button } from '@ewa/ui';
 import { useRouter } from 'next/router';
 
+const segments = [
+  {
+    id: 'play',
+    label: 'Hidratación diaria',
+    heading: 'Para equipos que necesitan rendimiento constante',
+    description:
+      'Nuestras cajas de 12 oz. mantienen el equilibrio mineral perfecto para oficinas, gimnasios y espacios creativos que operan sin pausa.',
+    highlights: ['Reposición automática inteligente', 'Panel de consumo compartido', 'Entrega en bloques de 24h'],
+  },
+  {
+    id: 'work',
+    label: 'Operaciones & logística',
+    heading: 'Hidrata a tu crew en ruta sin generar residuos',
+    description:
+      'Ideal para centros de distribución, brigadas y equipos de campo. Configura entregas móviles y controla inventario en cada punto.',
+    highlights: ['Trackers QR para cada caja', 'Alertas de reposición por ubicación', 'Facturación centralizada'],
+  },
+  {
+    id: 'sleep',
+    label: 'Bienestar & hospitality',
+    heading: 'Hospitalidad premium con impacto ambiental mínimo',
+    description:
+      'Combina experiencias boutique con hidratación responsable en hoteles, spas y residencias temporales.',
+    highlights: ['Diseño a la vista del huésped', 'Firmas personalizadas por marca', 'Consumo medido por estancia'],
+  },
+];
+
+const products = [
+  {
+    id: 'natural',
+    title: 'EWA Pure Flow',
+    flavor: 'Agua natural remineralizada',
+    badge: 'Más pedido',
+    description: 'Blend balanceado con calcio y magnesio para sensación suave y ligera.',
+    image: '/images/landing/products/product-1.jpeg',
+    price: 'Desde $28/pack',
+  },
+  {
+    id: 'electrolytes',
+    title: 'EWA Active Boost',
+    flavor: 'Electrolitos + zinc',
+    badge: 'Equipos deportivos',
+    description: 'Recuperación rápida tras jornadas intensas con sodio controlado y potasio extra.',
+    image: '/images/landing/products/product-2.jpeg',
+    price: 'Desde $32/pack',
+  },
+  {
+    id: 'alkaline',
+    title: 'EWA Alkaline Night',
+    flavor: 'Ph 8.5 con antioxidantes',
+    badge: 'Hospitality',
+    description: 'Suaviza la digestión nocturna y reduce la sensación de resequedad al despertar.',
+    image: '/images/landing/products/product-1.jpeg',
+    price: 'Desde $35/pack',
+  },
+];
+
 const ProductSection: React.FC = () => {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('play');
+  const [activeSegment, setActiveSegment] = useState(segments[0].id);
 
-  const tabs = [
-    { id: 'play', label: 'Hidratación' },
-    { id: 'work', label: 'Trabajo' },
-    { id: 'sleep', label: 'Descanso' }
-  ];
-
-  const products = [
-    {
-      id: 1,
-      name: "Agua Natural - Más Vendido",
-      flavor: "Natural",
-      badge: "más vendido",
-      reviews: 780,
-      description: "Diseñado para mantenerte hidratado todo el día",
-      price: "Desde $30.60",
-      image: "/images/landing/products/product-1.jpeg"
-    },
-    {
-      id: 2,
-      name: "Agua con Electrolitos",
-      flavor: "Con Electrolitos",
-      reviews: 780,
-      description: "Diseñado para mantenerte hidratado todo el día",
-      price: "Desde $30.60",
-      image: "/images/landing/products/product-2.jpeg"
-    },
-    {
-      id: 3,
-      name: "Agua Alcalina",
-      flavor: "Alcalina",
-      reviews: 780,
-      description: "Diseñado para mantenerte hidratado todo el día",
-      price: "Desde $30.60",
-      image: "/images/landing/products/product-1.jpeg" // Reutilizar imagen por ahora
-    }
-  ];
+  const currentSegment = useMemo(
+    () => segments.find((segment) => segment.id === activeSegment) ?? segments[0],
+    [activeSegment],
+  );
 
   return (
-    <section className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4">
-        {/* Section Title */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-800 mb-8">
-            Nuestros productos respaldados por la ciencia
-          </h2>
-          
-          {/* Tabs */}
-          <div className="flex justify-center space-x-8 mb-8">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`text-lg font-medium pb-2 border-b-2 transition-colors ${
-                  activeTab === tab.id
-                    ? 'text-blue-600 border-blue-600'
-                    : 'text-gray-500 border-transparent hover:text-gray-700'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-        </div>
+    <section className="relative bg-slate-950 py-20">
+      <div className="relative container mx-auto px-4">
+        <div className="flex flex-col gap-12 lg:flex-row">
+          <div className="lg:w-2/5">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/60">
+              Catálogo ewa
+            </div>
+            <h2 className="mt-6 text-3xl font-semibold leading-tight text-white sm:text-4xl">Nuestros programas adaptados a tu realidad</h2>
+            <p className="mt-3 text-base text-white/70 sm:text-lg">
+              Activa un plan recurrente o mezcla sabores según la temporada. Nuestro equipo acompaña el ajuste para que nunca más tengas exceso ni faltantes.
+            </p>
 
-        <div className="flex flex-col lg:flex-row gap-12">
-          {/* Left Panel */}
-          <div className="lg:w-1/3">
-            <div className="bg-blue-50 p-8 rounded-lg h-full">
-              <p className="text-gray-700 text-lg leading-relaxed mb-6">
-                Mezcla patentada de electrolitos y más para rehidratar y reponer.
-              </p>
-              <Button 
+            {/* Simpler category pills */}
+            <div className="mt-6 inline-flex rounded-full border border-white/10 bg-white/5 p-1 text-sm text-white/70">
+              {segments.map((segment) => (
+                <button
+                  key={segment.id}
+                  onClick={() => setActiveSegment(segment.id)}
+                  className={`rounded-full px-4 py-1.5 transition ${
+                    segment.id === activeSegment
+                      ? 'bg-white text-slate-900 shadow'
+                      : 'hover:text-white/90'
+                  }`}
+                >
+                  {segment.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Compact feature box */}
+            <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-5">
+              <h3 className="text-base font-semibold text-white">{currentSegment.heading}</h3>
+              <p className="mt-2 text-sm text-white/60">{currentSegment.description}</p>
+              <ul className="mt-4 space-y-2 text-sm text-white/70">
+                {currentSegment.highlights.map((highlight) => (
+                  <li key={highlight} className="flex items-start gap-2">
+                    <svg className="mt-0.5 h-4 w-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    {highlight}
+                  </li>
+                ))}
+              </ul>
+              <Button
                 onClick={() => router.push('/plans')}
-                className="bg-white text-blue-600 border-2 border-blue-600 hover:bg-blue-50 px-6 py-3 rounded-lg flex items-center gap-2 transition-all duration-300"
+                className="mt-5 bg-sky-500 text-slate-950 hover:bg-sky-400"
               >
-                Ver Planes de Agua
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                Configurar mi plan
               </Button>
             </div>
           </div>
 
-          {/* Product Cards */}
-          <div className="lg:w-2/3">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {products.map((product) => (
-                <div key={product.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                  {/* Product Image */}
-                  <div className="h-48 relative overflow-hidden">
-                    <img 
-                      src={product.image} 
-                      alt={`${product.name} - ${product.flavor}`}
-                      className="w-full h-full object-cover"
+          <div className="lg:w-3/5">
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {[...products, ...products].map((product, idx) => (
+                <article
+                  key={`${product.id}-${idx}`}
+                  className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:-translate-y-0.5 hover:border-sky-400/60"
+                >
+                  <div className="relative overflow-hidden rounded-xl">
+                    <img
+                      src={product.image}
+                      alt={product.title}
+                      className="h-44 w-full object-cover transition duration-500 group-hover:scale-105"
                     />
-                    {product.badge && (
-                      <div className="absolute top-2 left-2 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded">
-                        {product.badge}
-                      </div>
-                    )}
+                    {/* Badges hidden per request */}
                   </div>
 
-                  {/* Product Info */}
-                  <div className="p-6">
-                    <div className="text-sm text-gray-500 mb-2">6 Pack</div>
-                    <h3 className="font-bold text-gray-800 mb-1">ewa box water</h3>
-                    <h4 className="font-semibold text-gray-700 mb-3">{product.flavor}</h4>
-                    
-                    {/* Reviews */}
-                    <div className="flex items-center mb-3">
-                      <div className="flex">
-                        {[...Array(5)].map((_, i) => (
-                          <svg key={i} className="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 24 24">
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                          </svg>
-                        ))}
-                      </div>
-                      <span className="text-sm text-gray-600 ml-2">{product.reviews} reseñas</span>
+                  <div className="mt-4 space-y-2.5 text-white">
+                    <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.15em] text-white/50">
+                      <span>{product.flavor}</span>
+                      <span>{product.price}</span>
                     </div>
-
-                    <p className="text-sm text-gray-600 mb-4">{product.description}</p>
-                    <div className="text-lg font-bold text-gray-800 mb-4">{product.price}</div>
-                    
-                    <a href="#" className="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                      aprender más
-                    </a>
+                    <h3 className="text-lg font-semibold">{product.title}</h3>
+                    {/* Description hidden per request */}
+                    <button
+                      className="group/cta inline-flex items-center gap-2 text-sm font-semibold text-sky-300 transition hover:text-sky-200"
+                    >
+                      Ver detalles
+                      <svg className="h-4 w-4 transition-transform group-hover/cta:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
                   </div>
-                </div>
+                </article>
               ))}
             </div>
           </div>

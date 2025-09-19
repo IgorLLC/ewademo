@@ -1,0 +1,32 @@
+[
+  {
+    "id": "logistica-circular-hidratacion",
+    "slug": "logistica-circular-hidratacion",
+    "title": "Logística circular para hidratar sin plástico",
+    "excerpt": "Cómo EWA optimiza entregas, retornos y métricas para eliminar el plástico de la ecuación.",
+    "author": "Equipo EWA",
+    "date": "2024-08-01",
+    "imageUrl": "/images/landing/products/product-1.jpeg",
+    "content": "**Logística circular**\n\nDesde nuestros primeros pilotos nos propusimos reducir la dependencia del plástico. Hoy gestionamos rutas inteligentes, cajas reutilizables y lockers para que cada entrega tenga un retorno asegurado.\n\n- Cajas con QR para rastrear ciclos\n- Reportes en tiempo real\n- Aliados logísticos locales"
+  },
+  {
+    "id": "kits-hospitality-sin-plastico",
+    "slug": "kits-hospitality-sin-plastico",
+    "title": "Kits de hospitality: premium sin plástico",
+    "excerpt": "Los hoteles utilizan formatos de 250 ml y 1000 ml para elevar la experiencia y reportar impacto ESG.",
+    "author": "María Collazo",
+    "date": "2024-07-15",
+    "imageUrl": "/images/products/250ml/4.png",
+    "content": "**Hospitalidad consciente**\n\nHoteles del Caribe están reemplazando botellas PET por formatos de aluminio personalizados. Esto les permite:\n\n1. Reducir residuos en habitaciones\n2. Medir plástico evitado por estancia\n3. Comunicar iniciativas sustentables a sus huéspedes"
+  },
+  {
+    "id": "equipos-field-service-agua",
+    "slug": "equipos-field-service-agua",
+    "title": "Equipos en campo: hidratación sobre ruedas",
+    "excerpt": "Equipos de logística y field service adoptan el plan Growth para mantener hidratación constante.",
+    "author": "Luis Santiago",
+    "date": "2024-06-30",
+    "imageUrl": "/images/products/500ml/5.png",
+    "content": "**Rutas de campo**\n\nLos crews que pasan jornadas fuera de la oficina ahora reciben cajas personalizadas con un mix de 500 ml y 1000 ml. Con esto logran:\n\n- Menos paradas para compra de bebidas\n- Mantenimiento de temperatura por más tiempo\n- Datos para planificar reposiciones antes de que falte inventario"
+  }
+]
