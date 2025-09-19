@@ -36,6 +36,7 @@
     "react-qr-code": "^2.0.18",
     "simplex-noise": "^4.0.3",
     "stripe": "^12.18.0",
+    "styled-jsx": "^5.1.7",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"
   },
