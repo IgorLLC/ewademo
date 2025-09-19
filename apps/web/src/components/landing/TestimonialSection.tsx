@@ -14,7 +14,7 @@ interface TestimonialSectionProps {
 }
 
 const TestimonialSection: React.FC<TestimonialSectionProps> = ({ posts }) => {
-  const visiblePosts = (posts || []).slice(0, 6);
+  const visiblePosts = (posts || []).slice(0, 12);
   return (
     <section className="relative bg-white py-24">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(14,116,144,0.08),_transparent)]" />

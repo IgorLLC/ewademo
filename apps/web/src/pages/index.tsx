@@ -100,7 +100,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
   }
 
   const where = encodeURIComponent(JSON.stringify({ category: 'client-testimonials' }));
-  const res = await fetch(`${serverUrl}/classes/BlogPost?where=${where}&order=-date&limit=6`, {
+  const res = await fetch(`${serverUrl}/classes/BlogPost?where=${where}&order=-date&limit=12`, {
     headers: {
       'X-Parse-Application-Id': appId,
       'X-Parse-REST-API-Key': restKey,
