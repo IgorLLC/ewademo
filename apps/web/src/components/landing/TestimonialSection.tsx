@@ -14,6 +14,7 @@ interface TestimonialSectionProps {
 }
 
 const TestimonialSection: React.FC<TestimonialSectionProps> = ({ posts }) => {
+  const visiblePosts = (posts || []).slice(0, 6);
   return (
     <section className="relative bg-white py-24">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(14,116,144,0.08),_transparent)]" />
@@ -42,7 +43,7 @@ const TestimonialSection: React.FC<TestimonialSectionProps> = ({ posts }) => {
         </div>
 
         <div className="mt-12 columns-1 gap-6 md:columns-2 xl:columns-3 [column-fill:_balance]">
-          {posts.map((item) => (
+          {visiblePosts.map((item) => (
             <a
               key={item.slug}
               href={`/blog/${item.slug}`}
