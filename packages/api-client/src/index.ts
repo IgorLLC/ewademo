@@ -108,7 +108,7 @@ const shouldSkipSession = (config: { url?: string; method?: string }): boolean =
 };
 
 parseApi.interceptors.request.use((config) => {
-  if (!config.headers) config.headers = {};
+  if (!config.headers) config.headers = {} as any;
   if (typeof window !== 'undefined' && !shouldSkipSession(config)) {
     const token = localStorage.getItem('ewa_token');
     if (token) config.headers['X-Parse-Session-Token'] = token;
@@ -242,6 +242,10 @@ const mapDelivery = (item: any): Delivery => ({
   notes: item.notes ?? undefined,
   customerNotes: item.customerNotes ?? undefined,
   deliveryPhoto: item.deliveryPhoto ?? undefined,
+  attempts: item.attempts ?? 0,
+  maxAttempts: item.maxAttempts ?? 1,
+  createdAt: unwrapDate(item.createdAt) ?? new Date().toISOString(),
+  updatedAt: unwrapDate(item.updatedAt) ?? new Date().toISOString(),
 });
 
 const mapRoute = (item: any): Route => ({
@@ -336,6 +340,8 @@ const mapInvoice = (item: any): Invoice => ({
         totalPrice: entry.totalPrice ?? entry.amount ?? 0,
       }))
     : [],
+  createdAt: unwrapDate(item.createdAt) ?? new Date().toISOString(),
+  updatedAt: unwrapDate(item.updatedAt) ?? new Date().toISOString(),
 });
 
 const mapUser = (item: any): User => {

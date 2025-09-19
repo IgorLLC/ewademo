@@ -240,11 +240,16 @@ const DeliveriesPage = () => {
 
     const rescheduleRequest: DeliveryRescheduleRequest = {
       deliveryId: selectedDelivery.id,
-      newDate: newDeliveryDate,
-      newTimeSlotId: newTimeSlot,
-      reason: rescheduleReason,
-      customReason: customRescheduleReason,
+      subscriptionId: selectedDelivery.subscriptionId,
+      userId: selectedDelivery.userId,
       originalDate: selectedDelivery.scheduledDate,
+      requestedDate: newDeliveryDate,
+      timeSlotId: newTimeSlot || undefined,
+      reason: rescheduleReason,
+      customReason: customRescheduleReason || undefined,
+      id: `res_${Date.now()}`,
+      requestedAt: new Date().toISOString(),
+      status: 'pending'
     };
 
     try {

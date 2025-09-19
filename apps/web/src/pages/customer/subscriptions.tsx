@@ -259,15 +259,9 @@ const SubscriptionsPage = () => {
                     </div>
                     <div className="rounded-xl overflow-hidden border border-gray-100">
                       <SimpleMapBox
-                        markers={[
-                          {
-                            id: subscription.id,
-                            latitude: subscription?.deliveryAddress?.lat ?? 18.4655,
-                            longitude: subscription?.deliveryAddress?.lng ?? -66.1057,
-                            title: plan?.name || 'Entrega',
-                            description: subscription.address,
-                          },
-                        ]}
+                        latitude={user.address?.lat ?? 18.4655}
+                        longitude={user.address?.lng ?? -66.1057}
+                        address={subscription.address}
                       />
                     </div>
                   </div>

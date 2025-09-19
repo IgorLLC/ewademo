@@ -7,7 +7,7 @@ if (!secretKey) {
 }
 
 export const stripe = new Stripe(secretKey, {
-  apiVersion: '2023-10-16',
+  apiVersion: '2022-11-15',
 });
 
 type CustomerIdentity = {
@@ -78,10 +78,7 @@ export const mapStripeInvoice = (invoice: Stripe.Invoice) => ({
   invoiceNumber: invoice.number ?? invoice.id,
   status: invoice.status ?? 'open',
   amount: (invoice.subtotal ?? 0) / 100,
-  taxAmount:
-    invoice.tax_amounts && invoice.tax_amounts.length > 0
-      ? invoice.tax_amounts.reduce((sum, tax) => sum + (tax.amount ?? 0), 0) / 100
-      : (invoice.tax ?? 0) / 100,
+  taxAmount: (invoice.tax ?? 0) / 100,
   totalAmount: (invoice.total ?? 0) / 100,
   currency: invoice.currency?.toUpperCase() ?? 'USD',
   dueDate: invoice.due_date

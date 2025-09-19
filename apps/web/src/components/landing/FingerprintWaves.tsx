@@ -89,7 +89,7 @@ const FingerprintWaves: React.FC<FingerprintWavesProps> = ({
         }
       }
 
-      const cs = contourGen(values);
+      const cs = contourGen(Array.from(values));
 
       // Draw
       const toPathD = (c: any) =>
