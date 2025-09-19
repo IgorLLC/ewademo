@@ -93,7 +93,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user, onAccessRedirect }) => 
             </div>
 
             <div className="relative">
-              <div className="absolute -left-10 top-8 hidden h-24 w-24 rounded-3xl border border-white/10 bg-white/5 backdrop-blur lg:block" />
               <div className="absolute -right-8 bottom-6 hidden h-20 w-20 rounded-full border border-white/10 bg-sky-400/20 blur-xl lg:block" />
 
               <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
