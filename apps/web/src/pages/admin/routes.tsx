@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
-// import { getRoutes } from '@ewa/api-client';
+import { getRoutes as fetchRoutesFromApi } from '@ewa/api-client';
 import SimpleMapBox from '../../components/SimpleMapBox';
 import AdminLayout from '../../components/AdminLayout';
 
@@ -51,39 +51,41 @@ const AdminRoutes = () => {
   const [activatedFromCalendar, setActivatedFromCalendar] = useState<boolean>(false);
   const [expandedStopIds, setExpandedStopIds] = useState<string[]>([]);
 
-  // Cargar cola desde localStorage si viene del Calendario; si no, mantener vacío
+  // Cargar rutas desde Parse (Back4App)
   useEffect(() => {
-    // No precargamos datos por defecto; solo si viene activado o hay cola
-    try {
-      const queueRaw = (typeof window !== 'undefined') ? localStorage.getItem('ewa_routes_queue') : null;
-      if (queueRaw) {
-        const queue = JSON.parse(queueRaw);
-        if (Array.isArray(queue) && queue.length > 0) {
-          setRoutes(queue);
-        }
+    const load = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const apiRoutes = await fetchRoutesFromApi();
+        // Mapear al tipo local esperado (manteniendo compatibilidad con UI)
+        const mapped = (apiRoutes || []).map((r: any) => ({
+          id: r.id,
+          name: r.name,
+          area: r.area,
+          driverId: r.driverId ?? null,
+          driverName: r.driverName ?? null,
+          status: (r.status || 'pending') as ExtendedRoute['status'],
+          stops: Array.isArray(r.stops) ? r.stops : (r.details?.stops || []),
+          startTime: r.startTime || r.deliveryDate || new Date().toISOString(),
+          estimatedEndTime: r.estimatedEndTime || r.startTime || new Date().toISOString(),
+          actualEndTime: r.actualEndTime,
+          details: r.details,
+        })) as ExtendedRoute[];
+        setRoutes(mapped);
+        setActivatedFromCalendar((router.query.activated === '1') || mapped.length > 0);
+      } catch (err) {
+        console.error('Error fetching routes:', err);
+        setError('No se pudieron cargar las rutas');
+      } finally {
+        setLoading(false);
       }
-    } catch {}
-  }, []);
+    };
+    load();
+  }, [router.query.activated]);
 
   useEffect(() => {
     if (!router.isReady) return;
-    setLoading(true);
-    setError(null);
-    const activatedParam = router.query.activated === '1';
-    try {
-      const queueRaw = (typeof window !== 'undefined') ? localStorage.getItem('ewa_routes_queue') : null;
-      const queue = queueRaw ? JSON.parse(queueRaw) : [];
-      if (Array.isArray(queue) && queue.length > 0) {
-        setRoutes(queue);
-        setActivatedFromCalendar(true);
-      } else {
-        setRoutes([]);
-        setActivatedFromCalendar(!!activatedParam);
-      }
-    } catch {
-      setRoutes([]);
-      setActivatedFromCalendar(!!activatedParam);
-    }
     // Auto seleccionar ruta si viene en la URL
     const qid = router.query.routeId as string | undefined;
     if (qid && routes.length > 0) {
@@ -92,8 +94,7 @@ const AdminRoutes = () => {
     } else {
       setSelectedRoute(null);
     }
-    setLoading(false);
-  }, [router.isReady, router.query]);
+  }, [router.isReady, router.query, routes]);
 
   useEffect(() => {
     // Reintentar selección cuando las rutas carguen
@@ -108,199 +109,7 @@ const AdminRoutes = () => {
     return selectedRoute?.driverName || (routes.length > 0 ? routes[0].driverName : null);
   }, [selectedRoute, routes]);
 
-  const fetchRoutes = async () => {
-    try {
-      // Datos mock de PR para evitar dependencia de API
-      const puertoRicoRoutes: ExtendedRoute[] = [
-        {
-          id: "route1",
-          name: "Ruta San Juan - Condado",
-          driverId: "d1",
-          driverName: "Francisco Javier Morales Cruz",
-          status: "in-progress",
-          area: "San Juan",
-          stops: [
-            {
-              id: "stop1",
-              address: "Calle Loíza 123, San Juan, PR 00911",
-              lat: 18.4655,
-              lng: -66.0572,
-              status: "completed",
-              customer: "Carmen Isabel Rodríguez Morales",
-              orderId: "ORD-001"
-            },
-            {
-              id: "stop2",
-              address: "Calle Taft 45, Condado, San Juan, PR 00911",
-              lat: 18.4612,
-              lng: -66.0650,
-              status: "pending",
-              customer: "Ana Sofía Torres Rivera", 
-              orderId: "ORD-002"
-            },
-            {
-              id: "stop3",
-              address: "Ashford Avenue 1058, Condado, San Juan, PR 00907",
-              lat: 18.4571,
-              lng: -66.0788,
-              status: "pending",
-              customer: "Isabella Marie Ortega Ruiz",
-              orderId: "ORD-003"
-            }
-          ],
-          startTime: "2025-05-26T08:00:00",
-          estimatedEndTime: "2025-05-26T12:00:00"
-        },
-        {
-          id: "route2",
-          name: "Ruta Río Piedras - Universidad",
-          driverId: "d2",
-          driverName: "Elena Patricia Vázquez Rivera",
-          status: "completed",
-          area: "Río Piedras",
-          stops: [
-            {
-              id: "stop4",
-              address: "Ave. Universidad 45, Río Piedras, PR 00925",
-              lat: 18.4037,
-              lng: -66.0501,
-              status: "completed",
-              customer: "Rafael Antonio Jiménez López",
-              orderId: "ORD-004"
-            },
-            {
-              id: "stop5",
-              address: "Calle Gandhi, Río Piedras, PR 00927",
-              lat: 18.4008,
-              lng: -66.0499,
-              status: "completed",
-              customer: "Daniela Cristina Soto Mendez",
-              orderId: "ORD-005"
-            }
-          ],
-          startTime: "2025-05-26T09:00:00",
-          estimatedEndTime: "2025-05-26T11:00:00",
-          actualEndTime: "2025-05-26T10:45:00"
-        },
-        {
-          id: "route3",
-          name: "Ruta Ponce - Centro",
-          driverId: "d3",
-          driverName: "Eduardo Luis Herrera Santos",
-          status: "active",
-          area: "Ponce",
-          stops: [
-            {
-              id: "stop6",
-              address: "Calle Marina 78, Ponce, PR 00716",
-              lat: 18.0108,
-              lng: -66.6140,
-              status: "pending",
-              customer: "Valentina Rosa Castillo Díaz",
-              orderId: "ORD-006"
-            },
-            {
-              id: "stop7",
-              address: "Plaza Las Delicias, Ponce, PR 00730",
-              lat: 18.0115,
-              lng: -66.6141,
-              status: "pending",
-              customer: "José Carlos Vega Mendoza",
-              orderId: "ORD-007"
-            },
-            {
-              id: "stop8",
-              address: "Calle Cristina 52, Ponce, PR 00731",
-              lat: 18.0125,
-              lng: -66.6133,
-              status: "pending",
-              customer: "Adriana Michelle Ruiz Torres",
-              orderId: "ORD-008"
-            }
-          ],
-          startTime: "2025-05-26T10:00:00",
-          estimatedEndTime: "2025-05-26T14:00:00"
-        },
-        {
-          id: "route4",
-          name: "Ruta Mayagüez",
-          driverId: "d4",
-          driverName: "Roberto Carlos Sánchez Moreno",
-          status: "scheduled",
-          area: "Mayagüez",
-          stops: [
-            {
-              id: "stop9",
-              address: "Calle Méndez Vigo 55, Mayagüez, PR 00680",
-              lat: 18.2010,
-              lng: -67.1391,
-              status: "pending",
-              customer: "Miguel Ángel Díaz Fernández",
-              orderId: "ORD-009"
-            },
-            {
-              id: "stop10",
-              address: "Plaza Colón, Mayagüez, PR 00680",
-              lat: 18.2019,
-              lng: -67.1397,
-              status: "pending",
-              customer: "Sofía Alejandra González Pérez",
-              orderId: "ORD-010"
-            }
-          ],
-          startTime: "2025-05-27T09:00:00",
-          estimatedEndTime: "2025-05-27T12:00:00"
-        },
-        {
-          id: "route5",
-          name: "Ruta Caguas",
-          driverId: "d5",
-          driverName: "Carmen Lucía Torres Delgado",
-          status: "scheduled",
-          area: "Caguas",
-          stops: [
-            {
-              id: "stop11",
-              address: "Calle Gautier Benítez 42, Caguas, PR 00725",
-              lat: 18.2341,
-              lng: -66.0361,
-              status: "pending",
-              customer: "Gabriel Esteban Ramírez Silva",
-              orderId: "ORD-011"
-            },
-            {
-              id: "stop12",
-              address: "Plaza Palmer, Caguas, PR 00725",
-              lat: 18.2349,
-              lng: -66.0356,
-              status: "pending",
-              customer: "Natalia Isabel Martín Rodríguez",
-              orderId: "ORD-012"
-            },
-            {
-              id: "stop13",
-              address: "Calle Padial 15, Caguas, PR 00725",
-              lat: 18.2353,
-              lng: -66.0372,
-              status: "pending",
-              customer: "Alejandro David Fernández Castro",
-              orderId: "ORD-013"
-            }
-          ],
-          startTime: "2025-05-27T10:00:00",
-          estimatedEndTime: "2025-05-27T14:00:00"
-        }
-      ];
-      
-      setRoutes(puertoRicoRoutes);
-    } catch (err) {
-      console.error('Error fetching routes:', err);
-      setError('Failed to load routes. Please try again later.');
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // El método fetchRoutes basado en mocks ha sido reemplazado por la carga en el useEffect superior
 
   // Si no está activado, no mostramos rutas
   const baseRoutes = routes;

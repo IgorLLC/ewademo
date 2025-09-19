@@ -7,3 +7,4 @@ export { default as ProductSection } from './ProductSection';
 export { default as AboutSection } from './AboutSection';
 export { default as HowItWorksSection } from './HowItWorksSection';
 export { default as CTASection } from './CTASection';
+export { default as PromoMarquee } from './PromoMarquee';

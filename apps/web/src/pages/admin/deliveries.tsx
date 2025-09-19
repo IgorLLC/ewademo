@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import QRCode from 'react-qr-code';
 import AdminLayout from '../../components/AdminLayout';
 import { Route } from '@ewa/types';
-import { getRoutes } from '@ewa/api-client';
+import { getRoutes as fetchRoutesFromApi, createRoute as createRouteApi } from '@ewa/api-client';
 
 type WeekView = {
   start: Date;
@@ -87,90 +87,34 @@ const AdminDeliveries: React.FC = () => {
   }, [currentWeekStart]);
 
   useEffect(() => {
-    // Generar datos demo en PR (Mié-Vie) para evitar dependencia de API
-    setLoading(true);
-    try {
-      const wed = addDays(week.start, 2);
-      const thu = addDays(week.start, 3);
-      const fri = addDays(week.start, 4);
-      const routesDemo: Route[] = [
-        {
-          id: 'demo-wed',
-          name: 'Ruta Miércoles — San Juan',
-          area: 'San Juan',
-          driverId: 'auto',
-          driverName: 'Asignar',
-          status: 'scheduled' as any,
-          deliveryDate: formatISODate(wed),
-          startTime: `${formatISODate(wed)}T09:00:00`,
-          estimatedEndTime: `${formatISODate(wed)}T14:00:00`,
-          stops: [
-            { id: 'w1', address: 'Calle Loíza 123, San Juan', lat: 18.451, lng: -66.059, status: 'pending' as any, orderId: 'O-101', customer: 'Cliente 1' },
-            { id: 'w2', address: 'Ashford Ave 1058, Condado', lat: 18.457, lng: -66.079, status: 'pending' as any, orderId: 'O-102', customer: 'Cliente 2' },
-            { id: 'w3', address: 'Viejo San Juan, PR', lat: 18.466, lng: -66.118, status: 'pending' as any, orderId: 'O-103', customer: 'Cliente 3' },
-            { id: 'w4', address: 'Hato Rey, PR', lat: 18.427, lng: -66.064, status: 'pending' as any, orderId: 'O-104', customer: 'Cliente 4' }
-          ] as any
-        } as any,
-        {
-          id: 'demo-thu',
-          name: 'Ruta Jueves — Ponce',
-          area: 'Ponce',
-          driverId: 'auto',
-          driverName: 'Asignar',
-          status: 'scheduled' as any,
-          deliveryDate: formatISODate(thu),
-          startTime: `${formatISODate(thu)}T09:00:00`,
-          estimatedEndTime: `${formatISODate(thu)}T14:00:00`,
-          stops: [
-            { id: 't1', address: 'Plaza Las Delicias, Ponce', lat: 18.0115, lng: -66.6141, status: 'pending' as any, orderId: 'O-105', customer: 'Cliente 5' },
-            { id: 't2', address: 'Centro de Ponce', lat: 18.0125, lng: -66.6133, status: 'pending' as any, orderId: 'O-106', customer: 'Cliente 6' },
-            { id: 't3', address: 'La Guancha, Ponce', lat: 17.975, lng: -66.613, status: 'pending' as any, orderId: 'O-107', customer: 'Cliente 7' },
-            { id: 't4', address: 'Bda. Ferrán, Ponce', lat: 18.018, lng: -66.606, status: 'pending' as any, orderId: 'O-108', customer: 'Cliente 8' }
-          ] as any
-        } as any,
-        {
-          id: 'demo-fri',
-          name: 'Ruta Viernes — Caguas',
-          area: 'Caguas',
-          driverId: 'auto',
-          driverName: 'Asignar',
-          status: 'scheduled' as any,
-          deliveryDate: formatISODate(fri),
-          startTime: `${formatISODate(fri)}T09:00:00`,
-          estimatedEndTime: `${formatISODate(fri)}T14:00:00`,
-          stops: [
-            { id: 'f1', address: 'Plaza Palmer, Caguas', lat: 18.2349, lng: -66.0356, status: 'pending' as any, orderId: 'O-109', customer: 'Cliente 9' },
-            { id: 'f2', address: 'Calle Gautier Benítez 42, Caguas', lat: 18.2341, lng: -66.0361, status: 'pending' as any, orderId: 'O-110', customer: 'Cliente 10' },
-            { id: 'f3', address: 'Calle Padial 15, Caguas', lat: 18.2353, lng: -66.0372, status: 'pending' as any, orderId: 'O-111', customer: 'Cliente 11' },
-            { id: 'f4', address: 'Bda. Turabo, Caguas', lat: 18.246, lng: -66.045, status: 'pending' as any, orderId: 'O-112', customer: 'Cliente 12' }
-          ] as any
-        } as any
-      ];
-      setRoutes(routesDemo);
+    // Cargar rutas reales de Parse para todos los días de la semana
+    const loadWeekRoutes = async () => {
+      setLoading(true);
       setError(null);
-    } catch (e) {
-      console.error(e);
-      setError('No se pudieron cargar las rutas');
-    } finally {
-      setLoading(false);
-    }
+      try {
+        const dayPromises = week.days.map((d) => fetchRoutesFromApi(formatISODate(d)));
+        const results = await Promise.all(dayPromises);
+        const merged = ([] as Route[]).concat(...results.map(r => Array.isArray(r) ? r : []));
+        setRoutes(merged);
+      } catch (e) {
+        console.error(e);
+        setError('No se pudieron cargar las rutas');
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadWeekRoutes();
   }, [week.start, week.end]);
 
-  // Verificar si el día seleccionado ya fue enviado a rutas (persistencia local por día)
+  // Marcar si ya hay rutas para el día seleccionado en Parse
   useEffect(() => {
     if (!selectedDayKey) {
       setAlreadySubmittedToday(false);
       return;
     }
-    try {
-      const raw = (typeof window !== 'undefined') ? localStorage.getItem('ewa_routes_submitted_days') : null;
-      const map = raw ? JSON.parse(raw) as Record<string, string> : {};
-      // Marcamos como bloqueado si existe un registro para esa fecha
-      setAlreadySubmittedToday(Boolean(map[selectedDayKey]));
-    } catch {
-      setAlreadySubmittedToday(false);
-    }
-  }, [selectedDayKey]);
+    const hasAny = routes.some(r => (r.deliveryDate || '').slice(0, 10) === selectedDayKey);
+    setAlreadySubmittedToday(hasAny);
+  }, [selectedDayKey, routes]);
 
   const groupedByDay = useMemo(() => {
     const map = new Map<string, Route[]>();
@@ -280,8 +224,8 @@ const AdminDeliveries: React.FC = () => {
     if (alreadySubmittedToday) return;
     try {
       setSubmittingRoute(true);
-      const newRoute: any = {
-        name: `Auto Ruta ${formatDDMMYYYY(parseYYYYMMDDToDate(selectedDayKey))}`,
+      const newRoutePayload: any = {
+        name: `Ruta ${formatDDMMYYYY(parseYYYYMMDDToDate(selectedDayKey))}`,
         area: 'General',
         driverId: 'auto',
         driverName: 'Asignar',
@@ -289,7 +233,6 @@ const AdminDeliveries: React.FC = () => {
         deliveryDate: selectedDayKey,
         startTime: `${selectedDayKey}T09:00:00`,
         estimatedEndTime: `${selectedDayKey}T14:00:00`,
-        // Usamos stops como arreglo (compatible con nuestro lector getStops)
         stops: selectedDayStops.map((s, i) => ({
           id: s.stopId,
           address: s.address,
@@ -301,47 +244,16 @@ const AdminDeliveries: React.FC = () => {
           customer: s.customer || undefined,
         })),
       };
-      // Modo demo sin API: generar id y snapshot local
-      const createdId = `demo-${selectedDayKey}-${Date.now()}`;
-      setCreatedRouteId(createdId);
-      try { localStorage.setItem('ewa_routes_enabled', '1'); } catch {}
-      try { localStorage.setItem('ewa_routes_activated', '1'); } catch {}
+      const created = await createRouteApi(newRoutePayload);
+      setCreatedRouteId(created.id);
+      // Refrescar las rutas de la semana para reflejar la nueva creación
       try {
-        // Persistir en cola acumulativa
-        const queueRaw = localStorage.getItem('ewa_routes_queue');
-        const queue: any[] = queueRaw ? JSON.parse(queueRaw) : [];
-        const queuedItem = {
-          id: createdId,
-          name: newRoute.name,
-          area: newRoute.area,
-          driverId: newRoute.driverId,
-          driverName: newRoute.driverName,
-          status: newRoute.status,
-          startTime: newRoute.startTime,
-          estimatedEndTime: newRoute.estimatedEndTime,
-          deliveryDate: newRoute.deliveryDate,
-          stops: (newRoute.stops || []).slice(0, 12),
-          demo: true,
-          fromDeliveries: true,
-        };
-        // Reemplazar si ya existe una ruta para la misma fecha; si no, agregar
-        const sameDateIdx = queue.findIndex((r: any) => r.deliveryDate === queuedItem.deliveryDate);
-        if (sameDateIdx >= 0) {
-          queue[sameDateIdx] = queuedItem;
-        } else {
-          queue.push(queuedItem);
-        }
-        localStorage.setItem('ewa_routes_queue', JSON.stringify(queue));
+        const dayPromises = week.days.map((d) => fetchRoutesFromApi(formatISODate(d)));
+        const results = await Promise.all(dayPromises);
+        const merged = ([] as Route[]).concat(...results.map(r => Array.isArray(r) ? r : []));
+        setRoutes(merged);
       } catch {}
-      // Marcar fecha como ya enviada hoy
-      try {
-        const raw = localStorage.getItem('ewa_routes_submitted_days');
-        const map = raw ? JSON.parse(raw) : {};
-        map[selectedDayKey] = new Date().toISOString();
-        localStorage.setItem('ewa_routes_submitted_days', JSON.stringify(map));
-        setAlreadySubmittedToday(true);
-      } catch {}
-      // No redirigir: permanecer en calendario para permitir enviar más rutas
+      setAlreadySubmittedToday(true);
     } catch (e) {
       console.error(e);
       setError('No se pudo enviar a ruta');

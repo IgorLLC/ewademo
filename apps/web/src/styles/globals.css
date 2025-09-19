@@ -179,6 +179,45 @@
   gap: 0.25rem;
 }
 
+/* Marquee styles using EWA palette */
+@keyframes ewa-marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ewa-marquee {
+  position: relative;
+  overflow: hidden;
+  background-color: #93E7FF; /* ewa-light-blue */
+  color: #004e6b; /* readable dark on light blue */
+}
+
+.ewa-marquee-inner {
+  display: flex;
+  white-space: nowrap;
+}
+
+.ewa-marquee-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 0.5rem 0;
+  animation: ewa-marquee-scroll 30s linear infinite;
+}
+
+.ewa-marquee--alt {
+  background-color: #2EC2E7; /* ewa-blue */
+  color: white;
+}
+
+.ewa-marquee .dot {
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+  border-radius: 9999px;
+  opacity: 0.6;
+}
+
 @keyframes wave-shift {
   0% {
     transform: translate3d(-6%, -4%, 0) scale(1.15) rotate(-1.2deg);

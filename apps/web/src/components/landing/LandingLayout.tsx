@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import { Footer } from '@ewa/ui';
 import LandingHeader from './LandingHeader';
+import PromoMarquee from './PromoMarquee';
 
 interface LandingLayoutProps {
   children: React.ReactNode;
@@ -25,6 +26,7 @@ const LandingLayout: React.FC<LandingLayoutProps> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
+      <PromoMarquee />
       <LandingHeader user={user} onAccessRedirect={onAccessRedirect} />
       
       <main>{children}</main>
