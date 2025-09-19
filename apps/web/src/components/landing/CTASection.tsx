@@ -1,20 +1,28 @@
 import React from 'react';
 import { Button } from '@ewa/ui';
+import FingerprintWaves from './FingerprintWaves';
 
 const CTASection: React.FC = () => {
   return (
     <section className="relative overflow-hidden py-24 text-white">
-      <div className="absolute inset-0 bg-slate-950" />
+      <div className="absolute inset-0" style={{ backgroundColor: '#2EC2E7' }} />
       <div className="absolute inset-0 overflow-hidden">
-        <div className="wave-pattern" />
+        <FingerprintWaves
+          className="w-full h-full"
+          colorA="#93E7FF"
+          colorB="#93E7FF"
+          strokeMain={6}
+          strokeSub={4}
+          thresholds={42}
+          speed={0.18}
+        />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-br from-sky-500/35 via-cyan-500/20 to-transparent mix-blend-screen" />
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-slate-950/30 to-slate-950/80" />
       <div className="absolute -left-20 bottom-10 h-40 w-40 rounded-full bg-sky-400/30 blur-3xl" />
       <div className="absolute -right-16 top-8 h-32 w-32 rounded-full bg-cyan-300/30 blur-2xl" />
 
       <div className="relative container mx-auto px-4">
-        <div className="grid gap-12 rounded-[36px] border border-white/10 bg-white/5 p-10 backdrop-blur-xl shadow-[0_40px_80px_-32px_rgba(13,148,136,0.45)] lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+        <div className="relative grid gap-12 rounded-[36px] border border-white/10 bg-white/5 p-10 backdrop-blur-xl shadow-[0_40px_80px_-32px_rgba(13,148,136,0.45)] lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+          <div className="pointer-events-none absolute inset-0 rounded-[36px] bg-gradient-to-br from-white/12 via-white/6 to-transparent mix-blend-screen" />
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-white/60">Únete al cambio</p>
             <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">
